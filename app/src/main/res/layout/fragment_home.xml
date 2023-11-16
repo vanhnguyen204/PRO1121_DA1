@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context=".Fragment.FragmentHome">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/green" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-20dp"
+        android:background="@drawable/custom_layout_home"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Danh mục"
+            android:textSize="30sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/manage_member"
+                android:layout_width="100dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+
+                android:layout_marginBottom="10dp"
+                android:background="@color/green">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/staff" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nhân viên"
+                   android:gravity="center"
+                    />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/manage_drink"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/manage_member"
+                android:background="@color/black">
+
+            </View>
+
+            <View
+                android:id="@+id/manage_ingredient"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/manage_drink"
+                android:background="@color/blue">
+
+            </View>
+
+            <View
+                android:id="@+id/manage_customer"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/manage_member"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#D50000">
+
+            </View>
+
+            <View
+                android:id="@+id/manage_table"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/manage_drink"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/manage_customer"
+                android:background="#AA00FF">
+
+            </View>
+
+            <View
+                android:id="@+id/manage_statistical"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/manage_ingredient"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/manage_table"
+                android:background="#FFD600">
+
+            </View>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
