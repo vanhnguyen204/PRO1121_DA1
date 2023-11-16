@@ -24,7 +24,14 @@ public class Dbhelper extends SQLiteOpenHelper {
     String createVoucher
             = "CREATE TABLE Voucher(voucher_id INTEGER PRIMARY KEY, price_reduce INTEGER, date_expiry DATE, condition_reduce INTEGER)";
     String createDrink
-            = "CREATE TABLE Drink(drink_id INTEGER PRIMARY KEY AUTOINCREMENT, ingredient_id REFERENCES Ingredient(ingredient_id), voucher_id REFERENCES Voucher(voucher_id), name TEXT, typeOf_drink TEXT, date_expiry DATE, price INTEGER, quantity INTEGER)";
+            = "CREATE TABLE Drink(drink_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " ingredient_id REFERENCES Ingredient(ingredient_id)," +
+            " voucher_id REFERENCES Voucher(voucher_id)," +
+            " name TEXT," +
+            " typeOf_drink TEXT," +
+            " date_expiry DATE," +
+            " price INTEGER," +
+            " quantity INTEGER)";
     String createInvoiceDetail
             = "CREATE TABLE InvoiceDetail(invoice_detail_id INTEGER PRIMARY KEY AUTOINCREMENT, drink_id REFERENCES Drink(drink_id), invoice_id REFERENCES Invoice(invoice_id), price_drink INTEGER, quantity_drink INTEGER)";
     String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin' )";
