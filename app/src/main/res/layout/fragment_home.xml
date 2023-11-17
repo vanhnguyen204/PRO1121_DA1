@@ -9,19 +9,101 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/green" />
+        android:layout_height="300dp"
+        android:background="@mipmap/background_topfragment_home"
+        android:orientation="vertical"
+        android:padding="40dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/avatar_staff"
+                android:layout_width="50dp"
+                android:contentDescription="@string/avatar"
+                android:layout_height="50dp"
+                android:src="@mipmap/staff" />
+
+            <TextView
+                android:id="@+id/tv_nameOfStaff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/avatar_staff"
+                android:text="Nguyễn Việt Anh"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_nameOfStaff"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/avatar_staff"
+                android:text="Welcome back !"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:src="@mipmap/bell" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/custom_layoutchild_fragmenthome"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Doanh thu / tháng"
+                android:textColor="@color/green"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12.000.000 VNĐ"
+                android:textColor="@color/green"
+                android:textSize="17sp"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đơn hàng / tháng"
+                android:textColor="@color/green"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12.000 Đơn"
+                android:textColor="@color/green"
+
+                android:textSize="17sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-20dp"
+
         android:background="@drawable/custom_layout_home"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/shippori_mincho"
             android:gravity="center"
             android:text="Danh mục"
             android:textSize="30sp" />
@@ -33,90 +115,170 @@
 
             <LinearLayout
                 android:id="@+id/manage_member"
-                android:layout_width="100dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="10dp"
+
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-
                 android:layout_marginBottom="10dp"
-                android:background="@color/green">
+                android:background="@drawable/custom_staffview_fragmenthome"
+
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
                     android:src="@mipmap/staff" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Nhân viên"
-                   android:gravity="center"
-                    />
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </LinearLayout>
 
-            <View
+            <LinearLayout
                 android:id="@+id/manage_drink"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:layout_toRightOf="@+id/manage_member"
-                android:background="@color/black">
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/manage_member"
+                android:background="@drawable/custom_drinklayout_fragmenthome"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            </View>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/drink" />
 
-            <View
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Đồ uống"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+
                 android:id="@+id/manage_ingredient"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_toRightOf="@+id/manage_drink"
-                android:background="@color/blue">
+                android:background="@drawable/custom_ingrdient_fragmenthome"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            </View>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ingredient" />
 
-            <View
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Nguyên liệu"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/manage_customer"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_below="@+id/manage_member"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="#D50000">
+                android:background="@drawable/custom_customer_fragmenthome"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            </View>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/customer" />
 
-            <View
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Khách hàng"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/manage_table"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_below="@+id/manage_drink"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_toRightOf="@+id/manage_customer"
-                android:background="#AA00FF">
+                android:background="@drawable/custom_table_fragmenthome"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            </View>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/table" />
 
-            <View
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Bàn"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/manage_statistical"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_below="@+id/manage_ingredient"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_toRightOf="@+id/manage_table"
-                android:background="#FFD600">
+                android:background="@drawable/custom_graph_fragmenthome"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            </View>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/graph" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Thống kê"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </RelativeLayout>
 
     </LinearLayout>
