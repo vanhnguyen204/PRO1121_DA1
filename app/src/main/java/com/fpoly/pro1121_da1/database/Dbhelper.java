@@ -7,8 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class Dbhelper extends SQLiteOpenHelper {
-    public Dbhelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, "drink.database", null, 1);
+
+    public Dbhelper(@Nullable Context context) {
+        super(context, "drink.db", null, 3);
     }
 
     String createCalendarWork
@@ -20,7 +21,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     String createInvoice
             = "CREATE TABLE Invoice(invoice_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id REFERENCES User(user_id), customer_id REFERENCES Customer(customer_id), total_bill INTEGER, date_created DATE)";
     String createIngredient
-            = "CREATE TABLE Ingredient(ingredient_id INTEGER PRIMARY KEY AUTOINCREMENT, date_added DATE, date_expiry DATE, price INTEGER, quantity INTEGER)";
+            = "CREATE TABLE Ingredient(ingredient_id INTEGER PRIMARY KEY AUTOINCREMENT, date_added DATE, date_expiry DATE, price INTEGER, quantity REAL)";
     String createVoucher
             = "CREATE TABLE Voucher(voucher_id INTEGER PRIMARY KEY, price_reduce INTEGER, date_expiry DATE, condition_reduce INTEGER)";
     String createDrink
@@ -29,12 +30,15 @@ public class Dbhelper extends SQLiteOpenHelper {
             " voucher_id REFERENCES Voucher(voucher_id)," +
             " name TEXT," +
             " typeOf_drink TEXT," +
+            " date_add DATE," +
             " date_expiry DATE," +
             " price INTEGER," +
             " quantity INTEGER)";
     String createInvoiceDetail
             = "CREATE TABLE InvoiceDetail(invoice_detail_id INTEGER PRIMARY KEY AUTOINCREMENT, drink_id REFERENCES Drink(drink_id), invoice_id REFERENCES Invoice(invoice_id), price_drink INTEGER, quantity_drink INTEGER)";
     String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin' )";
+String insertDrink =
+        "INSERT INTO Drink VALUES(1, 1, 1, 'Trà sữa', 'Pha chế', '18/11/2023', '18/11/2025', 50000, 1),(2, 1, 1, 'Trà sữa', 'Pha chế', '18/11/2023', '18/11/2025', 50000, 1)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -47,6 +51,7 @@ public class Dbhelper extends SQLiteOpenHelper {
         db.execSQL(createDrink);
         db.execSQL(createInvoiceDetail);
         db.execSQL(insertAdmin);
+        db.execSQL(insertDrink);
     }
 
     @Override

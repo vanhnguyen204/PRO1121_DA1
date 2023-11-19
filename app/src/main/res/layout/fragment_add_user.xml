@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@mipmap/background_login"
+    tools:context=".Fragment.FragmentAddUser">
+
+    <ImageView
+        android:id="@+id/img_back_fragmentAddUser"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/arrow_left" />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:text=" Quay lại"
+
+    android:layout_toRightOf="@id/img_back_fragmentAddUser"
+    />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@id/img_back_fragmentAddUser"
+        android:layout_height="wrap_content"
+        android:hint="CCCD"
+        android:id="@+id/edt_addCCCD_fragmentAddUser"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@id/edt_addCCCD_fragmentAddUser"
+        android:hint="Mã công việc"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_addCalendarID_fragmentAddUser"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@id/edt_addCalendarID_fragmentAddUser"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_addUserName_fragmentAddUser"
+        android:hint="Tên đăng nhập"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@id/edt_addUserName_fragmentAddUser"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu"
+        android:id="@+id/edt_addPassWord_fragmentAddUser"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@id/edt_addPassWord_fragmentAddUser"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_addFullName_fragmentAddUser"
+        android:hint="Họ và tên"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@id/edt_addFullName_fragmentAddUser"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_addDateOfBirth_fragmentAddUser"
+        android:hint="Ngày sinh"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@id/edt_addDateOfBirth_fragmentAddUser"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_addAddress_fragmentAddUser"
+        android:hint="Địa chỉ"
+        />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_below="@id/edt_addAddress_fragmentAddUser"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_addRole_fragmentAddUser"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_addRole_fragmentAddUser"
+       android:layout_centerHorizontal="true"
+        android:text="Xác nhận"
+        android:layout_marginTop="20dp"
+        android:id="@+id/btnConfirmAddUser_fragmentAddUser"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button_login"
+        />
+</RelativeLayout>

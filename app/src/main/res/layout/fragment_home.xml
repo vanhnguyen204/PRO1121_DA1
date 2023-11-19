@@ -63,12 +63,13 @@
                 android:layout_height="wrap_content"
                 android:text="Doanh thu / tháng"
                 android:textColor="@color/green"
+                android:textStyle="bold"
                 android:textSize="17sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="12.000.000 VNĐ"
+                android:text="12.000.000.000 VNĐ"
                 android:textColor="@color/green"
                 android:textSize="17sp"
 
@@ -78,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Đơn hàng / tháng"
+                android:textStyle="bold"
                 android:textColor="@color/green"
                 android:textSize="17sp" />
 

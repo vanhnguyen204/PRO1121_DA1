@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/custom_staffview_fragmenthome"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm đồ uống"
+        android:textSize="30sp"
+        android:gravity="center"
+        />
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Tên đồ uống"
+    android:id="@+id/edt_nameDrink_addDrink"
+    />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Giá"
+        android:id="@+id/edt_priceDrink_addDrink"
+        />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_typeOfDrink_addDrink"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số lượng"
+        android:id="@+id/edt_quantity_addDrink"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Voucher(nếu có)"
+        android:id="@+id/edt_voucherDrink_addDrink"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_dateAdd_addDrink"
+        android:hint="Ngay nhap"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_dateExpiry_addDrink"
+        android:hint="Ngay het han"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_ingredientID_addDrink"
+        android:hint="Ma nguyen lieu"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:text="Xác nhận"
+        android:id="@+id/btnConfirm_addDrink"
+        android:background="@drawable/custom_button_login"
+        />
+</LinearLayout>

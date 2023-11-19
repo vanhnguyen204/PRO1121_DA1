@@ -1,24 +1,47 @@
 package com.fpoly.pro1121_da1.model;
 
-public class Drink {
+import java.io.Serializable;
+
+public class Drink implements Serializable {
     private int drinkID;
     private int ingredientID;
     private int voucherID;
     private String name;
     private String typeOfDrink;
     private String dateExpiry;
+    private String dateAdd;
     private int price;
     private int quantity;
 
-    public Drink(int drinkID, int ingredientID, int voucherID, String name, String typeOfDrink, String dateExpiry, int price, int quantity) {
+    public Drink(int drinkID, int ingredientID, int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity) {
         this.drinkID = drinkID;
         this.ingredientID = ingredientID;
         this.voucherID = voucherID;
         this.name = name;
         this.typeOfDrink = typeOfDrink;
         this.dateExpiry = dateExpiry;
+        this.dateAdd = dateAdd;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    public Drink(int ingredientID, int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity) {
+        this.ingredientID = ingredientID;
+        this.voucherID = voucherID;
+        this.name = name;
+        this.typeOfDrink = typeOfDrink;
+        this.dateExpiry = dateExpiry;
+        this.dateAdd = dateAdd;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public String getDateAdd() {
+        return dateAdd;
+    }
+
+    public void setDateAdd(String dateAdd) {
+        this.dateAdd = dateAdd;
     }
 
     public int getDrinkID() {

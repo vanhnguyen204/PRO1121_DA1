@@ -8,6 +8,10 @@
     <style name="Theme.PRO1121_DA1" parent="Base.Theme.PRO1121_DA1" />
     <style name="CustomOutlineBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+    </style>
 
+
+    <style name="Style_AlertDialog_Corner" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/border_alertdialog</item>
     </style>
 </resources>

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Voucher;
 
 import java.util.ArrayList;
@@ -93,4 +94,14 @@ public class VoucherDAO {
 
     }
 
+
+    public Voucher getVoucherByID(String voucherID) {
+        ArrayList<Voucher> list = getVoucher("SELECT * FROM Voucher WHERE voucher_id = ?", voucherID);
+
+        return list.get(0);
+    }
+
+    public ArrayList<Voucher> getAllDrink() {
+        return getVoucher("SELECT * FROM Voucher");
+    }
 }
