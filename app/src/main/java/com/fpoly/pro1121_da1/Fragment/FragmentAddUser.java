@@ -98,7 +98,9 @@ imgBack = view.findViewById(R.id.img_back_fragmentAddUser);
                     User user = new User(getCCCD, Integer.parseInt(getCalendarID), getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, getRole);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 
-                        ((MainActivity)getActivity()).reloadFragment(new FragmentSettings());
+                        ((MainActivity)getActivity()).reloadFragment(new FragmentAddUser());
+
+
 
                     }
                 }
