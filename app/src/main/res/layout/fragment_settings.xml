@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+
             android:background="@drawable/custom_layoutchild_fragmenthome"
             android:gravity="center"
             android:orientation="vertical"
@@ -68,22 +69,19 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/shippori_mincho"
             android:gravity="start"
+            android:textStyle="bold"
             android:paddingStart="20dp"
-            android:text="Quản lý"
-            android:textSize="30sp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:text="Quản lý tài khoản"
+            android:textSize="20sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:background="@drawable/custom_layout_childsetting"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
+                android:padding="10dp"
                 android:layout_marginBottom="20dp">
 
                 <ImageView
@@ -117,7 +115,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_toRightOf="@id/img_staff_setting"
-                    android:text="Thêm nhân viên"
+                    android:text="Thêm người dùng"
                     android:textSize="16dp" />
 
                 <ImageView
@@ -141,7 +139,7 @@
                     android:text="Đổi mật khẩu"
                     android:textSize="16dp" />
             </RelativeLayout>
-        </RelativeLayout>
+
 
     </LinearLayout>
 

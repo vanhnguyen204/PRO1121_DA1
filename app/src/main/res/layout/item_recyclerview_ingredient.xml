@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="20dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/custom_cardview_itemingredient"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/img_ingredient"
+            android:src="@mipmap/matcha"
+            android:layout_marginEnd="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/img_ingredient"
+            android:text="Tên nguyên liệu: Matcha"
+            android:textSize="18sp"
+            android:id="@+id/tv_name_fragmentIngredient"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/tv_quantity_fragmentIngredient"
+            android:layout_toRightOf="@+id/img_ingredient"
+            android:layout_below="@+id/tv_name_fragmentIngredient"
+            android:text="Khối lượng: 3,5 Kg "
+            android:layout_marginTop="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/img_ingredient"
+            android:layout_below="@+id/tv_quantity_fragmentIngredient"
+            android:text="Xem chi tiết"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_seeDetail_ingredient"
+            android:textColor="@color/red"
+            />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

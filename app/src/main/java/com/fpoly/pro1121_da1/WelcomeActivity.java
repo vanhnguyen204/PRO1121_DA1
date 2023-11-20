@@ -1,13 +1,10 @@
-package com.fpoly.pro1121_da1.spinner;
+package com.fpoly.pro1121_da1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-import com.fpoly.pro1121_da1.LoginActivity;
-import com.fpoly.pro1121_da1.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 

@@ -1,5 +1,6 @@
 package com.fpoly.pro1121_da1.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -38,7 +39,7 @@ public class DrinkDAO {
         try {
             LocalDate dateAdd = LocalDate.parse(drink.getDateAdd(), f);
 
-            LocalDate dateExpiry = LocalDate.parse(drink.getDateAdd(), f);
+            LocalDate dateExpiry = LocalDate.parse(drink.getDateExpiry(), f);
             values.put("date_expiry", String.valueOf(dateExpiry));
             values.put("date_add", String.valueOf(dateAdd));
         } catch (DateTimeParseException e) {

@@ -27,7 +27,7 @@ public class VoucherDAO {
         value.put("voucher_id", voucher.getVoucherID());
         value.put("price_reduce", voucher.getPriceReduce());
         value.put("date_expiry", voucher.getDateExpiry());
-        value.put("condition_reduce", voucher.getConditionReduce());
+
         long result = sql.insert("Voucher", null, value);
         if (result > 0) {
             return true;
@@ -43,7 +43,7 @@ public class VoucherDAO {
         value.put("voucher_id", voucher.getVoucherID());
         value.put("price_reduce", voucher.getPriceReduce());
         value.put("date_expiry", voucher.getDateExpiry());
-        value.put("condition_reduce", voucher.getConditionReduce());
+
         long result = sql.update("Voucher", value, "voucher_id = ?", new String[]{String.valueOf(voucher.getVoucherID())});
         if (result > 0) {
             Toast.makeText(context, messPositive, Toast.LENGTH_SHORT).show();
@@ -80,8 +80,8 @@ public class VoucherDAO {
                 int getVoucherID = cursor.getInt(0);
                 int getPriceReduce = cursor.getInt(1);
                 String getDateExpiry = cursor.getString(2);
-                int getCondition = cursor.getInt(3);
-                list.add(new Voucher(getVoucherID, getPriceReduce, getDateExpiry, getCondition));
+
+                list.add(new Voucher(getVoucherID, getPriceReduce, getDateExpiry));
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();

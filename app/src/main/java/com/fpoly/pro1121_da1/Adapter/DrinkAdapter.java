@@ -2,6 +2,7 @@ package com.fpoly.pro1121_da1.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycelview_drink, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview_drink, parent, false);
         return new Viewholder(view);
     }
 
@@ -48,6 +49,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
         Drink drink = list.get(position);
         holder.tvNameDrink.setText(drink.getName());
         holder.imgDrink.setImageResource(R.mipmap.drink);
+        holder.tvDetail.setTextColor(Color.RED);
         holder.tvPrice.setText(String.valueOf(drink.getPrice()));
         holder.tvDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +60,13 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
                 manager.setFragmentResult("key", bundle);
 
                 ((MainActivity)atv).reloadFragment(new FragmentDrinkDetail());
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int img = R.mipmap.drink;
+                Toast.makeText(atv, ""+img, Toast.LENGTH_SHORT).show();
             }
         });
     }

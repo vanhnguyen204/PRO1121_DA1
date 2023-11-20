@@ -6,11 +6,11 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".spinner.WelcomeActivity">
+    tools:context=".WelcomeActivity">
 <ImageView
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:src="@mipmap/iconapp"
+    android:layout_height="wrap_content"
+    android:src="@mipmap/logoapp"
     />
     <TextView
         android:layout_width="match_parent"

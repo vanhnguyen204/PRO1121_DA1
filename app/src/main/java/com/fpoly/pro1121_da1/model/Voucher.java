@@ -4,13 +4,11 @@ public class Voucher {
     private int voucherID;
     private int priceReduce;
     private String dateExpiry;
-    private int conditionReduce;
 
-    public Voucher(int voucherID, int priceReduce, String dateExpiry, int conditionReduce) {
+    public Voucher(int voucherID, int priceReduce, String dateExpiry) {
         this.voucherID = voucherID;
         this.priceReduce = priceReduce;
         this.dateExpiry = dateExpiry;
-        this.conditionReduce = conditionReduce;
     }
 
     public int getVoucherID() {
@@ -35,13 +33,5 @@ public class Voucher {
 
     public void setDateExpiry(String dateExpiry) {
         this.dateExpiry = dateExpiry;
-    }
-
-    public int getConditionReduce() {
-        return conditionReduce;
-    }
-
-    public void setConditionReduce(int conditionReduce) {
-        this.conditionReduce = conditionReduce;
     }
 }

@@ -14,28 +14,36 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
-<ImageView
-    android:layout_width="30dp"
-    android:layout_height="30dp"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentStart="true"
-    android:src="@mipmap/arrow_left"
-    android:id="@+id/img_back_fragmentDrinkDetail"
-    />
+
+        <ImageView
+            android:id="@+id/img_back_fragmentDrinkDetail"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@mipmap/arrow_left" />
+
         <TextView
-            android:layout_below="@id/img_back_fragmentDrinkDetail"
             android:id="@+id/tv_drinkID_fragmentDrinkDeTail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/img_back_fragmentDrinkDetail"
             android:text="Mã đồ uống" />
-
         <TextView
-            android:id="@+id/tv_ingredientID_fragmentDrinkDeTail"
+            android:id="@+id/tv_nameDrink_fragmentDrinkDeTail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_drinkID_fragmentDrinkDeTail"
             android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+            android:text="Tên đồ uống" />
+        <TextView
+            android:id="@+id/tv_ingredientID_fragmentDrinkDeTail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nameDrink_fragmentDrinkDeTail"
+            android:layout_marginTop="10dp"
+
+            android:text="Nguyên liệu" />
 
         <TextView
             android:id="@+id/tv_voucherID_fragmentDrinkDeTail"
@@ -43,23 +51,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_ingredientID_fragmentDrinkDeTail"
             android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+            android:text="Nguyên liệu" />
 
-        <TextView
-            android:id="@+id/tv_nameDrink_fragmentDrinkDeTail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_voucherID_fragmentDrinkDeTail"
-            android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+
 
         <TextView
             android:id="@+id/tv_typeOfDrink_fragmentDrinkDeTail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_nameDrink_fragmentDrinkDeTail"
+            android:layout_below="@+id/tv_voucherID_fragmentDrinkDeTail"
             android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+            android:text="Tên đồ uống" />
 
         <TextView
             android:id="@+id/tv_dateAdd_fragmentDrinkDeTail"
@@ -67,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_typeOfDrink_fragmentDrinkDeTail"
             android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+            android:text="Ngày thêm(ngày nhập):" />
 
         <TextView
             android:id="@+id/tv_dateExpiry_fragmentDrinkDeTail"
@@ -75,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_dateAdd_fragmentDrinkDeTail"
             android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+            android:text="Ngày hết hạn" />
 
         <TextView
             android:id="@+id/tv_price_fragmentDrinkDeTail"
@@ -83,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_dateExpiry_fragmentDrinkDeTail"
             android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+            android:text="Giá: " />
 
         <TextView
             android:id="@+id/tv_quantity_fragmentDrinkDeTail"
@@ -91,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_price_fragmentDrinkDeTail"
             android:layout_marginTop="10dp"
-            android:text="Mã đồ uống" />
+            android:text="Số lượng: " />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDeleteDrink_fragmentDrinkDetail"
@@ -105,15 +107,15 @@
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUpdateDrink_fragmentDrinkDetail"
             android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_quantity_fragmentDrinkDeTail"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/btnDeleteDrink_fragmentDrinkDetail"
             android:background="@drawable/custom_button_login"
-            android:layout_marginStart="20dp"
             android:text="Chỉnh sửa"
-            android:id="@+id/btnUpdateDrink_fragmentDrinkDetail"
 
             android:textColor="@color/white"
 

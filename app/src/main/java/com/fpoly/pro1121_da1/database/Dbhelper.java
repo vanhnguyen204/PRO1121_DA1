@@ -21,9 +21,9 @@ public class Dbhelper extends SQLiteOpenHelper {
     String createInvoice
             = "CREATE TABLE Invoice(invoice_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id REFERENCES User(user_id), customer_id REFERENCES Customer(customer_id), total_bill INTEGER, date_created DATE)";
     String createIngredient
-            = "CREATE TABLE Ingredient(ingredient_id INTEGER PRIMARY KEY AUTOINCREMENT, date_added DATE, date_expiry DATE, price INTEGER, quantity REAL)";
+            = "CREATE TABLE Ingredient(ingredient_id TEXT PRIMARY KEY,name TEXT, date_added DATE, date_expiry DATE, price INTEGER, quantity REAL)";
     String createVoucher
-            = "CREATE TABLE Voucher(voucher_id INTEGER PRIMARY KEY, price_reduce INTEGER, date_expiry DATE, condition_reduce INTEGER)";
+            = "CREATE TABLE Voucher(voucher_id INTEGER PRIMARY KEY, price_reduce INTEGER, date_expiry DATE)";
     String createDrink
             = "CREATE TABLE Drink(drink_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             " ingredient_id REFERENCES Ingredient(ingredient_id)," +
@@ -39,7 +39,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin' )";
 String insertDrink =
         "INSERT INTO Drink VALUES(1, 1, 1, 'Trà sữa', 'Pha chế', '18/11/2023', '18/11/2025', 50000, 1),(2, 1, 1, 'Trà sữa', 'Pha chế', '18/11/2023', '18/11/2025', 50000, 1)";
-
+String insertIngredient = "INSERT INTO Ingredient VALUES(1,'Matcha','10/12/2022','12/12/2023',10000, 10.0)";
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createCalendarWork);
