@@ -180,8 +180,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@+id/manage_drink"
-                android:background="@drawable/custom_ingrdient_fragmenthome"
+                android:layout_toEndOf="@+id/manage_drink"
+                android:background="@drawable/custom_ingredient_fragmenthome"
                 android:gravity="center"
                 android:orientation="vertical">
 

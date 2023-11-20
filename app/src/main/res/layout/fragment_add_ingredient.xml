@@ -11,12 +11,18 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@mipmap/arrow_left" />
-
+<Spinner
+    android:layout_width="match_parent"
+    android:layout_marginTop="20dp"
+    android:layout_below="@+id/img_back_fragmentAddIngredient"
+    android:layout_height="wrap_content"
+    android:id="@+id/spinner_image_fragmentAddIngredient"
+    />
     <EditText
         android:id="@+id/edt_addNameIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/img_back_fragmentAddIngredient"
+        android:layout_below="@+id/spinner_image_fragmentAddIngredient"
         android:layout_marginTop="20dp"
         android:hint="Tên nguyên liệu" />
 
@@ -27,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/edt_addNameIngredient"
-        android:hint="Ngày hết hạn" />
+        android:hint="Ngày hết hạn(yyyy-MM-dd)" />
 
     <EditText
         android:id="@+id/edt_price_fragmentIngredient"

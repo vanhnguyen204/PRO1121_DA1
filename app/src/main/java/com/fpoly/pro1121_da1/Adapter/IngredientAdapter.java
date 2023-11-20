@@ -1,6 +1,8 @@
 package com.fpoly.pro1121_da1.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpoly.pro1121_da1.R;
@@ -34,16 +38,23 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
         Ingredient ingredient = list.get(position);
         holder.tvName.setText(String.format("Tên nguyên liệu: %s", ingredient.getName()));
-        holder.tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity()));
+        holder.tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity() + " Kg"));
         holder.tvSeeDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Ingredient ingredient1 = list.get(position);
+                Bundle bundle = new Bundle();
+                // Put anything what you want
+                bundle.putString("KEY_ING_ID", ingredient1.getIngredientID());
 
+                FragmentManager manager = ((AppCompatActivity)activity).getSupportFragmentManager();
+                manager.setFragmentResult("KEY_INGREDIENT", bundle);
             }
         });
+        holder.imgIngredient.setImageResource(ingredient.getImage());
     }
 
     @Override

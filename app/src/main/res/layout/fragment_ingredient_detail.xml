@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".Fragment.FragmentIngredientDetail">
+
+    <ImageView
+        android:id="@+id/img_back_fragmentIngredient_Detail"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/arrow_left" />
+
+    <ImageView
+        android:id="@+id/img_ingredient_fragmentIngredient_Detail"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/img_back_fragmentIngredient_Detail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/milk" />
+
+    <TextView
+        android:id="@+id/tv_ingredientID_fragmentIngredient_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_ingredient_fragmentIngredient_Detail"
+        android:layout_marginTop="10dp"
+        android:text="Id nguyên liệu"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_nameIngredient_Detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_ingredientID_fragmentIngredient_detail"
+        android:layout_marginTop="10dp"
+        android:text="Matcha"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_dateAddIngredient_Detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_nameIngredient_Detail"
+        android:layout_marginTop="10dp"
+        android:text="Ngày thêm: 20/11/2023"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_dateExpiryIngredient_Detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dateAddIngredient_Detail"
+        android:layout_marginTop="10dp"
+        android:text="Ngày hết hạn: 20/11/2023"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_priceIngredient_Detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dateExpiryIngredient_Detail"
+        android:layout_marginTop="10dp"
+        android:text="Giá: 10000 VNĐ"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_quantityIngredient_Detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_priceIngredient_Detail"
+        android:layout_marginTop="10dp"
+        android:text="Số lượng: 20 kg"
+        android:textSize="18sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_delete_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_quantityIngredient_Detail"
+        android:layout_marginTop="20dp"
+        android:text="Xoá" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_quantityIngredient_Detail"
+        android:layout_marginTop="20dp"
+        android:id="@+id/btnUpdateIngredient_fragmentIngredientDetail"
+        android:layout_toRightOf="@+id/btn_delete_ingredient"
+        android:text="Chỉnh sửa" />
+</RelativeLayout>

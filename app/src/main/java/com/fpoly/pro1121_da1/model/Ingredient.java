@@ -7,14 +7,16 @@ public class Ingredient {
     private String dateExpiry;
     private int price;
     private Double quantity;
+    private int image;
 
-    public Ingredient(String ingredientID, String name, String dateAdd, String dateExpiry, int price, Double quantity) {
+    public Ingredient(String ingredientID, String name, String dateAdd, String dateExpiry, int price, Double quantity, int image) {
         this.ingredientID = ingredientID;
         this.name = name;
         this.dateAdd = dateAdd;
         this.dateExpiry = dateExpiry;
         this.price = price;
         this.quantity = quantity;
+        this.image = image;
     }
 
     public String getIngredientID() {
@@ -63,5 +65,13 @@ public class Ingredient {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }

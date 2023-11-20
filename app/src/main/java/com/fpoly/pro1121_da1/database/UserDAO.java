@@ -117,12 +117,12 @@ public class UserDAO {
                 do {
                     String getUserID = cursor.getString(0);
                     int getCalendarID = cursor.getInt(1);
-                    String getUserName = cursor.getColumnName(2);
-                    String getPassWord = cursor.getColumnName(3);
-                    String getFullName = cursor.getColumnName(4);
-                    String getDateOfBirth = cursor.getColumnName(5);
-                    String getAddress = cursor.getColumnName(6);
-                    String getRole = cursor.getColumnName(7);
+                    String getUserName = cursor.getString(2);
+                    String getPassWord = cursor.getString(3);
+                    String getFullName = cursor.getString(4);
+                    String getDateOfBirth = cursor.getString(5);
+                    String getAddress = cursor.getString(6);
+                    String getRole = cursor.getString(7);
 
                     list.add(new User(getUserID,
                             getCalendarID,

@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.fpoly.pro1121_da1.Adapter.UserAdapter;
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.UserDAO;
 import com.fpoly.pro1121_da1.model.User;
 
@@ -40,7 +41,7 @@ public class FragmentUserDetail extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
         edt_search_User = view.findViewById(R.id.edt_search_User);
         rcv = view.findViewById(R.id.rcv_user);
 

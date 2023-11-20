@@ -50,6 +50,7 @@ ImageView imgBack;
         adapter = new IngredientAdapter(getActivity(), list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        btnAdd = view.findViewById(R.id.btn_add_ingredient);
         ((MainActivity)getActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +59,11 @@ ImageView imgBack;
                 ((MainActivity)getActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
             }
         });
-
+btnAdd.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        ((MainActivity)getActivity()).reloadFragment(new FragmentAddIngredient());
+    }
+});
     }
 }

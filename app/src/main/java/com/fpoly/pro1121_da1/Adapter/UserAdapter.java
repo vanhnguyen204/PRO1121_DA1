@@ -30,16 +30,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.Viewhoder> {
     @Override
     public Viewhoder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View view1 = inflater.inflate(R.layout.item_uer_detail,null,false);
-        return  new Viewhoder(view1);
+        View view = inflater.inflate(R.layout.item_uer_detail,parent,false);
+        return  new Viewhoder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewhoder holder, int position) {
 
-        holder.TVName.setText(list.get(position).getUserName());
-        holder.TVBirthDay.setText(list.get(position).getDateOfBirth());
-        holder.TVAddress.setText(list.get(position).getAddress());
+        holder.TVName.setText("Họ tên: "+list.get(position).getUserName());
+        holder.TVBirthDay.setText("Ngày sinh: "+list.get(position).getDateOfBirth());
+        holder.TVAddress.setText("Địa chỉ: "+list.get(position).getAddress());
 
         holder.TVshowDetail.setOnClickListener(new View.OnClickListener() {
             @Override
