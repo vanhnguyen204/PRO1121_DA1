@@ -38,7 +38,7 @@ public class FragmentHome extends Fragment {
         manegeUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentUserDetail());
+                ((MainActivity)getActivity()).reloadFragment(new FragmentUser());
             }
         });
     }

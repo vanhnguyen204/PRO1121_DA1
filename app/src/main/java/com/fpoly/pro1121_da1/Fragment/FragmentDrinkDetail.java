@@ -165,6 +165,7 @@ public class FragmentDrinkDetail extends Fragment {
                     edtDateExpiry.setEnabled(false);
                     edtDateExpiry.setHint("Bỏ qua");
                     edtIngredientID.setEnabled(true);
+                    edtQuantityDrink.setEnabled(false);
                 }else {
                     edtDateAdd.setEnabled(true);
                     edtDateAdd.setHint("Ngày nhập");
@@ -172,6 +173,7 @@ public class FragmentDrinkDetail extends Fragment {
                     edtDateExpiry.setHint("Ngày hết hạn");
                     edtIngredientID.setEnabled(false);
                     edtIngredientID.setHint("Bỏ qua");
+                    edtQuantityDrink.setEnabled(true);
                 }
             }
 

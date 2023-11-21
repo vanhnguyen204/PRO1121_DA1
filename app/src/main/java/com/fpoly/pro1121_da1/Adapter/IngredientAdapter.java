@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fpoly.pro1121_da1.Fragment.FragmentIngredientDetail;
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.Voucher;
@@ -52,6 +54,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
                 FragmentManager manager = ((AppCompatActivity)activity).getSupportFragmentManager();
                 manager.setFragmentResult("KEY_INGREDIENT", bundle);
+
+                ((MainActivity)activity).reloadFragment(new FragmentIngredientDetail());
             }
         });
         holder.imgIngredient.setImageResource(ingredient.getImage());

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
@@ -23,7 +24,7 @@ import com.fpoly.pro1121_da1.model.Ingredient;
 public class FragmentIngredientDetail extends Fragment {
     private String getID;
     private IngredientDAO ingredientDAO;
-    private ImageView img;
+    private ImageView img, imgBack;
     private TextView tvID, tvName, tvDateAdd, tvDateExpiry, tvPrice, tvQuantity;
     private Button btnDelete, btnUpdate;
 
@@ -37,6 +38,7 @@ public class FragmentIngredientDetail extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        imgBack = view.findViewById(R.id.img_back_fragmentIngredient_Detail);
         img = view.findViewById(R.id.img_ingredient_fragmentIngredient_Detail);
         tvID = view.findViewById(R.id.tv_ingredientID_fragmentIngredient_detail);
         tvName = view.findViewById(R.id.tv_nameIngredient_Detail);
@@ -54,9 +56,19 @@ public class FragmentIngredientDetail extends Fragment {
                 getID = result.getString("KEY_ING_ID");
 
                 Ingredient ingredient = ingredientDAO.getIngredientByID(getID);
+                img.setImageResource(ingredient.getImage());
                 tvID.setText(String.format("Mã nguyên liệu: %s", ingredient.getIngredientID()));
                 tvName.setText(String.format("Tên: %s", ingredient.getName()));
-
+                tvDateAdd.setText("Ngày thêm: " + ingredient.getDateAdd());
+                tvDateExpiry.setText("Ngày hết hạn: "+ingredient.getDateAdd());
+                tvPrice.setText("Giá: "+ingredient.getDateAdd());
+                tvQuantity.setText("Số lượng: "+ingredient.getDateAdd());
+            }
+        });
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentIngredient());
             }
         });
     }
