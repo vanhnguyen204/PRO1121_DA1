@@ -1,6 +1,7 @@
 package com.fpoly.pro1121_da1.Adapter;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fpoly.pro1121_da1.Fragment.FragmentIngredientDetail;
+import com.fpoly.pro1121_da1.Fragment.FragmentUserDetail;
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.User;
 
 import java.util.ArrayList;
@@ -44,7 +51,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.Viewhoder> {
         holder.TVshowDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               User user = list.get(position);
+                Bundle bundle = new Bundle();
+                // Put anything what you want
+                bundle.putString("KEY_USER_ID", user.getUserID());
 
+                FragmentManager manager = ((AppCompatActivity)activity).getSupportFragmentManager();
+                manager.setFragmentResult("KEY_USER", bundle);
+
+                ((MainActivity)activity).reloadFragment(new FragmentUserDetail());
             }
         });
 

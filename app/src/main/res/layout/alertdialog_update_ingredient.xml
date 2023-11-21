@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
+    tools:context=".Fragment.FragmentAddIngredient">
 
-</LinearLayout>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_image_fragmentAddIngredient"
+        />
+    <EditText
+        android:id="@+id/edt_nameIngredient_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_image_fragmentAddIngredient"
+        android:layout_marginTop="20dp"
+        android:hint="Tên nguyên liệu" />
+
+
+    <EditText
+        android:id="@+id/edt_dateExpiry_fragmentIngredient_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/edt_nameIngredient_update"
+        android:hint="Ngày hết hạn(yyyy-MM-dd)" />
+
+    <EditText
+        android:id="@+id/edt_price_fragmentIngredient_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/edt_dateExpiry_fragmentIngredient_update"
+        android:hint="Giá" />
+
+    <EditText
+        android:id="@+id/edt_quantity_fragmentIngredient_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/edt_price_fragmentIngredient_update"
+        android:hint="Số lượng" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_confirmUpdate_fragmentIngredient_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/edt_quantity_fragmentIngredient_update"
+        android:text="Thêm" />
+
+
+</RelativeLayout>

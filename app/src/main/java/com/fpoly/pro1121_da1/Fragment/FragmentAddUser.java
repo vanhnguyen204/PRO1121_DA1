@@ -53,7 +53,7 @@ public class FragmentAddUser extends Fragment {
         edtAddress = view.findViewById(R.id.edt_addAddress_fragmentAddUser);
         spinner = view.findViewById(R.id.spinner_addRole_fragmentAddUser);
         btnConfirmAddUser = view.findViewById(R.id.btnConfirmAddUser_fragmentAddUser);
-imgBack = view.findViewById(R.id.img_back_fragmentAddUser);
+        imgBack = view.findViewById(R.id.img_back_fragmentAddUser);
         String role[] = new String[]{"Quản lý", "Nhân viên"};
         SpinnerRole spinnerRole = new SpinnerRole(role, getActivity());
         spinner.setAdapter(spinnerRole);
@@ -98,8 +98,7 @@ imgBack = view.findViewById(R.id.img_back_fragmentAddUser);
                     User user = new User(getCCCD, Integer.parseInt(getCalendarID), getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, getRole);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 
-                        ((MainActivity)getActivity()).reloadFragment(new FragmentAddUser());
-
+                        ((MainActivity) getActivity()).reloadFragment(new FragmentAddUser());
 
 
                     }
@@ -111,7 +110,7 @@ imgBack = view.findViewById(R.id.img_back_fragmentAddUser);
             @Override
             public void onClick(View view) {
 
-                ((MainActivity)getActivity()).reloadFragment(new FragmentSettings());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentSettings());
             }
         });
     }
