@@ -11,17 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fpoly.pro1121_da1.Adapter.UserAdapter;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.UserDAO;
 import com.fpoly.pro1121_da1.model.User;
+
+import java.util.ArrayList;
 
 
 public class FragmentUserDetail extends Fragment {
     private String getID;
     User user;
     UserDAO userDAO;
-
+    ArrayList<User> listUser;
+    UserAdapter userAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,11 +37,14 @@ public class FragmentUserDetail extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
-        getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
+
+        getParentFragmentManager().setFragmentResultListener("KEY_USER", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 getID = result.getString("KEY_ING_ID");
                 user = userDAO.getUserByID(getID);
+                userDAO.deleteUser(user,"Xóa user thành công","Xóa user không thành công");
+
             }
         });
     }
