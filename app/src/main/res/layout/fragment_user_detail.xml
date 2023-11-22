@@ -3,37 +3,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.FragmentUser"
+    android:padding="10dp"
     android:orientation="vertical"
-    android:padding="8dp">
+    tools:context=".Fragment.FragmentUserDetail">
+
+    <ImageView
+        android:id="@+id/img_back_fragmentUserDetail"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/arrow_left" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Chi Tiết Thành Viên"
         android:gravity="center"
-        android:textSize="30dp"/>
+        android:textSize="30dp"
+        android:layout_marginBottom="20dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        android:id="@+id/tv_fullName_showDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_search_User"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_user"
+        android:text="Ho va ten: Nguyen Van A"/>
+    <TextView
+        android:id="@+id/tv_dayOfBirth_showDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_uer_detail"
-        />
+        android:layout_height="wrap_content"
+        android:text="Ngay: 11/12/2023"/>
+    <TextView
+        android:id="@+id/tv_addRess_showDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dia chi: Ha Noi"/>
+    <TextView
+        android:id="@+id/tv_role_showDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chuc vu: Nhan Vien"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete_uer_showDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xóa"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_update_uer_showDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cập nhật"
+            />
 
+    </LinearLayout>
 </LinearLayout>

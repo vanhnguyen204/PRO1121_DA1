@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void reloadFragment(Fragment fragment) {
-
         getSupportFragmentManager().beginTransaction().replace(R.id.container_layout, fragment).commit();
     }
 }

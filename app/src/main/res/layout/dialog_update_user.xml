@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cập Nhật Người Dùng"
+        android:textSize="30dp"
+        android:gravity="center"/>
+    <EditText
+        android:id="@+id/edt_NameUser_update_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        />
+    <EditText
+        android:id="@+id/edt_AddRess_update_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <EditText
+        android:id="@+id/edt_dayOfBirth_update_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <Spinner
+        android:id="@+id/spn_Role_update_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_update_uer_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Cập nhật"
+        />
+
+</LinearLayout>

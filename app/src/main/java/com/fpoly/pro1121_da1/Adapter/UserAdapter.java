@@ -1,11 +1,11 @@
 package com.fpoly.pro1121_da1.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,11 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fpoly.pro1121_da1.Fragment.FragmentIngredientDetail;
 import com.fpoly.pro1121_da1.Fragment.FragmentUserDetail;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
-import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.User;
 
 import java.util.ArrayList;
@@ -37,14 +35,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.Viewhoder> {
     @Override
     public Viewhoder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.item_uer_detail,parent,false);
+        View view = inflater.inflate(R.layout.item_uer,parent,false);
         return  new Viewhoder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewhoder holder, int position) {
+    public void onBindViewHolder(@NonNull Viewhoder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.TVName.setText("Họ tên: "+list.get(position).getUserName());
+        holder.TVName.setText("Họ tên: "+list.get(position).getFullName());
         holder.TVBirthDay.setText("Ngày sinh: "+list.get(position).getDateOfBirth());
         holder.TVAddress.setText("Địa chỉ: "+list.get(position).getAddress());
 

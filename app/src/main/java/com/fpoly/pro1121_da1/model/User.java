@@ -1,6 +1,7 @@
 package com.fpoly.pro1121_da1.model;
 
-public class User {
+public class
+User {
     private String userID;
     private int calendarWork;
     private String userName;

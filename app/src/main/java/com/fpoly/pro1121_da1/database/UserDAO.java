@@ -91,6 +91,34 @@ public class UserDAO {
             return false;
         }
     }
+    public boolean updateInForMation(String id, String fullName, String dayOfBirth , String addRess, String role) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
+                .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
+        try {
+
+            LocalDate dateExpiry = LocalDate.parse(dayOfBirth, f);
+            values.put("date_of_birth", String.valueOf(dateExpiry));
+        } catch (DateTimeParseException e) {
+
+        }
+
+        values.put("full_name", fullName);
+
+        values.put("address", addRess);
+        values.put("role", role);
+
+        long result = sql.update("User", values, "user_id = ?", new String[]{id});
+        if (result > 0) {
+            Toast.makeText(context, "Update user thành công", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            Toast.makeText(context, "Update user không thành công", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
 
     public boolean deleteUser(User user, String messPositive, String messNegative) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
