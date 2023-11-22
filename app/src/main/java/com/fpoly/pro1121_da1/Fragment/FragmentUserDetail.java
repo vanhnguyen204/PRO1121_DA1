@@ -85,7 +85,7 @@ public class FragmentUserDetail extends Fragment {
                 tv_fullName.setText("Họ và tên:"+user.getFullName());
                 tv_dayOfBirth.setText("Ngày sinh:"+user.getDateOfBirth());
                 tv_addRess.setText("Địa chỉ:"+user.getAddress());
-                tv_role.setText("Chức vụ"+user.getRole());
+                tv_role.setText("Chức vụ:"+user.getRole());
 
                 btn_delete_user_detail.setOnClickListener(new View.OnClickListener() {
                     @Override
