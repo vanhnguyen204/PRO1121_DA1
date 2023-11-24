@@ -69,137 +69,105 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/shippori_mincho"
             android:gravity="start"
+            android:textStyle="bold"
             android:paddingStart="20dp"
-            android:text="Quản lý tài khoản"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Quản lý"
+            android:textSize="20sp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/custom_layout_childsetting"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/img_staff_setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/employee" />
-
-            <ImageView
-                android:id="@+id/arrow1_setting"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentEnd="true"
-                android:src="@mipmap/arrow_right" />
-
-            <ImageView
-                android:id="@+id/arrow2_setting"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/arrow1_setting"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/arrow_right" />
-
-            <TextView
-                android:id="@+id/tv_adduser_setting"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@id/img_staff_setting"
-                android:text="Thêm người dùng"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:id="@+id/img_key_setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@id/img_staff_setting"
+                android:background="@drawable/custom_layout_childsetting"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:src="@mipmap/key_android" />
+                android:layout_marginEnd="20dp"
+                android:padding="10dp"
+                android:layout_marginBottom="20dp">
 
-            <TextView
-                android:id="@+id/tv_changepass_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_adduser_setting"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@+id/img_key_setting"
-                android:text="Đổi mật khẩu"
-                android:textSize="16dp" />
+                <ImageView
+                    android:id="@+id/img_staff_setting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/employee" />
 
-            <ImageView
-                android:id="@+id/img_logout_setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@id/img_key_setting"
-                android:layout_marginTop="10dp"
-                android:src="@mipmap/logout_2" />
+                <ImageView
+                    android:id="@+id/arrow1_setting"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/arrow_right" />
 
-            <TextView
-                android:id="@+id/tv_logout_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_changepass_setting"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@+id/img_key_setting"
-                android:text="Đăng xuất"
-                android:textSize="16dp" />
+                <ImageView
+                    android:id="@+id/arrow2_setting"
+                    android:layout_width="18dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/arrow1_setting"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="25dp"
+                    android:src="@mipmap/arrow_right" />
 
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/custom_layout_childsetting"
-            android:padding="10dp">
+                <TextView
+                    android:id="@+id/tv_adduser_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
 
-            <ImageView
-                android:id="@+id/img_table_setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/table" />
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toRightOf="@id/img_staff_setting"
+                    android:text="Thêm người dùng"
+                    android:textSize="16dp" />
 
-            <ImageView
-                android:id="@+id/arrow_manageTable_setting"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentEnd="true"
-                android:src="@mipmap/arrow_right" />
+                <ImageView
+                    android:id="@+id/img_key_setting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@id/img_staff_setting"
+                    android:layout_marginTop="10dp"
+                    android:src="@mipmap/key_android" />
 
-            <TextView
-                android:id="@+id/tv_tableMangage_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                <TextView
+                    android:id="@+id/tv_changepass_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_adduser_setting"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toRightOf="@+id/img_key_setting"
+                    android:text="Đổi mật khẩu"
+                    android:textSize="16dp" />
+                <ImageView
+                    android:id="@+id/img_sale_setting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/img_key_setting"
+                    android:src="@mipmap/sale_tag"
+                    android:layout_marginTop="10dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_sale_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_changepass_setting"
+                    android:layout_toRightOf="@+id/img_sale_setting"
+                    android:text="Phiếu giảm giá"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16dp"
+                    android:layout_marginStart="10dp"
+                    />
+                <ImageView
+                    android:id="@+id/arrow3_setting"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/arrow2_setting"
+                    android:layout_marginTop="25dp"
+                    />
+            </RelativeLayout>
 
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@id/img_table_setting"
-                android:text="Quản lý bàn"
-                android:textSize="16dp" />
-
-
-
-
-        </RelativeLayout>
 
     </LinearLayout>
 

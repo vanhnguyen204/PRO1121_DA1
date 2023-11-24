@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.UserAdapter;
 import com.fpoly.pro1121_da1.MainActivity;
@@ -86,9 +85,8 @@ public class FragmentUserDetail extends Fragment {
                 tv_fullName.setText("Họ và tên:"+user.getFullName());
                 tv_dayOfBirth.setText("Ngày sinh:"+user.getDateOfBirth());
                 tv_addRess.setText("Địa chỉ:"+user.getAddress());
-                tv_role.setText("Chức vụ: "+user.getRole());
+                tv_role.setText("Chức vụ:"+user.getRole());
 
-                Toast.makeText(getContext(), ""+user.getRole(), Toast.LENGTH_SHORT).show();
                 btn_delete_user_detail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -154,6 +152,7 @@ public class FragmentUserDetail extends Fragment {
         spnRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 getRole = arrRole[position];
             }
 
@@ -170,10 +169,10 @@ public class FragmentUserDetail extends Fragment {
                 String dayOfBirth = edtDayOfBrith.getText().toString().trim();
 
                 if (userDAO.updateInForMation(user.getUserID(), name, dayOfBirth, Address, getRole)) {
-                    tv_fullName.setText(name);
-                    tv_addRess.setText(Address);
-                    tv_dayOfBirth.setText(dayOfBirth);
-                    tv_role.setText(getRole);
+                    tv_fullName.setText("Họ và Tên:"+name);
+                    tv_addRess.setText("Địa chỉ:"+Address);
+                    tv_dayOfBirth.setText("Ngày sinh:"+dayOfBirth);
+                    tv_role.setText("Chức vụ:"+getRole);
                 }
 
                 alertDialog.dismiss();
