@@ -15,7 +15,7 @@ import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 
 public class FragmentHome extends Fragment {
-    LinearLayout manageIngredient, manegeUser;
+    LinearLayout manageIngredient, manegeUser, manageDrink;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +29,7 @@ public class FragmentHome extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         manageIngredient = view.findViewById(R.id.manage_ingredient);
         manegeUser = view.findViewById(R.id.manage_member);
+        manageDrink = view.findViewById(R.id.manage_drink);
         manageIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,5 +42,12 @@ public class FragmentHome extends Fragment {
                 ((MainActivity)getActivity()).reloadFragment(new FragmentUser());
             }
         });
+        manageDrink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentDrink());
+            }
+        });
+
     }
 }

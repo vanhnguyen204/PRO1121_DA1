@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/title_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Thêm đồ uống"
+        android:textSize="30sp" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_addDrink"
+        android:id="@+id/spinner_image_drink_fragmentAddDrink"
+        />
+    <EditText
+        android:id="@+id/edt_nameDrink_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_image_drink_fragmentAddDrink"
+        android:hint="Tên đồ uống" />
+
+    <EditText
+        android:id="@+id/edt_priceDrink_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_nameDrink_addDrink"
+        android:hint="Giá" />
+
+    <Spinner
+        android:id="@+id/spinner_typeOfDrink_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_priceDrink_addDrink" />
+
+    <EditText
+        android:id="@+id/edt_quantity_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_typeOfDrink_addDrink"
+        android:hint="Số lượng" />
+
+    <EditText
+        android:id="@+id/edt_voucherDrink_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_quantity_addDrink"
+        android:hint="Voucher(nếu có)" />
+
+    <EditText
+        android:id="@+id/edt_dateAdd_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_voucherDrink_addDrink"
+        android:hint="Ngay nhap" />
+
+    <EditText
+        android:id="@+id/edt_dateExpiry_addDrink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_dateAdd_addDrink"
+        android:hint="Ngay het han" />
+
+    <TextView
+        android:id="@+id/tv_ingredientID_addDrink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_dateExpiry_addDrink"
+        android:text="Chọn nguyên liệu"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/img_addIngredient_fragmentAddDrink"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/edt_dateExpiry_addDrink"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/tv_ingredientID_addDrink"
+        android:src="@mipmap/plus_android" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView_ingredient_fragmentAddDrink"
+        android:layout_below="@+id/img_addIngredient_fragmentAddDrink" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnConfirm_addDrink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_dateExpiry_addDrink"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/custom_button_login"
+        android:text="Xác nhận"
+        android:textColor="@color/white"
+
+        />
+</RelativeLayout>

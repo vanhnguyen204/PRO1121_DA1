@@ -48,7 +48,7 @@ public class UserDAO {
 
         values.put("address", user.getAddress());
         values.put("role", user.getRole());
-
+        values.put("status", user.getStatus());
         long result = sql.insert("User", null, values);
         if (result > 0) {
             Toast.makeText(context, messPositive, Toast.LENGTH_SHORT).show();
@@ -81,7 +81,7 @@ public class UserDAO {
 
         values.put("address", user.getAddress());
         values.put("role", user.getRole());
-
+        values.put("status", user.getStatus());
         long result = sql.update("User", values, "user_id = ?", new String[]{user.getUserID()});
         if (result > 0) {
             Toast.makeText(context, messPositive, Toast.LENGTH_SHORT).show();
@@ -91,7 +91,8 @@ public class UserDAO {
             return false;
         }
     }
-    public boolean updateInForMation(String id, String fullName, String dayOfBirth , String addRess, String role) {
+
+    public boolean updateInForMation(String id, String fullName, String dayOfBirth, String addRess, String role) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
@@ -151,7 +152,7 @@ public class UserDAO {
                     String getDateOfBirth = cursor.getString(5);
                     String getAddress = cursor.getString(6);
                     String getRole = cursor.getString(7);
-
+                    int getStatus = cursor.getInt(8);
                     list.add(new User(getUserID,
                             getCalendarID,
                             getUserName,
@@ -159,7 +160,8 @@ public class UserDAO {
                             getFullName,
                             getDateOfBirth,
                             getAddress,
-                            getRole
+                            getRole,
+                            getStatus
                     ));
                 } while (cursor.moveToNext());
             }
@@ -175,6 +177,12 @@ public class UserDAO {
 
     public User getUserByID(String userID) {
         ArrayList<User> list = getUser("SELECT * FROM User WHERE user_id = ?", userID);
+
+        return list.get(0);
+    }
+
+    public User getUserUserName(String userName) {
+        ArrayList<User> list = getUser("SELECT * FROM User WHERE user_name = ?", userName);
 
         return list.get(0);
     }

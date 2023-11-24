@@ -57,15 +57,15 @@ public class IngredientDAO {
         ContentValues values = new ContentValues();
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
                 .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
-        values.put("ingredient_id", ingredient.getIngredientID());
+
         values.put("name", ingredient.getName());
         try {
-            LocalDate dateAdd = LocalDate.parse(ingredient.getDateAdd(), f);
+
             LocalDate dateExpiry = LocalDate.parse(ingredient.getDateExpiry(), f);
             values.put("date_expiry", String.valueOf(dateExpiry));
-            values.put("date_added", String.valueOf(dateAdd));
-        } catch (DateTimeParseException e) {
-            Toast.makeText(context, "Error format date", Toast.LENGTH_SHORT).show();
+
+        } catch (DateTimeParseException ignored) {
+
         }
         values.put("price", ingredient.getPrice());
         values.put("quantity", ingredient.getQuantity());

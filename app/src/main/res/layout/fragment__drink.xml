@@ -29,18 +29,21 @@
 
             />
     </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_drink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_buttonadd_drink"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/white"
-android:id="@+id/btn_add_drink"
-        android:text="Thêm đồ uống"
-        android:textSize="10sp"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
 
-        />
+        android:background="@drawable/custom_buttonadd_drink"
+        android:text="Thêm đồ uống"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_drink"
         android:layout_width="match_parent"

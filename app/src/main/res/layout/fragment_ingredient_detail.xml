@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:padding="10dp"
     tools:context=".Fragment.FragmentIngredientDetail">
 
@@ -11,84 +12,135 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@mipmap/arrow_left" />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:layout_toRightOf="@+id/img_back_fragmentIngredient_Detail"
+    android:text="Quay lại"
+    />
 
-    <ImageView
-        android:id="@+id/img_ingredient_fragmentIngredient_Detail"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <LinearLayout
+        android:id="@+id/layout_left_ingredientDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
         android:layout_below="@+id/img_back_fragmentIngredient_Detail"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:src="@mipmap/milk" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shadow_layout"
+        android:padding="20dp">
 
-    <TextView
-        android:id="@+id/tv_ingredientID_fragmentIngredient_detail"
+        <ImageView
+            android:id="@+id/img_ingredient_fragmentIngredient_Detail"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/img_back_fragmentIngredient_Detail"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/milk" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_right_ingredientDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/img_ingredient_fragmentIngredient_Detail"
-        android:layout_marginTop="10dp"
-        android:text="Id nguyên liệu"
-        android:textSize="18sp" />
+        android:layout_below="@+id/img_back_fragmentIngredient_Detail"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@+id/layout_left_ingredientDetail"
+        android:background="@drawable/shadow_layout_2"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <TextView
-        android:id="@+id/tv_nameIngredient_Detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_ingredientID_fragmentIngredient_detail"
-        android:layout_marginTop="10dp"
-        android:text="Matcha"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_ingredientID_fragmentIngredient_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_ingredient_fragmentIngredient_Detail"
+            android:layout_marginTop="10dp"
+            android:text="Id nguyên liệu"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tv_dateAddIngredient_Detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_nameIngredient_Detail"
-        android:layout_marginTop="10dp"
-        android:text="Ngày thêm: 20/11/2023"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_nameIngredient_Detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_ingredientID_fragmentIngredient_detail"
+            android:layout_marginTop="10dp"
+            android:text="Matcha"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tv_dateExpiryIngredient_Detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_dateAddIngredient_Detail"
-        android:layout_marginTop="10dp"
-        android:text="Ngày hết hạn: 20/11/2023"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_dateAddIngredient_Detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nameIngredient_Detail"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:text="Ngày thêm: 20/11/2023"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tv_priceIngredient_Detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_dateExpiryIngredient_Detail"
-        android:layout_marginTop="10dp"
-        android:text="Giá: 10000 VNĐ"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_dateExpiryIngredient_Detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dateAddIngredient_Detail"
+            android:layout_marginTop="10dp"
+            android:text="Ngày hết hạn: 20/11/2023"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tv_quantityIngredient_Detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_priceIngredient_Detail"
-        android:layout_marginTop="10dp"
-        android:text="Số lượng: 20 kg"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_priceIngredient_Detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv_dateExpiryIngredient_Detail"
+            android:layout_marginTop="10dp"
+            android:text="Giá: 10000 VNĐ"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_quantityIngredient_Detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv_priceIngredient_Detail"
+            android:layout_marginTop="10dp"
+            android:text="Số lượng: 20 kg"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_delete_ingredient"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_quantityIngredient_Detail"
+        android:layout_below="@+id/layout_left_ingredientDetail"
         android:layout_marginTop="20dp"
-        android:text="Xoá" />
+        android:background="@drawable/custom_button_delete"
+
+        android:text="Xoá"
+        android:textColor="@color/white"
+        android:textSize="10dp" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_quantityIngredient_Detail"
-        android:layout_marginTop="20dp"
         android:id="@+id/btnUpdateIngredient_fragmentIngredientDetail"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_left_ingredientDetail"
+        android:layout_marginTop="20dp"
+android:layout_marginStart="5dp"
         android:layout_toRightOf="@+id/btn_delete_ingredient"
-        android:text="Chỉnh sửa" />
+        android:background="@drawable/custom_button_update"
+        android:text="Chỉnh sửa"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
 </RelativeLayout>

@@ -12,11 +12,13 @@ import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.UserDAO;
+import com.fpoly.pro1121_da1.model.User;
 
 public class LoginActivity extends AppCompatActivity {
     EditText edtUser, edtPassWord;
     TextView tvForgotPass;
     Button btnConfirmLogin;
+
 
     public void findID() {
         edtUser = findViewById(R.id.edt_user_login);
@@ -29,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         findID();
         UserDAO userDAO = new UserDAO(getApplicationContext(), new Dbhelper(LoginActivity.this));
         btnConfirmLogin.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +46,11 @@ public class LoginActivity extends AppCompatActivity {
                 }else if (userDAO.checkUserLogin(getUserName, getPassWord)){
                     Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không chính xác !", Toast.LENGTH_SHORT).show();
                 }else {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                   User user = userDAO.getUserUserName(getUserName);
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("KEY_USER_NAME", user);
+                    startActivity(intent);
                     Toast.makeText(LoginActivity.this, "Đăng nhập thành công !", Toast.LENGTH_SHORT).show();
                 }
 

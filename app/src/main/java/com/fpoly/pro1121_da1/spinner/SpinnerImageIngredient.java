@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fpoly.pro1121_da1.R;
 
@@ -39,6 +40,8 @@ public class SpinnerImageIngredient extends BaseAdapter {
         view =inflater.inflate(R.layout.spinner_image_ingredient, viewGroup, false);
         ImageView img = view.findViewById(R.id.img_spinner_ingredient);
         img.setImageResource(arrayImage[i]);
+        TextView tvName = view.findViewById(R.id.tv_nameIngredient_spinner);
+
         return view;
     }
 }

@@ -4,18 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Fragment.FragmentDrink;
 import com.fpoly.pro1121_da1.Fragment.FragmentHome;
 import com.fpoly.pro1121_da1.Fragment.FragmentSettings;
+import com.fpoly.pro1121_da1.Fragment.FragmentTable;
 import com.fpoly.pro1121_da1.model.Drink;
+import com.fpoly.pro1121_da1.model.User;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
     public ChipNavigationBar chipNavigationBar;
     private Fragment fragment = null;
+    public User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentHome fragmentHome = new FragmentHome();
         getSupportFragmentManager().beginTransaction().replace(R.id.container_layout, fragmentHome).commit();
         chipNavigationBar = findViewById(R.id.buttonNavigation);
-
-
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("KEY_USER_NAME");
+        Toast.makeText(this, ""+user.getRole(), Toast.LENGTH_SHORT).show();
         chipNavigationBar.setItemSelected(R.id.home, true);
 
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
@@ -43,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (i == R.id.settings) {
                     fragment = new FragmentSettings();
+                }else if (i == R.id.table){
+                    fragment = new FragmentTable();
                 }
 
 

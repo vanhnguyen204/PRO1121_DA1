@@ -21,7 +21,9 @@ import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
+import com.fpoly.pro1121_da1.database.IngredientDAO;
 import com.fpoly.pro1121_da1.model.Drink;
+import com.fpoly.pro1121_da1.model.Ingredient;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
 
     DrinkDAO drinkDAO;
     ArrayList<Drink> list;
+    IngredientDAO ingredientDAO;
     Activity atv;
 
     public DrinkAdapter(ArrayList<Drink> list, Activity atv) {
@@ -45,12 +48,14 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
+        ingredientDAO = new IngredientDAO(atv, new Dbhelper(atv));
         drinkDAO = new DrinkDAO(atv, new Dbhelper(atv));
         Drink drink = list.get(position);
         holder.tvNameDrink.setText(drink.getName());
         holder.imgDrink.setImageResource(R.mipmap.drink);
         holder.tvDetail.setTextColor(Color.RED);
         holder.tvPrice.setText(String.valueOf(drink.getPrice()));
+holder.imgDrink.setImageResource(drink.getImage());
         holder.tvDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,4 +94,5 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
             imgDrink = itemView.findViewById(R.id.img_drink);
         }
     }
+
 }

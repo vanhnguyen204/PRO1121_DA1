@@ -1,7 +1,8 @@
 package com.fpoly.pro1121_da1.model;
 
-public class
-User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String userID;
     private int calendarWork;
     private String userName;
@@ -10,8 +11,10 @@ User {
     private String dateOfBirth;
     private String address;
     private String role;
+    private int status;
 
-    public User(String userID, int calendarWork, String userName, String passWord, String fullName, String dateOfBirth, String address, String role) {
+
+    public User(String userID, int calendarWork, String userName, String passWord, String fullName, String dateOfBirth, String address, String role, int status) {
         this.userID = userID;
         this.calendarWork = calendarWork;
         this.userName = userName;
@@ -20,10 +23,19 @@ User {
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.role = role;
+        this.status = status;
     }
 
     public String getUserID() {
         return userID;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public void setUserID(String userID) {

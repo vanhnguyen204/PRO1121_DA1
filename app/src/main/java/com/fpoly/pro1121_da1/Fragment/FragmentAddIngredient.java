@@ -61,7 +61,14 @@ public class FragmentAddIngredient extends Fragment {
                 R.mipmap.sugar,
                 R.mipmap.milk,
                 R.mipmap.matcha,
-                R.mipmap.coffee_beans
+                R.mipmap.coffee_beans,
+                R.mipmap.peach,
+                R.mipmap.pineapple,
+                R.mipmap.apple,
+                R.mipmap.honey,
+                R.mipmap.dragon_fruit,
+                R.mipmap.orange,
+                R.mipmap.lemons
         };
 
         spinnerImageIngredient = new SpinnerImageIngredient(arrImage, getActivity());

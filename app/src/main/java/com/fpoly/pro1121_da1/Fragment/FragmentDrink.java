@@ -65,7 +65,7 @@ public class FragmentDrink extends Fragment {
         btnAddDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAlertDialogAddDrink();
+                ((MainActivity)getContext()).reloadFragment(new FragmentAddDrink());
             }
         });
         ArrayList<Drink> listClone = drinkDAO.getAllDrink();
@@ -100,95 +100,5 @@ public class FragmentDrink extends Fragment {
         });
     }
 
-    EditText edtNameDrink, edtPriceDrink, edtQuantityDrink, edtVoucher, edtDateAdd, edtDateExpiry, edtIngredientID;
-    String getName, getPrice, getQuantity, getVoucher, getDateAdd, getDateExpiry, getIngredientID, getTypeOfDrink = "Pha chế";
-    Spinner spinner;
-    Button btnConfirmAddDrink;
 
-
-    public void showAlertDialogAddDrink() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Style_AlertDialog_Corner);
-        LayoutInflater inflater = getLayoutInflater();
-        View view1 = inflater.inflate(R.layout.alertdialog_add_drink, null);
-        builder.setView(view1);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-        edtNameDrink = view1.findViewById(R.id.edt_nameDrink_addDrink);
-        edtPriceDrink = view1.findViewById(R.id.edt_priceDrink_addDrink);
-        edtQuantityDrink = view1.findViewById(R.id.edt_quantity_addDrink);
-        edtVoucher = view1.findViewById(R.id.edt_voucherDrink_addDrink);
-        edtDateAdd = view1.findViewById(R.id.edt_dateAdd_addDrink);
-        edtDateExpiry = view1.findViewById(R.id.edt_dateExpiry_addDrink);
-        edtIngredientID = view1.findViewById(R.id.edt_ingredientID_addDrink);
-        btnConfirmAddDrink = view1.findViewById(R.id.btnConfirm_addDrink);
-        spinner = view1.findViewById(R.id.spinner_typeOfDrink_addDrink);
-        String type[] = new String[]{"Pha chế", "Đóng chai"};
-        SpinnerTypeOfDrink spinnerTypeOfDrink = new SpinnerTypeOfDrink(type, getActivity());
-        spinner.setAdapter(spinnerTypeOfDrink);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getTypeOfDrink = type[i];
-
-                if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-                    edtDateAdd.setEnabled(false);
-                    edtDateAdd.setHint("Bỏ qua");
-                    edtDateExpiry.setEnabled(false);
-                    edtDateExpiry.setHint("Bỏ qua");
-                    edtIngredientID.setEnabled(true);
-                } else {
-                    edtDateAdd.setEnabled(true);
-                    edtDateAdd.setHint("Ngày nhập");
-                    edtDateExpiry.setEnabled(true);
-                    edtDateExpiry.setHint("Ngày hết hạn");
-                    edtIngredientID.setEnabled(false);
-                    edtIngredientID.setHint("Bỏ qua");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        btnConfirmAddDrink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getName = edtNameDrink.getText().toString().trim();
-                getPrice = edtPriceDrink.getText().toString().trim();
-                getQuantity = edtQuantityDrink.getText().toString().trim();
-                getVoucher = edtVoucher.getText().toString().trim();
-                getDateAdd = edtDateAdd.getText().toString().trim();
-                getDateExpiry = edtDateExpiry.getText().toString().trim();
-                getIngredientID = edtIngredientID.getText().toString().trim();
-                if (getName.length() == 0) {
-
-                } else if (getPrice.length() == 0) {
-
-                } else if (getQuantity.length() == 0) {
-
-                } else if (getVoucher.length() == 0) {
-
-                } else if (getDateAdd.length() == 0) {
-
-                } else if (getDateExpiry.length() == 0) {
-
-                } else if (getIngredientID.length() == 0) {
-
-                } else {
-
-                }
-
-                if (drinkDAO.insertDrink(new Drink(Integer.parseInt(getIngredientID), Integer.parseInt(getVoucher), getName, "Đóng chai", "10/12/2022", "10/12/2020", Integer.parseInt(getPrice), Integer.parseInt(getQuantity)))) {
-                    list.add(new Drink(Integer.parseInt(getIngredientID), Integer.parseInt(getVoucher), getName, "Đóng chai", "10/12/2022", "10/12/2020", Integer.parseInt(getPrice), Integer.parseInt(getQuantity)));
-                    adapter.notifyItemInserted(list.size());
-                    alertDialog.dismiss();
-                    ((MainActivity)getActivity()).reloadFragment(new FragmentDrink());
-                }
-            }
-        });
-    }
 }

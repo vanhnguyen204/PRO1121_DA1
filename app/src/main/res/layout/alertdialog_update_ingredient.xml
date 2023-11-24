@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_image_fragmentAddIngredient"
+        android:id="@+id/spinner_image_fragmentIngredientDetail_update"
         />
     <EditText
         android:id="@+id/edt_nameIngredient_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_image_fragmentAddIngredient"
+        android:layout_below="@+id/spinner_image_fragmentIngredientDetail_update"
         android:layout_marginTop="20dp"
         android:hint="Tên nguyên liệu" />
 

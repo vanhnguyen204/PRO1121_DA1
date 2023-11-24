@@ -53,6 +53,7 @@ public class DrinkDAO {
 
         values.put("price", drink.getPrice());
         values.put("quantity", drink.getQuantity());
+        values.put("image_drink", drink.getImage());
         long reslut = sql.insert("Drink", null, values);
         if (reslut > 0) {
             Toast.makeText(context, "Thêm đồ uống thành công", Toast.LENGTH_SHORT).show();
@@ -86,6 +87,7 @@ public class DrinkDAO {
 
         values.put("price", drink.getPrice());
         values.put("quantity", drink.getQuantity());
+        values.put("image_drink", drink.getImage());
         long reslut = sql.update("Drink", values, "drink_id = ?", new String[]{String.valueOf(drink.getDrinkID())});
         if (reslut > 0) {
             Toast.makeText(context, "Update đồ uống thành công", Toast.LENGTH_SHORT).show();
@@ -120,7 +122,7 @@ public class DrinkDAO {
                 cursor.moveToFirst();
                 do {
                     int getDrinkID = cursor.getInt(0);
-                    int getIngredientID = cursor.getInt(1);
+                    String getIngredientID = cursor.getString(1);
                     int getVoucherID = cursor.getInt(2);
                     String getNameDrink = cursor.getString(3);
                     String getTyofDrink = cursor.getString(4);
@@ -128,7 +130,7 @@ public class DrinkDAO {
                     String getDateAdd = cursor.getString(5);
                     int getPrice = cursor.getInt(7);
                     int getQuantity = cursor.getInt(8);
-
+                    int getImage = cursor.getInt(9);
                     list.add(new Drink(
                             getDrinkID,
                             getIngredientID,
@@ -138,7 +140,8 @@ public class DrinkDAO {
                             getDateExpiry,
                             getDateAdd,
                             getPrice,
-                            getQuantity
+                            getQuantity,
+                            getImage
                     ));
                 } while (cursor.moveToNext());
             }

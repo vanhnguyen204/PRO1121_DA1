@@ -95,7 +95,7 @@ public class FragmentAddUser extends Fragment {
                 } else if (getAddress.length() == 0) {
 
                 } else {
-                    User user = new User(getCCCD, Integer.parseInt(getCalendarID), getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, getRole);
+                    User user = new User(getCCCD, Integer.parseInt(getCalendarID), getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, getRole,0);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 
                         ((MainActivity) getActivity()).reloadFragment(new FragmentAddUser());
