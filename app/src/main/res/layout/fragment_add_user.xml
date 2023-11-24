@@ -72,17 +72,18 @@
         android:id="@+id/edt_addAddress_fragmentAddUser"
         android:hint="Địa chỉ"
         />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_below="@id/edt_addAddress_fragmentAddUser"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner_addRole_fragmentAddUser"
-        />
 
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Số điện thoại"
+    android:id="@+id/edt_phoneNumber_fragmentAddUser"
+    android:layout_below="@+id/edt_addAddress_fragmentAddUser"
+    />
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_addRole_fragmentAddUser"
+        android:layout_below="@+id/edt_phoneNumber_fragmentAddUser"
        android:layout_centerHorizontal="true"
         android:text="Xác nhận"
         android:layout_marginTop="20dp"

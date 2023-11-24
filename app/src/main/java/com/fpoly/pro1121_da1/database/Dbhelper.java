@@ -29,7 +29,8 @@ public class Dbhelper extends SQLiteOpenHelper {
             " full_name TEXT, date_of_birth DATE, " +
             "address TEXT," +
             " role TEXT," +
-            " status INTEGER)";
+            " status INTEGER," +
+            " phone_number TEXT)";
     String createInvoice
             = "CREATE TABLE Invoice(invoice_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             " user_id REFERENCES User(user_id)," +
@@ -63,7 +64,7 @@ public class Dbhelper extends SQLiteOpenHelper {
             "quantity INTEGER ," +
             " image_drink BLOB)";
 
-    String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0 )";
+    String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0, '0339207001')";
     String createTable = "CREATE TABLE TableDrink(table_id TEXT PRIMARY KEY, status INTEGER)";
 
     @Override

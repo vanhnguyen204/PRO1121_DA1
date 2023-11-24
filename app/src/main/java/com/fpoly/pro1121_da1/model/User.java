@@ -12,9 +12,10 @@ public class User implements Serializable {
     private String address;
     private String role;
     private int status;
+    private String phoneNumber;
 
 
-    public User(String userID, int calendarWork, String userName, String passWord, String fullName, String dateOfBirth, String address, String role, int status) {
+    public User(String userID, int calendarWork, String userName, String passWord, String fullName, String dateOfBirth, String address, String role, int status, String phoneNumber) {
         this.userID = userID;
         this.calendarWork = calendarWork;
         this.userName = userName;
@@ -24,6 +25,15 @@ public class User implements Serializable {
         this.address = address;
         this.role = role;
         this.status = status;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUserID() {

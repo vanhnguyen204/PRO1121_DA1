@@ -32,7 +32,10 @@ import com.fpoly.pro1121_da1.spinner.SpinnerAddIngredientToDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerImageDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerTypeOfDrink;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class FragmentAddDrink extends Fragment {
 
@@ -143,14 +146,19 @@ public class FragmentAddDrink extends Fragment {
                 showDialogIngredient();
             }
         });
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+
         btnConfirmAddDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getName = edtNameDrink.getText().toString().trim();
                 getPrice = edtPriceDrink.getText().toString().trim();
                 getQuantity = edtQuantityDrink.getText().toString().trim();
                 getVoucher = edtVoucher.getText().toString().trim();
-                getDateAdd = edtDateAdd.getText().toString().trim();
+                getDateAdd = dateFormat.format(cal.getTime());
                 getDateExpiry = edtDateExpiry.getText().toString().trim();
 
                 if (getName.length() == 0) {

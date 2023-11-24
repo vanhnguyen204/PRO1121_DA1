@@ -1,74 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:tools="http://schemas.android.com/tools"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_margin="10dp"
-                                   android:layout_gravity="center"
-                                   tools:context=".Fragment.FragmentExportInvoice">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    tools:context=".Fragment.FragmentExportInvoice">
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:orientation="vertical">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Xuất hoá đơn"
-                  android:textSize="30sp"
-                  android:gravity="center"
-        />
+            android:gravity="center"
+            android:text="Xuất hoá đơn"
+            android:textSize="30sp" />
+
         <TextView
+            android:id="@+id/tv_invoiceID_fragmentExport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Mã hoá đơn: HD1997"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_nameStaff_fragmentExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="Nhân viên: Nguyễn Văn A"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_drink_fragmentExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="Đồ uống: Trà sữa, trà đào..."
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_table_fragmentExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="Bàn: TB222"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_totalBill_fragmentExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="Tổng tiền: 90000 VNĐ"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_dateCreate_fragmentExport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="Ngày tạo: 24-12-2024"
+            android:textSize="18dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã hoá đơn: HD1997"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp"
-                android:id="@+id/tv_invoiceID_fragmentExport"
-        />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="Nhân viên: Nguyễn Văn A"
-                  android:textSize="18dp"
-                  android:layout_marginTop="7dp"
-                  android:id="@+id/tv_nameStaff_fragmentExport"
-        />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="Khách hàng: Nguyễn Văn B"
-                  android:textSize="18dp"
-                  android:layout_marginTop="7dp"
-                  android:id="@+id/tv_nameCustomer_fragmentExport"
-        />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="Đồ uống: Trà sữa, trà đào..."
-                  android:textSize="18dp"
-                  android:layout_marginTop="7dp"
-                  android:id="@+id/tv_drink_fragmentExport"
-        />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="Bàn: TB222"
-                  android:textSize="18dp"
-                  android:layout_marginTop="7dp"
-                  android:id="@+id/tv_table_fragmentExport"
-        />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="Tổng tiền: 90000 VNĐ"
-                  android:textSize="18dp"
-                  android:layout_marginTop="7dp"
-                  android:id="@+id/tv_totalBill_fragmentExport"
-        />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="Ngày tạo: 24-12-2024"
-                  android:textSize="18dp"
-                  android:layout_marginTop="7dp"
-                  android:id="@+id/tv_dateCreate_fragmentExport"
-        />
-        <androidx.appcompat.widget.AppCompatButton android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content"
-                                                   android:textColor="@color/white"
-                                                   android:layout_marginTop="20dp"
-        android:text="Xuất"
-                                                   android:background="@drawable/custom_button_login"
+                android:text="Thêm thông tin khách hàng"
+                android:textSize="18sp"
 
-        />
+                />
+            <ImageView
+                android:id="@+id/img_addCustomer_fragmentExport"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@mipmap/plus_android"
+                android:layout_marginStart="5dp"
+                />
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_button_login"
+            android:text="Xuất"
+            android:textColor="@color/white"
+
+            />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

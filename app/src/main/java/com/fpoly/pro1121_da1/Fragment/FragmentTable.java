@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.fpoly.pro1121_da1.Adapter.TableAdapter;
+import com.fpoly.pro1121_da1.Interface.TableOnClickListener;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.TableDAO;
@@ -79,5 +80,7 @@ public class FragmentTable extends Fragment {
                 builder.show();
             }
         });
+
+
     }
 }

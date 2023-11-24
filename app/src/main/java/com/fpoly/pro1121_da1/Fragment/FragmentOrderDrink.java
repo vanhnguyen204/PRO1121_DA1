@@ -5,7 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +37,7 @@ public class FragmentOrderDrink extends Fragment {
     ArrayList<Drink> listDrinkOrder;
     Button btnConfirmOrder;
     ImageView imgBack;
+    Drink drinkClone = null;
 
 
     @Override
@@ -60,6 +63,7 @@ public class FragmentOrderDrink extends Fragment {
             @Override
             public void onClick(Drink drink) {
                 listDrinkOrder.add(drink);
+
                 Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
             }
         });
@@ -68,9 +72,12 @@ public class FragmentOrderDrink extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("KEY_ARRAY_DRINK", listDrinkOrder);
-                FragmentExportInvoice fragmentExportInvoice = new FragmentExportInvoice();
-                fragmentExportInvoice.setArguments(bundle);
+                bundle.putSerializable("KEY_ARRAY_DRINK", listDrinkOrder); // Put anything what you want
+
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.setFragmentResult("KEY_ARR", bundle);
+
+
                 ((MainActivity)getActivity()).reloadFragment(new FragmentExportInvoice());
             }
         });

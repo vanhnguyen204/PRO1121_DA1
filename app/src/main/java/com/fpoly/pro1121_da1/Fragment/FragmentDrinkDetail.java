@@ -14,10 +14,14 @@ import androidx.fragment.app.FragmentResultListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +44,7 @@ public class FragmentDrinkDetail extends Fragment {
     int getDrinkID;
     DrinkDAO drinkDAO;
 
-    ImageView imgBack;
+    ImageView imgBack, imgDrink;
     Drink drink;
     IngredientDAO ingredientDAO;
     TextView tvDrinkID, tvIngredientID, tvVoucherID, tvNameDrink, tvTypeOfDrink, tvDateAdd, tvDateExpiry, tvPrice, tvQuantity;
@@ -49,7 +53,8 @@ public class FragmentDrinkDetail extends Fragment {
     public void findID(View view) {
 
     }
-
+    Animation animation;
+    RelativeLayout layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,6 +65,9 @@ public class FragmentDrinkDetail extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        layout = view.findViewById(R.id.layoutAnim);
+
+        imgDrink = view.findViewById(R.id.img_drinkDetail);
         tvDrinkID = view.findViewById(R.id.tv_drinkID_fragmentDrinkDeTail);
         tvIngredientID = view.findViewById(R.id.tv_ingredientID_fragmentDrinkDeTail);
         tvVoucherID = view.findViewById(R.id.tv_voucherID_fragmentDrinkDeTail);
@@ -86,7 +94,7 @@ public class FragmentDrinkDetail extends Fragment {
                 Toast.makeText(getContext(), "" + getDrinkID, Toast.LENGTH_SHORT).show();
                 drink = drinkDAO.getDrinkByID(String.valueOf(getDrinkID));
                 tvDrinkID.setText("Mã đồ uống: " + drink.getDrinkID());
-
+imgDrink.setImageResource(drink.getImage());
                 tvVoucherID.setText("Mã giảm giá:" + drink.getVoucherID());
                 tvNameDrink.setText("Tên đồ uống: " + drink.getName());
                 tvTypeOfDrink.setText("Loại đồ uống: " + drink.getTypeOfDrink());

@@ -24,26 +24,34 @@
     <TextView
         android:id="@+id/tv_fullName_showDetail"
         android:layout_width="match_parent"
+        android:textSize="20sp"
         android:layout_height="wrap_content"
         android:text="Ho va ten: Nguyen Van A"/>
     <TextView
         android:id="@+id/tv_dayOfBirth_showDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="7dp"
         android:text="Ngay: 11/12/2023"/>
     <TextView
         android:id="@+id/tv_addRess_showDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="7dp"
         android:text="Dia chi: Ha Noi"/>
     <TextView
         android:id="@+id/tv_role_showDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="7dp"
         android:text="Chuc vu: Nhan Vien"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         >
         <androidx.appcompat.widget.AppCompatButton
@@ -51,11 +59,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Xóa"
+            android:background="@drawable/custom_button_delete"
+            android:textColor="@color/white"
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_update_uer_showDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_update"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
             android:text="Cập nhật"
             />
 

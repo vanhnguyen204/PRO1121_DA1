@@ -91,6 +91,7 @@ public class FragmentAddIngredient extends Fragment {
 
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar cal = Calendar.getInstance();
+
                 getName = edtAddName.getText().toString().trim();
                 getDateADD = dateFormat.format(cal.getTime());
                 getDateExpiry = edtDateExpiry.getText().toString().trim();

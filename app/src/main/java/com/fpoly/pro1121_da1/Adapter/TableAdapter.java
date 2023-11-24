@@ -1,6 +1,7 @@
 package com.fpoly.pro1121_da1.Adapter;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,19 +9,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpoly.pro1121_da1.Fragment.FragmentOrderDrink;
 import com.fpoly.pro1121_da1.Fragment.FragmentTable;
+import com.fpoly.pro1121_da1.Interface.TableOnClickListener;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.Table;
 
 import java.util.ArrayList;
 
-public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder>{
+public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> {
     ArrayList<Table> list;
     Activity activity;
+    public TableOnClickListener tableOnClickListener;
+
+    public void setOnTableClick(TableOnClickListener tableOnClickListener) {
+        this.tableOnClickListener = tableOnClickListener;
+    }
 
     public TableAdapter(ArrayList<Table> list, Activity activity) {
         this.list = list;
@@ -37,16 +47,22 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder>{
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         Table table = list.get(position);
-        holder.tvTableID.setText("Mã bàn: "+table.getTableID());
-        if (table.getStatus() == 1){
+        holder.tvTableID.setText("Mã bàn: " + table.getTableID());
+        if (table.getStatus() == 1) {
             holder.imgStatus.setImageResource(R.mipmap.record);
-        }else {
+        } else {
             holder.imgStatus.setImageResource(R.mipmap.rec);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)activity).reloadFragment(new FragmentOrderDrink());
+                Bundle bundle = new Bundle();
+                bundle.putString("KEY_TABLE_ID", table.getTableID());
+                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
+                manager.setFragmentResult("KEY_ARR", bundle);
+
+                ((MainActivity) activity).reloadFragment(new FragmentOrderDrink());
+
             }
         });
     }
@@ -56,7 +72,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder>{
         return list.size();
     }
 
-    public static class Viewholder extends RecyclerView.ViewHolder{
+    public static class Viewholder extends RecyclerView.ViewHolder {
         ImageView imgTable, imgStatus;
         TextView tvTableID;
 

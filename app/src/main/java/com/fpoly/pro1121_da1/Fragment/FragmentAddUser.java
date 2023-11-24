@@ -26,12 +26,12 @@ import com.fpoly.pro1121_da1.spinner.SpinnerRole;
 
 
 public class FragmentAddUser extends Fragment {
-    EditText edtCCCD, edtCalendarID, edtUserName, edtPassWord, edtFullName, edtDateOfBirth, edtAddress;
+    EditText edtCCCD, edtCalendarID, edtUserName, edtPassWord, edtFullName, edtDateOfBirth, edtAddress, edtPhoneNumber;
     Spinner spinner;
     UserDAO userDAO;
     Button btnConfirmAddUser;
     ImageView imgBack;
-    String getCCCD, getCalendarID, getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, getRole;
+    String getCCCD, getCalendarID, getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, getRole, getPhoneNumber;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,24 +51,10 @@ public class FragmentAddUser extends Fragment {
         edtFullName = view.findViewById(R.id.edt_addFullName_fragmentAddUser);
         edtDateOfBirth = view.findViewById(R.id.edt_addDateOfBirth_fragmentAddUser);
         edtAddress = view.findViewById(R.id.edt_addAddress_fragmentAddUser);
-        spinner = view.findViewById(R.id.spinner_addRole_fragmentAddUser);
+        edtPhoneNumber = view.findViewById(R.id.edt_phoneNumber_fragmentAddUser);
         btnConfirmAddUser = view.findViewById(R.id.btnConfirmAddUser_fragmentAddUser);
         imgBack = view.findViewById(R.id.img_back_fragmentAddUser);
-        String role[] = new String[]{"Quản lý", "Nhân viên"};
-        SpinnerRole spinnerRole = new SpinnerRole(role, getActivity());
-        spinner.setAdapter(spinnerRole);
-        spinner.setSelection(0);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getRole = role[i];
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
         btnConfirmAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +65,7 @@ public class FragmentAddUser extends Fragment {
                 getFullName = edtFullName.getText().toString().trim();
                 getDateOfBirth = edtDateOfBirth.getText().toString().trim();
                 getAddress = edtAddress.getText().toString().trim();
-
+getPhoneNumber = edtPhoneNumber.getText().toString().trim();
                 if (getCCCD.length() == 0) {
 
                 } else if (getCalendarID.length() == 0) {
@@ -95,7 +81,7 @@ public class FragmentAddUser extends Fragment {
                 } else if (getAddress.length() == 0) {
 
                 } else {
-                    User user = new User(getCCCD, Integer.parseInt(getCalendarID), getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, getRole,0);
+                    User user = new User(getCCCD, Integer.parseInt(getCalendarID), getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, "staff", 0, getPhoneNumber);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 
                         ((MainActivity) getActivity()).reloadFragment(new FragmentAddUser());

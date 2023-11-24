@@ -68,7 +68,6 @@ public class FragmentUserDetail extends Fragment {
         tv_role = view.findViewById(R.id.tv_role_showDetail);
 
 
-
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,10 +81,10 @@ public class FragmentUserDetail extends Fragment {
                 getID = result.getString("KEY_USER_ID");
                 user = userDAO.getUserByID(getID);
 
-                tv_fullName.setText("Họ và tên:"+user.getFullName());
-                tv_dayOfBirth.setText("Ngày sinh:"+user.getDateOfBirth());
-                tv_addRess.setText("Địa chỉ:"+user.getAddress());
-                tv_role.setText("Chức vụ:"+user.getRole());
+                tv_fullName.setText("Họ và tên:" + user.getFullName());
+                tv_dayOfBirth.setText("Ngày sinh:" + user.getDateOfBirth());
+                tv_addRess.setText("Địa chỉ:" + user.getAddress());
+                tv_role.setText("Chức vụ:" + user.getRole());
 
                 btn_delete_user_detail.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -124,6 +123,8 @@ public class FragmentUserDetail extends Fragment {
 
     }
 
+    EditText edtFullName, edtAddress, edtDayOfBrith, edtPhoneNumber;
+
     public void showDialogUpdateUser(User user) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -133,46 +134,32 @@ public class FragmentUserDetail extends Fragment {
 
         AlertDialog alertDialog = builder.create();
 
-        EditText edtFullName = view.findViewById(R.id.edt_NameUser_update_dialog);
-        EditText edtAddress = view.findViewById(R.id.edt_AddRess_update_dialog);
-        EditText edtDayOfBrith = view.findViewById(R.id.edt_dayOfBirth_update_dialog);
+        edtFullName = view.findViewById(R.id.edt_NameUser_update_dialog);
+        edtAddress = view.findViewById(R.id.edt_AddRess_update_dialog);
+        edtDayOfBrith = view.findViewById(R.id.edt_dayOfBirth_update_dialog);
 
-
-        spnRole = view.findViewById(R.id.spn_Role_update_dialog);
+        edtPhoneNumber = view.findViewById(R.id.edt_phone_update_dialog);
         Button edt_update = view.findViewById(R.id.btn_update_uer_dialog);
-        String arrRole[] = new String[]{"Quản Lý", "Nhân viên"};
+
 
         edtFullName.setText(user.getFullName());
         edtAddress.setText(user.getAddress());
         edtDayOfBrith.setText(user.getDateOfBirth());
-        setDefaulRole(arrRole, user.getRole());
-        SpinnerRole spinnerRole = new SpinnerRole(arrRole, getActivity());
-        spnRole.setAdapter(spinnerRole);
+        edtPhoneNumber.setText(user.getPhoneNumber());
 
-        spnRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                getRole = arrRole[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         edt_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = edtFullName.getText().toString().trim();
                 String Address = edtAddress.getText().toString().trim();
                 String dayOfBirth = edtDayOfBrith.getText().toString().trim();
-
-                if (userDAO.updateInForMation(user.getUserID(), name, dayOfBirth, Address, getRole)) {
-                    tv_fullName.setText("Họ và Tên:"+name);
-                    tv_addRess.setText("Địa chỉ:"+Address);
-                    tv_dayOfBirth.setText("Ngày sinh:"+dayOfBirth);
-                    tv_role.setText("Chức vụ:"+getRole);
+                String getPhoneNumber = edtPhoneNumber.getText().toString().trim();
+                if (userDAO.updateInForMation(user.getUserID(), name, dayOfBirth, Address, getPhoneNumber)) {
+                    tv_fullName.setText("Họ và Tên:" + name);
+                    tv_addRess.setText("Địa chỉ:" + Address);
+                    tv_dayOfBirth.setText("Ngày sinh:" + dayOfBirth);
+                    tv_role.setText("Số điện thoại:" + getPhoneNumber);
                 }
 
                 alertDialog.dismiss();
