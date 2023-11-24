@@ -15,7 +15,7 @@ import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 
 public class FragmentSettings extends Fragment {
-    ImageView imgGotoAddUser, imgGotoAddSale;
+    ImageView imgGotoAddUser, imgGotoAddSale , imgGotoCalendar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +29,7 @@ public class FragmentSettings extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         imgGotoAddUser = view.findViewById(R.id.arrow1_setting);
         imgGotoAddSale = view.findViewById(R.id.arrow3_setting);
+        imgGotoCalendar = view.findViewById(R.id.arrow4_setting);
         imgGotoAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +40,13 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onClick(View v) {
                 ((MainActivity)getActivity()).reloadFragment(new FragmentSales());
+            }
+        });
+        imgGotoCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentCalendar());
+
             }
         });
     }

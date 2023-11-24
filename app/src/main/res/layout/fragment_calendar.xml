@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.FragmentCalendar"
+    android:padding="8dp"
+    >
+
+
+    <TextView
+        android:id="@+id/tv_calenderWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lịch làm việc"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:background="#7BCD54"
+        android:layout_marginBottom="60dp"
+        />
+    <TextView
+        android:id="@+id/tv_dayNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày hiện tại:"
+        android:layout_below="@+id/tv_calenderWork"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"
+        />
+    <TextView
+        android:id="@+id/tv_dayNow_calender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2020/12/1"
+        android:layout_toRightOf="@+id/tv_dayNow"
+        android:layout_below="@+id/tv_calenderWork"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_calenderWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
+    <Spinner
+        android:id="@+id/spn_shifWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dayNow"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_CalendarWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spn_shifWork"
+        android:text="Thêm lịch làm việc"
+        android:background="@drawable/custom_button_login"
+        />
+    <ImageView
+        android:id="@+id/img_calendar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_calendar"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tv_calenderWork"
+        android:layout_above="@+id/spn_shifWork"
+
+        />
+
+
+
+</RelativeLayout>

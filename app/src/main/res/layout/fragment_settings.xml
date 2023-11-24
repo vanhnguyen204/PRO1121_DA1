@@ -166,6 +166,34 @@
                     android:layout_below="@+id/arrow2_setting"
                     android:layout_marginTop="25dp"
                     />
+                <ImageView
+                    android:id="@+id/img_calendar_sting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/img_sale_setting"
+                    android:src="@mipmap/ic_calendar"
+                    android:layout_marginTop="10dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_calendar_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_sale_setting"
+                    android:layout_toRightOf="@+id/img_calendar_sting"
+                    android:text="Lịch làm việc"
+                    android:layout_marginTop="15dp"
+                    android:textSize="16dp"
+                    android:layout_marginStart="10dp"
+                    />
+                <ImageView
+                    android:id="@+id/arrow4_setting"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/arrow3_setting"
+                    android:layout_marginTop="25dp"
+                    />
             </RelativeLayout>
 
 

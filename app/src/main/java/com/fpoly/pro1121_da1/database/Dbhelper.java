@@ -15,9 +15,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     String createCalendarWork
             = "CREATE TABLE Calendar(calendar_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "date_work DATE NOT NULL," +
-            " shift_work TEXT NOT NULL, " +
-            "time_start TEXT NOT NULL, " +
-            "time_end TEXT NOT NULL)";
+            "shift_work TEXT NOT NULL)";
     String createCustomer
             = "CREATE TABLE Customer(customer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "full_name TEXT," +
