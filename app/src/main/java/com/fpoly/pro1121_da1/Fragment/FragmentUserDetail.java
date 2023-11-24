@@ -152,6 +152,7 @@ public class FragmentUserDetail extends Fragment {
         spnRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 getRole = arrRole[position];
             }
 
@@ -167,11 +168,11 @@ public class FragmentUserDetail extends Fragment {
                 String Address = edtAddress.getText().toString().trim();
                 String dayOfBirth = edtDayOfBrith.getText().toString().trim();
 
-                if (userDAO.updateInForMation(user.getUserID(), name, dayOfBirth, Address, String.valueOf(spnRole))) {
-                    tv_fullName.setText(name);
-                    tv_addRess.setText(Address);
-                    tv_dayOfBirth.setText(dayOfBirth);
-                    tv_role.setText(getRole);
+                if (userDAO.updateInForMation(user.getUserID(), name, dayOfBirth, Address, getRole)) {
+                    tv_fullName.setText("Họ và Tên:"+name);
+                    tv_addRess.setText("Địa chỉ:"+Address);
+                    tv_dayOfBirth.setText("Ngày sinh:"+dayOfBirth);
+                    tv_role.setText("Chức vụ:"+getRole);
                 }
 
                 alertDialog.dismiss();

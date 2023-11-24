@@ -42,6 +42,7 @@ public class FragmentIngredientDetail extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         imgBack = view.findViewById(R.id.img_back_fragmentIngredient_Detail);
         img = view.findViewById(R.id.img_ingredient_fragmentIngredient_Detail);
         tvID = view.findViewById(R.id.tv_ingredientID_fragmentIngredient_detail);

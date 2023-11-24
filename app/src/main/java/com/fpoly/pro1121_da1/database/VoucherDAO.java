@@ -30,8 +30,10 @@ public class VoucherDAO {
 
         long result = sql.insert("Voucher", null, value);
         if (result > 0) {
+            Toast.makeText(context, "Thêm voucher thành công", Toast.LENGTH_SHORT).show();
             return true;
         } else {
+            Toast.makeText(context, "Thêm voucher không thành công", Toast.LENGTH_SHORT).show();
             return false;
         }
 

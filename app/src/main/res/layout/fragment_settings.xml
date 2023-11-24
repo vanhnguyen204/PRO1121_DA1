@@ -71,7 +71,7 @@
             android:gravity="start"
             android:textStyle="bold"
             android:paddingStart="20dp"
-            android:text="Quản lý tài khoản"
+            android:text="Quản lý"
             android:textSize="20sp" />
 
             <RelativeLayout
@@ -99,11 +99,11 @@
 
                 <ImageView
                     android:id="@+id/arrow2_setting"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="18dp"
+                    android:layout_height="15dp"
                     android:layout_below="@+id/arrow1_setting"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:src="@mipmap/arrow_right" />
 
                 <TextView
@@ -138,6 +138,34 @@
                     android:layout_toRightOf="@+id/img_key_setting"
                     android:text="Đổi mật khẩu"
                     android:textSize="16dp" />
+                <ImageView
+                    android:id="@+id/img_sale_setting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/img_key_setting"
+                    android:src="@mipmap/sale_tag"
+                    android:layout_marginTop="10dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_sale_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_changepass_setting"
+                    android:layout_toRightOf="@+id/img_sale_setting"
+                    android:text="Phiếu giảm giá"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16dp"
+                    android:layout_marginStart="10dp"
+                    />
+                <ImageView
+                    android:id="@+id/arrow3_setting"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/arrow2_setting"
+                    android:layout_marginTop="25dp"
+                    />
             </RelativeLayout>
 
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="8dp"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm phiếu giảm giá"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        />
+    <EditText
+        android:id="@+id/edt_id_voucher_dialogAddVoucher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã giảm giá"
+        />
+
+    <EditText
+        android:id="@+id/edt_price_reduce_dialogAddVoucher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số phần trăm muốn giảm"
+        />
+    <EditText
+        android:id="@+id/edt_date_expiry_dialogAddVoucher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ngày hết hạn"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_voucher_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thêm"
+        android:background="@drawable/custom_button_login"
+        />
+
+
+</LinearLayout>
