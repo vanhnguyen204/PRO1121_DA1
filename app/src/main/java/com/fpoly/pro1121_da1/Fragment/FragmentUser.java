@@ -45,6 +45,11 @@ public class FragmentUser extends Fragment {
         rcv = view.findViewById(R.id.rcv_user);
 
         list = userDAO.getAllUser();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getRole().equalsIgnoreCase("admin")){
+                list.remove(i);
+            }
+        }
         userAdapter = new UserAdapter(getActivity(), list);
         rcv.setAdapter(userAdapter);
 

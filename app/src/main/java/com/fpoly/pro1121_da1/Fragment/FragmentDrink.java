@@ -27,6 +27,7 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.model.Drink;
+import com.fpoly.pro1121_da1.model.User;
 import com.fpoly.pro1121_da1.spinner.SpinnerTypeOfDrink;
 
 import java.util.ArrayList;
@@ -62,6 +63,12 @@ public class FragmentDrink extends Fragment {
         adapter = new DrinkAdapter(list, getActivity());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
+        User user = ((MainActivity)getActivity()).user;
+        if (!user.getRole().equalsIgnoreCase("admin")){
+            btnAddDrink.setVisibility(View.INVISIBLE);
+        }else {
+            btnAddDrink.setVisibility(View.VISIBLE);
+        }
 
         btnAddDrink.setOnClickListener(new View.OnClickListener() {
             @Override

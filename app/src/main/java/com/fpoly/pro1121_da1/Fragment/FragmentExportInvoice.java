@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +21,11 @@ import android.view.ViewGroup;
 
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.database.CustomerDAO;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.InvoiceDAO;
+import com.fpoly.pro1121_da1.model.Customer;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Invoice;
 import com.fpoly.pro1121_da1.model.User;
@@ -120,6 +123,13 @@ String getDrinkID;
 
             }
         });
+        imgAddCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int getCustomerID = new Random().nextInt(10000);
+                showAlertCreateNewCustomer(getCustomerID);
+            }
+        });
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +139,42 @@ String getDrinkID;
                 }
             }
         });
+    }
+    EditText edtNameCustomer, edtPhoneNumber;
+    Button btnConfirmAddUser;
+    public void showAlertCreateNewCustomer(int customerID){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.Style_AlertDialog_Corner);
+        LayoutInflater inflater =getLayoutInflater();
+        View view = inflater.inflate(R.layout.alertdialog_addcustomer, null);
+        builder.setView(view);
+        AlertDialog alert = builder.create();
+        alert.show();
+        CustomerDAO customerDAO =new CustomerDAO(getContext(), new Dbhelper(getContext()));
+        edtNameCustomer = view.findViewById(R.id.edtNameCustomer);
+        edtPhoneNumber = view.findViewById(R.id.edtPhoneNumberCustomer);
+        btnConfirmAddUser = view.findViewById(R.id.btnConfirmAddCustomer);
+
+        btnConfirmAddUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String getName = edtNameCustomer.getText().toString().trim();
+                String getPhone = edtPhoneNumber.getText().toString().trim();
+                if (getName.length()==0){
+                    Toast.makeText(getContext(), "Không được để trống tên ", Toast.LENGTH_SHORT).show();
+                } else if (getPhone.length() == 0) {
+                    Toast.makeText(getContext(), "Không được để trống phone ", Toast.LENGTH_SHORT).show();
+                }else {
+                    if (customerDAO.insertCustomer(new Customer(customerID, getName, getPhone), "Thêm khách hàng oke", "Chưa thêm được rùi")){
+                        alert.dismiss();
+                        imgAddCustomer.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
+
+
+
     }
 
 }

@@ -21,6 +21,7 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.User;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class FragmentIngredient extends Fragment {
     IngredientAdapter adapter;
     IngredientDAO ingredientDAO;
     ArrayList<Ingredient> list;
-ImageView imgBack;
+    ImageView imgBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,19 +52,25 @@ ImageView imgBack;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         btnAdd = view.findViewById(R.id.btn_add_ingredient);
-        ((MainActivity)getActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
+        User user = ((MainActivity)getActivity()).user;
+        if (!user.getRole().equalsIgnoreCase("admin")){
+            btnAdd.setVisibility(View.INVISIBLE);
+        }else {
+            btnAdd.setVisibility(View.VISIBLE);
+        }
+        ((MainActivity) getActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentHome());
-                ((MainActivity)getActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+                ((MainActivity) getActivity()).reloadFragment(new FragmentHome());
+                ((MainActivity) getActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
             }
         });
-btnAdd.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        ((MainActivity)getActivity()).reloadFragment(new FragmentAddIngredient());
-    }
-});
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).reloadFragment(new FragmentAddIngredient());
+            }
+        });
     }
 }

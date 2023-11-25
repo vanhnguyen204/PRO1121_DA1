@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("KEY_USER_NAME", user);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, "Đăng nhập thành công !", Toast.LENGTH_SHORT).show();
+                    edtUser.setText("");
+                    edtPassWord.setText("");
                 }
 
             }
