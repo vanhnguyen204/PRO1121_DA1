@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,9 @@ public class FragmentAddIngredient extends Fragment {
                 R.mipmap.orange,
                 R.mipmap.lemons
         };
-
+        for (int i = 0; i < arrImage.length; i++) {
+            Log.d(String.valueOf(arrImage[i]), "OK");
+        }
         spinnerImageIngredient = new SpinnerImageIngredient(arrImage, getActivity());
         spinner.setAdapter(spinnerImageIngredient);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

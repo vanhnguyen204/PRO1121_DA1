@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +50,7 @@ public class FragmentUpdateDrink extends Fragment {
     Spinner spinnerImageDrink;
     String getIngredientID = "";
     int getImageDrink;
+    ImageView imgback;
 
     public void setAdapterRecyclerView(ArrayList<Ingredient> list) {
 
@@ -67,6 +70,7 @@ public class FragmentUpdateDrink extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         drinkDAO = new DrinkDAO(getActivity(), new Dbhelper(getActivity()));
+        imgback = view.findViewById(R.id.img_back_fragmentUpdateDrink);
         spinnerImageDrink = view.findViewById(R.id.spinner_image_drink_fragmentUpdateDrink);
         spinner = view.findViewById(R.id.spinner_typeOfDrink_updateDrink);
         edtNameDrink = view.findViewById(R.id.edt_nameDrink_updateDrink);
@@ -90,6 +94,7 @@ public class FragmentUpdateDrink extends Fragment {
                 R.mipmap.soju,
                 R.mipmap.beer
         };
+
         SpinnerImageDrink spinnerDrinkImage = new SpinnerImageDrink(arrImageDrink, getActivity());
 
         spinnerImageDrink.setAdapter(spinnerDrinkImage);
@@ -143,6 +148,7 @@ public class FragmentUpdateDrink extends Fragment {
             }
         });
 
+
         getParentFragmentManager().setFragmentResultListener("KEY_UPDATE_DRINK", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
@@ -154,6 +160,18 @@ public class FragmentUpdateDrink extends Fragment {
                 edtVoucher.setText(String.valueOf(drinkUpdate.getVoucherID()));
                 edtDateAdd.setText(drinkUpdate.getDateAdd());
                 edtDateExpiry.setText(drinkUpdate.getDateExpiry());
+                setDefaultImageSpinner(arrImageDrink, drinkUpdate.getImage());
+                imgback.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("DRINK_ID",getDrinkID );
+                        FragmentDrinkDetail detail = new FragmentDrinkDetail();
+                        detail.setArguments(bundle);
+                        getFragmentManager().beginTransaction().replace(R.id.container_layout, detail).commit();
+
+                    }
+                });
                 btnConfirmUpdateDrink.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -182,7 +200,7 @@ public class FragmentUpdateDrink extends Fragment {
 
                         if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
                             try {
-                                if (drinkDAO.updateDrink(new Drink(
+                                Drink drink = new Drink(
                                         drinkUpdate.getDrinkID(),
                                         s.toString(),
                                         Integer.parseInt(getVoucher),
@@ -192,8 +210,9 @@ public class FragmentUpdateDrink extends Fragment {
                                         getDateAdd,
                                         Integer.parseInt(getPrice),
                                         Integer.parseInt(getQuantity),
-                                        getImageDrink))) {
-                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrinkDetail());
+                                        getImageDrink);
+                                if (drinkDAO.updateDrink(drink)) {
+                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
                                 }
                             } catch (Exception e) {
                                 Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
@@ -201,7 +220,7 @@ public class FragmentUpdateDrink extends Fragment {
 
                         } else {
                             try {
-                                if (drinkDAO.updateDrink(new Drink(
+                                Drink drink = new Drink(
                                         drinkUpdate.getDrinkID(),
                                         " ",
                                         Integer.parseInt(getVoucher),
@@ -211,8 +230,14 @@ public class FragmentUpdateDrink extends Fragment {
                                         getDateAdd,
                                         Integer.parseInt(getPrice),
                                         Integer.parseInt(getQuantity),
-                                        getImageDrink))) {
-                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrinkDetail());
+                                        getImageDrink);
+
+                                if (drinkDAO.updateDrink(drink)) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("KEY_UPDATE_DRINK", drink.getDrinkID());
+                                    FragmentManager fragmentManager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                                    fragmentManager.setFragmentResult("KEY_UPDATE", bundle);
+                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
                                 }
                             } catch (Exception e) {
 
@@ -270,5 +295,13 @@ public class FragmentUpdateDrink extends Fragment {
                 setAdapterRecyclerView(listAddRecyclerView);
             }
         });
+    }
+
+    public void setDefaultImageSpinner(int arrImage[], int img) {
+        for (int i = 0; i < arrImage.length; i++) {
+            if (arrImage[i] == img) {
+                spinnerImageDrink.setSelection(i);
+            }
+        }
     }
 }

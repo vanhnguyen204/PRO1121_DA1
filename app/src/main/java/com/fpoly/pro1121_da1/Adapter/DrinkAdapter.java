@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpoly.pro1121_da1.Fragment.FragmentDrinkDetail;
+import com.fpoly.pro1121_da1.Interface.SenDataClick;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
@@ -33,6 +34,10 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
     ArrayList<Drink> list;
     IngredientDAO ingredientDAO;
     Activity atv;
+    public SenDataClick senDataClick;
+    public void sentData(SenDataClick senDataClick){
+        this.senDataClick = senDataClick;
+    }
 
     public DrinkAdapter(ArrayList<Drink> list, Activity atv) {
         this.list = list;
@@ -50,30 +55,21 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
     public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
         ingredientDAO = new IngredientDAO(atv, new Dbhelper(atv));
         drinkDAO = new DrinkDAO(atv, new Dbhelper(atv));
-        Drink drink = list.get(position);
+        Drink drink = list.get(holder.getAdapterPosition());
+
         holder.tvNameDrink.setText(drink.getName());
-        holder.imgDrink.setImageResource(R.mipmap.drink);
+
         holder.tvDetail.setTextColor(Color.RED);
         holder.tvPrice.setText(String.valueOf(drink.getPrice()));
-holder.imgDrink.setImageResource(drink.getImage());
+        holder.imgDrink.setImageResource(drink.getImage());
+
         holder.tvDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("KEY_DRINKID", list.get(position).getDrinkID()); // Put anything what you want
-                FragmentManager manager = ((AppCompatActivity)atv).getSupportFragmentManager();
-                manager.setFragmentResult("key", bundle);
+               senDataClick.sendData(drink);
+            }
+        });
 
-                ((MainActivity)atv).reloadFragment(new FragmentDrinkDetail());
-            }
-        });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int img = R.mipmap.drink;
-                Toast.makeText(atv, ""+img, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

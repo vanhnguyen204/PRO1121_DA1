@@ -76,8 +76,9 @@ public class FragmentAddDrink extends Fragment {
         edtPriceDrink = view1.findViewById(R.id.edt_priceDrink_addDrink);
         edtQuantityDrink = view1.findViewById(R.id.edt_quantity_addDrink);
         edtVoucher = view1.findViewById(R.id.edt_voucherDrink_addDrink);
-        edtDateAdd = view1.findViewById(R.id.edt_dateAdd_addDrink);
+
         edtDateExpiry = view1.findViewById(R.id.edt_dateExpiry_addDrink);
+
         imgShowIngredient = view1.findViewById(R.id.img_addIngredient_fragmentAddDrink);
         recyclerView = view1.findViewById(R.id.recyclerView_ingredient_fragmentAddDrink);
         int[] arrImageDrink = new int[]{
@@ -121,14 +122,12 @@ public class FragmentAddDrink extends Fragment {
                 getTypeOfDrink = type[i];
 
                 if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-                    edtDateAdd.setEnabled(false);
-                    edtDateAdd.setHint("Bỏ qua");
+
                     edtDateExpiry.setEnabled(false);
                     edtDateExpiry.setHint("Bỏ qua");
 
                 } else {
-                    edtDateAdd.setEnabled(true);
-                    edtDateAdd.setHint("Ngày nhập");
+
                     edtDateExpiry.setEnabled(true);
                     edtDateExpiry.setHint("Ngày hết hạn");
 

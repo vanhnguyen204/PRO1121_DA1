@@ -5,12 +5,18 @@
     android:orientation="vertical"
 
     android:padding="10dp">
-
+<ImageView
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:src="@mipmap/arrow_left"
+    android:id="@+id/img_back_fragmentUpdateDrink"
+    />
     <TextView
         android:id="@+id/title_addDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_below="@+id/img_back_fragmentUpdateDrink"
         android:text="Chỉnh sửa đồ uống"
         android:textSize="30sp" />
     <Spinner

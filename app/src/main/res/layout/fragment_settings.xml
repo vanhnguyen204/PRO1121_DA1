@@ -194,6 +194,35 @@
                     android:layout_below="@+id/arrow3_setting"
                     android:layout_marginTop="25dp"
                     />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/logout_2"
+                    android:layout_marginTop="25dp"
+                    android:id="@+id/img_logout_setting"
+                    android:layout_below="@+id/img_calendar_sting"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đăng xuất"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="35dp"
+                    android:textSize="16dp"
+                    android:layout_toEndOf="@+id/img_logout_setting"
+                    android:layout_below="@+id/tv_calendar_setting"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/arrow5_setting"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/arrow4_setting"
+                    android:layout_marginTop="25dp"
+                    />
             </RelativeLayout>
 
 

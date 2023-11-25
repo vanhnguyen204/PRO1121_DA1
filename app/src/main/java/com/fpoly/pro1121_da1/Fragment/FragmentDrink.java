@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.DrinkAdapter;
+import com.fpoly.pro1121_da1.Interface.SenDataClick;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
@@ -96,6 +97,16 @@ public class FragmentDrink extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+        adapter.sentData(new SenDataClick() {
+            @Override
+            public void sendData(Drink drink) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("DRINK_ID", drink.getDrinkID());
+                FragmentDrinkDetail detail = new FragmentDrinkDetail();
+                detail.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.container_layout, detail).commit();
             }
         });
     }

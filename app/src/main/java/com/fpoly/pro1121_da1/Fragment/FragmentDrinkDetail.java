@@ -49,15 +49,29 @@ public class FragmentDrinkDetail extends Fragment {
     IngredientDAO ingredientDAO;
     TextView tvDrinkID, tvIngredientID, tvVoucherID, tvNameDrink, tvTypeOfDrink, tvDateAdd, tvDateExpiry, tvPrice, tvQuantity;
     Button btnDelete, btnUpdate;
+    int receiveDrinkID;
 
     public void findID(View view) {
 
     }
+
+    int getID;
+
+    public Integer geIdDrinkUD(int getID) {
+
+        return  this.getID = getID;
+    }
+
     Animation animation;
     RelativeLayout layout;
+    Drink drinkSaveInstance;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         return inflater.inflate(R.layout.fragment_drink_detail, container, false);
     }
@@ -87,51 +101,58 @@ public class FragmentDrinkDetail extends Fragment {
             btnUpdate.setVisibility(View.INVISIBLE);
         }
         ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
-        getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                getDrinkID = result.getInt("KEY_DRINKID");
-                Toast.makeText(getContext(), "" + getDrinkID, Toast.LENGTH_SHORT).show();
-                drink = drinkDAO.getDrinkByID(String.valueOf(getDrinkID));
-                tvDrinkID.setText("Mã đồ uống: " + drink.getDrinkID());
-imgDrink.setImageResource(drink.getImage());
-                tvVoucherID.setText("Mã giảm giá:" + drink.getVoucherID());
-                tvNameDrink.setText("Tên đồ uống: " + drink.getName());
-                tvTypeOfDrink.setText("Loại đồ uống: " + drink.getTypeOfDrink());
-                tvDateAdd.setText("Ngày thêm: " + drink.getDateAdd());
-                tvDateExpiry.setText("Ngày hết hạn: " + drink.getDateExpiry());
-                tvPrice.setText("Giá: " + drink.getPrice());
-                tvQuantity.setText("Số lượng: " + drink.getQuantity());
 
-                StringBuilder stringBuilder = new StringBuilder();
-                if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
-                    ArrayList<Ingredient> ingredients = checkIngredientID(drink.getIngredientID());
-                    for (int i = 0; i < ingredients.size(); i++) {
-                        stringBuilder.append(ingredients.get(i).getName());
-                    }
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            receiveDrinkID = bundle.getInt("DRINK_ID");
 
-                    tvIngredientID.setText("Nguyên liệu: " + stringBuilder.toString());
-                } else {
-                    tvIngredientID.setText("Nguyên liệu: không có");
+            drink = drinkDAO.getDrinkByID(String.valueOf(receiveDrinkID));
+            tvDrinkID.setText("Mã đồ uống: " + drink.getDrinkID());
+            imgDrink.setImageResource(drink.getImage());
+            tvVoucherID.setText("Mã giảm giá:" + drink.getVoucherID());
+            tvNameDrink.setText("Tên đồ uống: " + drink.getName());
+            tvTypeOfDrink.setText("Loại đồ uống: " + drink.getTypeOfDrink());
+            tvDateAdd.setText("Ngày thêm: " + drink.getDateAdd());
+            tvDateExpiry.setText("Ngày hết hạn: " + drink.getDateExpiry());
+            tvPrice.setText("Giá: " + drink.getPrice());
+            tvQuantity.setText("Số lượng: " + drink.getQuantity());
+
+            geIdDrinkUD(drink.getDrinkID());
+
+            StringBuilder stringBuilder = new StringBuilder();
+            if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+                ArrayList<Ingredient> ingredients = checkIngredientID(drink.getIngredientID());
+                for (int i = 0; i < ingredients.size(); i++) {
+                    stringBuilder.append(ingredients.get(i).getName());
                 }
 
-
+                tvIngredientID.setText("Nguyên liệu: " + stringBuilder.toString());
+            } else {
+                tvIngredientID.setText("Nguyên liệu: không có");
             }
-        });
+
+        }
+
+
+
+
+
+
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Bundle bundle = new Bundle();
-               bundle.putInt("KEY_DRINK_ID",drink.getDrinkID());
-                FragmentManager manager = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+                Bundle bundle = new Bundle();
+                bundle.putInt("KEY_DRINK_ID", drink.getDrinkID());
+                FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
                 manager.setFragmentResult("KEY_UPDATE_DRINK", bundle);
 
-                ((MainActivity)getActivity()).reloadFragment(new FragmentUpdateDrink());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentUpdateDrink());
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
             }
         });
@@ -170,6 +191,15 @@ imgDrink.setImageResource(drink.getImage());
 
         }
         return ingredientArrayList;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("KEY_SAVE_STATE",receiveDrinkID );
+        Toast.makeText(getContext(), "Saving: "+receiveDrinkID, Toast.LENGTH_SHORT).show();
+
     }
 
 }

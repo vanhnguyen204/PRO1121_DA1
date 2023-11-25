@@ -53,18 +53,13 @@
         android:layout_below="@+id/edt_quantity_addDrink"
         android:hint="Voucher(nếu có)" />
 
-    <EditText
-        android:id="@+id/edt_dateAdd_addDrink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_voucherDrink_addDrink"
-        android:hint="Ngay nhap" />
+
 
     <EditText
         android:id="@+id/edt_dateExpiry_addDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_dateAdd_addDrink"
+        android:layout_below="@+id/edt_voucherDrink_addDrink"
         android:hint="Ngay het han" />
 
     <TextView

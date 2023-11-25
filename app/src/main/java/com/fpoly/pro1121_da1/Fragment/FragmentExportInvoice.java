@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Invoice;
@@ -25,7 +26,7 @@ public class FragmentExportInvoice extends Fragment {
 
     ArrayList<Drink> list;
     TextView tvInvoiceID, tvNameStaff, tvNameDrink, tvTableID, tvTotalBill, tvDateCreate;
-    ImageView imgAddCustomer;
+    ImageView imgAddCustomer, imgBack;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,7 +44,13 @@ public class FragmentExportInvoice extends Fragment {
             tvTotalBill = view.findViewById(R.id.tv_totalBill_fragmentExport);
             tvDateCreate = view.findViewById(R.id.tv_dateCreate_fragmentExport);
             imgAddCustomer = view.findViewById(R.id.img_addCustomer_fragmentExport);
-                      
+        imgBack = view.findViewById(R.id.img_back_fragmentExport);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentTable());
+            }
+        });
         getParentFragmentManager().setFragmentResultListener("KEY_ARR", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
@@ -53,6 +60,6 @@ public class FragmentExportInvoice extends Fragment {
                 Toast.makeText(getContext(), ""+getTableID, Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
 }

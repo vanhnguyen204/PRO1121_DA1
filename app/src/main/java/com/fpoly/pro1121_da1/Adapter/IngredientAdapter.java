@@ -59,6 +59,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             }
         });
         holder.imgIngredient.setImageResource(ingredient.getImage());
+
     }
 
     @Override
