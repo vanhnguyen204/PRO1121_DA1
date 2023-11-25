@@ -55,7 +55,9 @@
         android:layout_toRightOf="@+id/layout_left_ingredientDetail"
         android:background="@drawable/shadow_layout_2"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+
+        >
 
         <TextView
             android:id="@+id/tv_ingredientID_fragmentIngredient_detail"

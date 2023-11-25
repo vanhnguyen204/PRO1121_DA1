@@ -28,6 +28,9 @@
     <EditText
         android:id="@+id/edt_nameDrink_updateDrink"
         android:layout_width="match_parent"
+        android:background="@drawable/border_edt"
+        android:padding="15dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinner_image_drink_fragmentUpdateDrink"
         android:hint="Tên đồ uống" />
@@ -36,12 +39,17 @@
         android:id="@+id/edt_priceDrink_updateDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_edt"
+        android:padding="15dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/edt_nameDrink_updateDrink"
         android:hint="Giá" />
 
     <Spinner
         android:id="@+id/spinner_typeOfDrink_updateDrink"
         android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border_spinner"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edt_priceDrink_updateDrink" />
 
@@ -49,27 +57,40 @@
         android:id="@+id/edt_quantity_updateDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_edt"
+        android:padding="15dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/spinner_typeOfDrink_updateDrink"
         android:hint="Số lượng" />
 
-    <EditText
-        android:id="@+id/edt_voucherDrink_updateDrink"
+    <Spinner
+        android:id="@+id/spn_voucherDrink_updateDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_spinner"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/edt_quantity_updateDrink"
-        android:hint="Voucher(nếu có)" />
+        android:popupBackground="@drawable/border_spinner"
+        />
 
     <EditText
         android:id="@+id/edt_dateAdd_updateDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_voucherDrink_updateDrink"
+        android:background="@drawable/border_edt"
+        android:padding="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/spn_voucherDrink_updateDrink"
         android:hint="Ngay nhap" />
 
     <EditText
         android:id="@+id/edt_dateExpiry_updateDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_edt"
+        android:padding="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/edt_dateAdd_updateDrink"
         android:hint="Ngay het han" />
 

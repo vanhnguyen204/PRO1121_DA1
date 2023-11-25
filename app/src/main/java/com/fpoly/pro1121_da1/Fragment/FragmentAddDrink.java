@@ -1,6 +1,7 @@
 package com.fpoly.pro1121_da1.Fragment;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,11 +27,14 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
+import com.fpoly.pro1121_da1.database.VoucherDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.Voucher;
 import com.fpoly.pro1121_da1.spinner.SpinnerAddIngredientToDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerImageDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerTypeOfDrink;
+import com.fpoly.pro1121_da1.spinner.SpinnerVoucher;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,18 +43,19 @@ import java.util.Calendar;
 
 public class FragmentAddDrink extends Fragment {
 
-    EditText edtNameDrink, edtPriceDrink, edtQuantityDrink, edtVoucher, edtDateAdd, edtDateExpiry;
-    String getName, getPrice, getQuantity, getVoucher, getDateAdd, getDateExpiry, getTypeOfDrink = "Pha chế";
-    Spinner spinner;
+    EditText edtNameDrink, edtPriceDrink, edtQuantityDrink, edtDateAdd, edtDateExpiry;
+    String getName, getPrice, getQuantity, getDateAdd, getDateExpiry, getTypeOfDrink = "Pha chế";
+    Spinner spinner, spinnerVoucher;
     Button btnConfirmAddDrink;
     DrinkDAO drinkDAO;
-    ImageView imgShowIngredient;
-    StringBuilder s;
+    ImageView imgShowIngredient, imgBack;
+    StringBuilder s = new StringBuilder();
     RecyclerView recyclerView;
     IngredientAdapterAddDrink ingredientAdapterAddDrink;
     Spinner spinnerImageDrink;
     String getIngredientID = "";
     int getImageDrink;
+    int getVoucher;
 
 
     public void setAdapterRecyclerView(ArrayList<Ingredient> list) {
@@ -75,8 +80,8 @@ public class FragmentAddDrink extends Fragment {
         edtNameDrink = view1.findViewById(R.id.edt_nameDrink_addDrink);
         edtPriceDrink = view1.findViewById(R.id.edt_priceDrink_addDrink);
         edtQuantityDrink = view1.findViewById(R.id.edt_quantity_addDrink);
-        edtVoucher = view1.findViewById(R.id.edt_voucherDrink_addDrink);
-
+        spinnerVoucher = view1.findViewById(R.id.spinner_voucherDrink_addDrink);
+        imgBack = view1.findViewById(R.id.img_back_fragmentAddDrink);
         edtDateExpiry = view1.findViewById(R.id.edt_dateExpiry_addDrink);
 
         imgShowIngredient = view1.findViewById(R.id.img_addIngredient_fragmentAddDrink);
@@ -93,6 +98,12 @@ public class FragmentAddDrink extends Fragment {
                 R.mipmap.soju,
                 R.mipmap.beer
         };
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentDrink());
+            }
+        });
         SpinnerImageDrink spinnerDrinkImage = new SpinnerImageDrink(arrImageDrink, getActivity());
 
         spinnerImageDrink.setAdapter(spinnerDrinkImage);
@@ -109,6 +120,29 @@ public class FragmentAddDrink extends Fragment {
             }
         });
 
+        VoucherDAO voucherDAO = new VoucherDAO(getContext(), new Dbhelper(getContext()));
+
+        ArrayList<Voucher> listVoucher = voucherDAO.getAllVoucher();
+        listVoucher.add(0, new Voucher(1976, 100, "2099-12-12"));
+        SpinnerVoucher spnVoucher = new SpinnerVoucher(listVoucher, getActivity());
+        spinnerVoucher.setAdapter(spnVoucher);
+
+        spinnerVoucher.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i != 0) {
+                    getVoucher = listVoucher.get(i).getVoucherID();
+                } else {
+                    getVoucher = 0;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btnConfirmAddDrink = view1.findViewById(R.id.btnConfirm_addDrink);
         spinner = view1.findViewById(R.id.spinner_typeOfDrink_addDrink);
@@ -125,11 +159,14 @@ public class FragmentAddDrink extends Fragment {
 
                     edtDateExpiry.setEnabled(false);
                     edtDateExpiry.setHint("Bỏ qua");
-
+                    edtQuantityDrink.setEnabled(false);
+                    edtQuantityDrink.setHint("Bỏ qua");
                 } else {
 
                     edtDateExpiry.setEnabled(true);
                     edtDateExpiry.setHint("Ngày hết hạn");
+                    edtQuantityDrink.setEnabled(true);
+                    edtQuantityDrink.setHint("Nhập số lượng");
 
                 }
             }
@@ -156,40 +193,35 @@ public class FragmentAddDrink extends Fragment {
                 getName = edtNameDrink.getText().toString().trim();
                 getPrice = edtPriceDrink.getText().toString().trim();
                 getQuantity = edtQuantityDrink.getText().toString().trim();
-                getVoucher = edtVoucher.getText().toString().trim();
+
                 getDateAdd = dateFormat.format(cal.getTime());
                 getDateExpiry = edtDateExpiry.getText().toString().trim();
-
-                if (getName.length() == 0) {
-
-                } else if (getPrice.length() == 0) {
-
-                } else if (getQuantity.length() == 0) {
-
-                } else if (getVoucher.length() == 0) {
-
-                } else if (getDateAdd.length() == 0) {
-
-                } else if (getDateExpiry.length() == 0) {
-
+                if (getVoucher == 0) {
+                    Toast.makeText(getContext(), "Vui lòng chọn phiếu giảm giá !", Toast.LENGTH_SHORT).show();
                 } else {
 
-                }
+                    if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
+                        if (s.toString().equalsIgnoreCase("")) {
+                            Toast.makeText(getContext(), "Vui lòng chọn nguyên liệu cho đồ uống pha chế !", Toast.LENGTH_SHORT).show();
+                        }else{
+                            try {
 
-                if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-                    try {
-                        if (drinkDAO.insertDrink(new Drink(s.toString(), Integer.parseInt(getVoucher), getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink))) {
+                                if (drinkDAO.insertDrink(new Drink(s.toString(), getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), 0, getImageDrink))) {
+                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                                }
+                            } catch (Exception e) {
+                                Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+
+                    } else {
+                        if (drinkDAO.insertDrink(new Drink(" ", getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink))) {
                             ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
                         }
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    if (drinkDAO.insertDrink(new Drink(" ", Integer.parseInt(getVoucher), getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink))) {
-                        ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
                     }
                 }
+
 
             }
         });
@@ -213,10 +245,11 @@ public class FragmentAddDrink extends Fragment {
         ingredientDAO = new IngredientDAO(getActivity(), new Dbhelper(getActivity()));
         listIngredient = ingredientDAO.getAllIngredient();
 
-
+        listIngredient.add(0, new Ingredient());
         spinnerAddIngredientToDrink = new SpinnerAddIngredientToDrink(listIngredient, getActivity());
         spinnerIngredient.setAdapter(spinnerAddIngredientToDrink);
         spinnerIngredient.setSelection(0, false);
+
         spinnerIngredient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -241,4 +274,5 @@ public class FragmentAddDrink extends Fragment {
             }
         });
     }
+
 }

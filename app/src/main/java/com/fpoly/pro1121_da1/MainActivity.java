@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         chipNavigationBar = findViewById(R.id.buttonNavigation);
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("KEY_USER_NAME");
-        Toast.makeText(this, ""+user.getRole(), Toast.LENGTH_SHORT).show();
+
         chipNavigationBar.setItemSelected(R.id.home, true);
 
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {

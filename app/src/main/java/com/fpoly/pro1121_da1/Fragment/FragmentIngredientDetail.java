@@ -85,10 +85,10 @@ public class FragmentIngredientDetail extends Fragment {
                 tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity()));
 
                 UserDAO userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
-                User user = ((MainActivity)getActivity()).user;
+                User user = ((MainActivity) getActivity()).user;
 
 
-                if (!user.getRole().equals("admin")){
+                if (!user.getRole().equals("admin")) {
                     btnDelete.setVisibility(View.INVISIBLE);
                     btnUpdate.setVisibility(View.INVISIBLE);
                 }
@@ -141,7 +141,7 @@ public class FragmentIngredientDetail extends Fragment {
         edtQuantity = view1.findViewById(R.id.edt_quantity_fragmentIngredient_update);
         btnConfirmUpdate = view1.findViewById(R.id.btn_confirmUpdate_fragmentIngredient_update);
         spinner = view1.findViewById(R.id.spinner_image_fragmentIngredientDetail_update);
-
+        btnConfirmUpdate.setText("Xác nhận");
         edtName.setText(ingredient1.getName());
         edtDateExpiry.setText(ingredient1.getDateExpiry());
         edtPrice.setText(String.valueOf(ingredient1.getPrice()));
@@ -199,7 +199,7 @@ public class FragmentIngredientDetail extends Fragment {
                         tvName.setText(String.format("Tên: %s", getName));
 
                         tvDateExpiry.setText(String.format("Ngày hết hạn: %s", getDateExpiry));
-                        tvPrice.setText("Giá: "+getPrice);
+                        tvPrice.setText("Giá: " + getPrice);
                         tvQuantity.setText(String.format("Số lượng: %s", getQuantity));
 
                         alertDialog.dismiss();
@@ -213,7 +213,7 @@ public class FragmentIngredientDetail extends Fragment {
     public void setSpinnerSelectDefaultImage(int[] listImage, int img) {
         for (int i = 0; i < listImage.length; i++) {
             if (listImage[i] == img) {
-               spinner.setSelection(i);
+                spinner.setSelection(i);
             }
         }
     }

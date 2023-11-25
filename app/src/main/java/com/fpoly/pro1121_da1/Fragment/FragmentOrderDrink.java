@@ -31,25 +31,38 @@ import java.util.ArrayList;
 public class FragmentOrderDrink extends Fragment {
 
     RecyclerView recyclerView;
+    public static ArrayList<String> listDrinkID;
     DrinkOrderAdapter drinkOrderAdapter;
+    private Bundle bundle = null;
     ArrayList<Drink> list;
     DrinkDAO drinkDAO;
     ArrayList<Drink> listDrinkOrder;
     Button btnConfirmOrder;
     ImageView imgBack;
     Drink drinkClone = null;
+    String getTableID;
+    String saveTableID;
+    public static ArrayList<String> listDrinkID_checkbox;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_order_drink, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         recyclerView = view.findViewById(R.id.recyclerView_orderDrink);
         imgBack = view.findViewById(R.id.img_back_fragmentOrderDrink);
         drinkDAO = new DrinkDAO(getActivity(), new Dbhelper(getActivity()));
@@ -59,12 +72,41 @@ public class FragmentOrderDrink extends Fragment {
         recyclerView.setAdapter(drinkOrderAdapter);
         btnConfirmOrder = view.findViewById(R.id.btnConfirmSelectOrder);
         listDrinkOrder = new ArrayList<>();
+        listDrinkID_checkbox = new ArrayList<>();
+
+        listDrinkID = new ArrayList<>();
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null) {
+            getTableID = bundle.getString("KEY_TABLE_ID");
+            listDrinkID_checkbox = (ArrayList<String>) bundle.getSerializable("KEY_CHECKBOX");
+            saveTableID = bundle.getString("KEY_SAVE_TABLE_ID");
+            if (saveTableID != null){
+                getTableID = saveTableID;
+            }
+            if (listDrinkID_checkbox != null) {
+
+                listDrinkID = listDrinkID_checkbox;
+
+                Toast.makeText(getContext(), "" + listDrinkID.size(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+        Toast.makeText(getContext(), "" + listDrinkID.size(), Toast.LENGTH_SHORT).show();
+
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
-            public void onClick(Drink drink) {
-                listDrinkOrder.add(drink);
+            public void onClick(Drink drink, int position) {
 
-                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                listDrinkID.add(String.valueOf(drink.getDrinkID()));
+                Toast.makeText(getContext(), "Clicked---" + listDrinkID.size() + " " + drink.getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void setDeleteDrink(Drink drink, int position) {
+                listDrinkID.remove(position);
+                Toast.makeText(getContext(), ""+listDrinkID.size(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -72,19 +114,18 @@ public class FragmentOrderDrink extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("KEY_ARRAY_DRINK", listDrinkOrder); // Put anything what you want
+                bundle.putString("KEY_TABLE_ID_EXPORT", getTableID);
+                bundle.putSerializable("KEY_ARRAY_DRINK_ID", listDrinkID); // Put anything what you want
+                FragmentExportInvoice manager = new FragmentExportInvoice();
+                manager.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, manager).commit();
 
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                manager.setFragmentResult("KEY_ARR", bundle);
-
-
-                ((MainActivity)getActivity()).reloadFragment(new FragmentExportInvoice());
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentTable());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentTable());
             }
         });
     }

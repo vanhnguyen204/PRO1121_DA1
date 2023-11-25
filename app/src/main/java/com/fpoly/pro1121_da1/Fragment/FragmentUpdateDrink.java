@@ -29,17 +29,20 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
+import com.fpoly.pro1121_da1.database.VoucherDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.Voucher;
 import com.fpoly.pro1121_da1.spinner.SpinnerAddIngredientToDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerImageDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerTypeOfDrink;
+import com.fpoly.pro1121_da1.spinner.SpinnerVoucher;
 
 import java.util.ArrayList;
 
 public class FragmentUpdateDrink extends Fragment {
     EditText edtNameDrink, edtPriceDrink, edtQuantityDrink, edtVoucher, edtDateAdd, edtDateExpiry;
-    String getName, getPrice, getQuantity, getVoucher, getDateAdd, getDateExpiry, getTypeOfDrink = "Pha chế";
+    String getName, getPrice, getQuantity, getDateAdd, getDateExpiry, getTypeOfDrink = "Pha chế";
     Spinner spinner;
     Button btnConfirmUpdateDrink;
     DrinkDAO drinkDAO;
@@ -47,10 +50,11 @@ public class FragmentUpdateDrink extends Fragment {
     StringBuilder s;
     RecyclerView recyclerView;
     IngredientAdapterAddDrink ingredientAdapterUpdateDrink;
-    Spinner spinnerImageDrink;
+    Spinner spinnerImageDrink, spinnerVoucher;
     String getIngredientID = "";
-    int getImageDrink;
+    int getImageDrink, getVoucher;
     ImageView imgback;
+    int getDrinkIdUpdate;
 
     public void setAdapterRecyclerView(ArrayList<Ingredient> list) {
 
@@ -70,18 +74,30 @@ public class FragmentUpdateDrink extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         drinkDAO = new DrinkDAO(getActivity(), new Dbhelper(getActivity()));
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null){
+            getDrinkIdUpdate = bundle.getInt("KEY_DRINK_ID_UPDATE");
+
+       }
+
+        Drink drinkUpdate = drinkDAO.getDrinkByID(String.valueOf(getDrinkIdUpdate));
+
+        spinnerVoucher = view.findViewById(R.id.spn_voucherDrink_updateDrink);
         imgback = view.findViewById(R.id.img_back_fragmentUpdateDrink);
         spinnerImageDrink = view.findViewById(R.id.spinner_image_drink_fragmentUpdateDrink);
         spinner = view.findViewById(R.id.spinner_typeOfDrink_updateDrink);
         edtNameDrink = view.findViewById(R.id.edt_nameDrink_updateDrink);
         edtPriceDrink = view.findViewById(R.id.edt_priceDrink_updateDrink);
         edtQuantityDrink = view.findViewById(R.id.edt_quantity_updateDrink);
-        edtVoucher = view.findViewById(R.id.edt_voucherDrink_updateDrink);
+
         edtDateAdd = view.findViewById(R.id.edt_dateAdd_updateDrink);
         edtDateExpiry = view.findViewById(R.id.edt_dateExpiry_updateDrink);
         imgShowIngredient = view.findViewById(R.id.img_addIngredient_fragmentUpdateDrink);
         recyclerView = view.findViewById(R.id.recyclerView_ingredient_fragmentUpdateDrink);
         btnConfirmUpdateDrink = view.findViewById(R.id.btnConfirm_updateDrink_fragmentUpdateDrink);
+
+
         int[] arrImageDrink = new int[]{
                 R.mipmap.juice_watermelon,
                 R.mipmap.peach_drink,
@@ -147,17 +163,35 @@ public class FragmentUpdateDrink extends Fragment {
                 showDialogIngredient();
             }
         });
-
-
-        getParentFragmentManager().setFragmentResultListener("KEY_UPDATE_DRINK", this, new FragmentResultListener() {
+// set spinner voucher
+        VoucherDAO voucherDAO = new VoucherDAO(getContext(), new Dbhelper(getContext()));
+        ArrayList<Voucher> listVoucher = voucherDAO.getAllVoucher();
+        listVoucher.add(0, new Voucher(1976, 100, "2099-12-12"));
+        SpinnerVoucher spnVoucher = new SpinnerVoucher(listVoucher, getActivity());
+        spinnerVoucher.setAdapter(spnVoucher);
+        setDefaultSpinnerVoucher(listVoucher, drinkUpdate.getVoucherID());
+        spinnerVoucher.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                int getDrinkID = result.getInt("KEY_DRINK_ID");
-                Drink drinkUpdate = drinkDAO.getDrinkByID(String.valueOf(getDrinkID));
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i != 0) {
+                    getVoucher = listVoucher.get(i).getVoucherID();
+                } else {
+                    getVoucher = 0;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
                 edtNameDrink.setText(drinkUpdate.getName());
                 edtPriceDrink.setText(String.valueOf(drinkUpdate.getPrice()));
                 edtQuantityDrink.setText(String.valueOf(drinkUpdate.getQuantity()));
-                edtVoucher.setText(String.valueOf(drinkUpdate.getVoucherID()));
+
                 edtDateAdd.setText(drinkUpdate.getDateAdd());
                 edtDateExpiry.setText(drinkUpdate.getDateExpiry());
                 setDefaultImageSpinner(arrImageDrink, drinkUpdate.getImage());
@@ -165,89 +199,79 @@ public class FragmentUpdateDrink extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
-                        bundle.putInt("DRINK_ID",getDrinkID );
+                        bundle.putInt("DRINK_ID",getDrinkIdUpdate );
                         FragmentDrinkDetail detail = new FragmentDrinkDetail();
                         detail.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.container_layout, detail).commit();
+                        getParentFragmentManager().beginTransaction().replace(R.id.container_layout, detail).commit();
 
                     }
                 });
+
                 btnConfirmUpdateDrink.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         getName = edtNameDrink.getText().toString().trim();
                         getPrice = edtPriceDrink.getText().toString().trim();
                         getQuantity = edtQuantityDrink.getText().toString().trim();
-                        getVoucher = edtVoucher.getText().toString().trim();
+
                         getDateAdd = edtDateAdd.getText().toString().trim();
                         getDateExpiry = edtDateExpiry.getText().toString().trim();
 
-                        if (getName.length() == 0) {
+                     if (getVoucher == 0){
 
-                        } else if (getPrice.length() == 0) {
+                     }else {
+                         if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
+                             try {
+                                 Drink drink = new Drink(
+                                         drinkUpdate.getDrinkID(),
+                                         s.toString(),
+                                        getVoucher,
+                                         getName,
+                                         getTypeOfDrink,
+                                         getDateExpiry,
+                                         getDateAdd,
+                                         Integer.parseInt(getPrice),
+                                         Integer.parseInt(getQuantity),
+                                         getImageDrink);
+                                 if (drinkDAO.updateDrink(drink)) {
+                                     ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                                 }
+                             } catch (Exception e) {
+                                 Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
+                             }
 
-                        } else if (getQuantity.length() == 0) {
+                         } else {
+                             try {
+                                 Drink drink = new Drink(
+                                         drinkUpdate.getDrinkID(),
+                                         " ",
+                                        getVoucher,
+                                         getName,
+                                         getTypeOfDrink,
+                                         getDateExpiry,
+                                         getDateAdd,
+                                         Integer.parseInt(getPrice),
+                                         Integer.parseInt(getQuantity),
+                                         getImageDrink);
 
-                        } else if (getVoucher.length() == 0) {
+                                 if (drinkDAO.updateDrink(drink)) {
+                                     Bundle bundle = new Bundle();
+                                     bundle.putInt("KEY_UPDATE_DRINK", drink.getDrinkID());
+                                     FragmentManager fragmentManager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                                     fragmentManager.setFragmentResult("KEY_UPDATE", bundle);
+                                     ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                                 }
+                             } catch (Exception e) {
 
-                        } else if (getDateAdd.length() == 0) {
+                             }
 
-                        } else if (getDateExpiry.length() == 0) {
+                         }
+                     }
 
-                        } else {
-
-                        }
-
-                        if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-                            try {
-                                Drink drink = new Drink(
-                                        drinkUpdate.getDrinkID(),
-                                        s.toString(),
-                                        Integer.parseInt(getVoucher),
-                                        getName,
-                                        getTypeOfDrink,
-                                        getDateExpiry,
-                                        getDateAdd,
-                                        Integer.parseInt(getPrice),
-                                        Integer.parseInt(getQuantity),
-                                        getImageDrink);
-                                if (drinkDAO.updateDrink(drink)) {
-                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                                }
-                            } catch (Exception e) {
-                                Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
-                            }
-
-                        } else {
-                            try {
-                                Drink drink = new Drink(
-                                        drinkUpdate.getDrinkID(),
-                                        " ",
-                                        Integer.parseInt(getVoucher),
-                                        getName,
-                                        getTypeOfDrink,
-                                        getDateExpiry,
-                                        getDateAdd,
-                                        Integer.parseInt(getPrice),
-                                        Integer.parseInt(getQuantity),
-                                        getImageDrink);
-
-                                if (drinkDAO.updateDrink(drink)) {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("KEY_UPDATE_DRINK", drink.getDrinkID());
-                                    FragmentManager fragmentManager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-                                    fragmentManager.setFragmentResult("KEY_UPDATE", bundle);
-                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                                }
-                            } catch (Exception e) {
-
-                            }
-
-                        }
                     }
                 });
-            }
-        });
+
+
 
     }
 
@@ -304,4 +328,12 @@ public class FragmentUpdateDrink extends Fragment {
             }
         }
     }
+    public void setDefaultSpinnerVoucher(ArrayList<Voucher> list, int getVoucher){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getVoucherID() == getVoucher) {
+                spinnerVoucher.setSelection(i);
+            }
+        }
+    }
+
 }

@@ -94,6 +94,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/custom_button_login"
             android:text="Xuất"
+            android:id="@+id/btnConfirmExportInvoice"
             android:textColor="@color/white"
 
             />

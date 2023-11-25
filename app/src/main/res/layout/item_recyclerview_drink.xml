@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:layout_margin="10dp"
+
     app:cardCornerRadius="30dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:elevation="0dp"
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/img_drink"
@@ -24,21 +25,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_drink"
-            android:text="Tên: Cà phê" />
+            android:layout_marginTop="10dp"
+            android:text="Tên: Cà phê"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_price_drink"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_name_drink"
-            android:text="Giá: 100.000 VND" />
+            android:text="Giá: 100.000 VND"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_priceReduce_itemRCVDrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_price_drink"
+            android:text="90000"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_seeDetail_drink"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_price_drink"
+            android:layout_alignParentEnd="true"
             android:text="Xem chi tiết" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/img_sale_drink"
+            android:layout_above="@+id/tv_seeDetail_drink"
+            android:layout_alignParentEnd="true"
+
+            android:translationZ="2dp"
+            android:elevation="10dp"
+            android:src="@mipmap/sale" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

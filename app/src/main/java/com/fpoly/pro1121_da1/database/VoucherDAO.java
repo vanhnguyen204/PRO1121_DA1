@@ -103,7 +103,7 @@ public class VoucherDAO {
         return list.get(0);
     }
 
-    public ArrayList<Voucher> getAllDrink() {
+    public ArrayList<Voucher> getAllVoucher() {
         return getVoucher("SELECT * FROM Voucher");
     }
 }

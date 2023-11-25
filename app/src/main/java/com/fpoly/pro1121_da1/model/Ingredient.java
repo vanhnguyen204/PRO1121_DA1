@@ -19,6 +19,9 @@ public class Ingredient {
         this.image = image;
     }
 
+    public Ingredient() {
+    }
+
     public String getIngredientID() {
         return ingredientID;
     }

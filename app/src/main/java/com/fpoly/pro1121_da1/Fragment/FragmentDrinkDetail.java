@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,7 +60,7 @@ public class FragmentDrinkDetail extends Fragment {
 
     public Integer geIdDrinkUD(int getID) {
 
-        return  this.getID = getID;
+        return this.getID = getID;
     }
 
     Animation animation;
@@ -67,6 +68,66 @@ public class FragmentDrinkDetail extends Fragment {
     Drink drinkSaveInstance;
 
 
+    public void setAnimationText() {
+        int fromXDelta = -500;
+
+        Animation animation1 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation1.setDuration(1000);
+        animation1.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation1.setRepeatCount(0);
+
+        Animation animation2 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation2.setDuration(1200);
+        animation2.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation2.setRepeatCount(0);
+
+        Animation animation3 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation3.setDuration(1300);
+        animation3.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation3.setRepeatCount(0);
+
+        Animation animation4 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation4.setDuration(1400);
+        animation4.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation4.setRepeatCount(0);
+
+        Animation animation5 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation5.setDuration(1500);
+        animation5.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation5.setRepeatCount(0);
+
+        Animation animation6 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation6.setDuration(1600);
+        animation6.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation6.setRepeatCount(0);
+
+        Animation animation7 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation7.setDuration(1700);
+        animation7.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation7.setRepeatCount(0);
+
+        Animation animation8 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation8.setDuration(1800);
+        animation8.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation8.setRepeatCount(0);
+
+        Animation animation9 = new TranslateAnimation(fromXDelta, 0, 0, 0);
+        animation9.setDuration(1900);
+        animation9.setRepeatMode(Animation.RELATIVE_TO_SELF);
+        animation9.setRepeatCount(0);
+
+
+        tvDrinkID.setAnimation(animation1);
+        tvIngredientID.setAnimation(animation2);
+        tvVoucherID.setAnimation(animation3);
+        tvNameDrink.setAnimation(animation4);
+        tvTypeOfDrink.setAnimation(animation5);
+        tvDateAdd.setAnimation(animation6);
+        tvDateExpiry.setAnimation(animation7);
+        tvPrice.setAnimation(animation8);
+        tvQuantity.setAnimation(animation9);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,7 +140,7 @@ public class FragmentDrinkDetail extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layout = view.findViewById(R.id.layoutAnim);
+
 
         imgDrink = view.findViewById(R.id.img_drinkDetail);
         tvDrinkID = view.findViewById(R.id.tv_drinkID_fragmentDrinkDeTail);
@@ -95,6 +156,13 @@ public class FragmentDrinkDetail extends Fragment {
         drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         btnUpdate = view.findViewById(R.id.btnUpdateDrink_fragmentDrinkDetail);
         btnDelete = view.findViewById(R.id.btnDeleteDrink_fragmentDrinkDetail);
+        Animation animation = new TranslateAnimation(0, 0, 0, 50);
+        animation.setDuration(2200);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setRepeatCount(Animation.INFINITE);
+        imgDrink.setAnimation(animation);
+        setAnimationText();
+
         User user = ((MainActivity) getActivity()).user;
         if (!user.getRole().equals("admin")) {
             btnDelete.setVisibility(View.INVISIBLE);
@@ -103,7 +171,7 @@ public class FragmentDrinkDetail extends Fragment {
         ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
 
         Bundle bundle = this.getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             receiveDrinkID = bundle.getInt("DRINK_ID");
 
             drink = drinkDAO.getDrinkByID(String.valueOf(receiveDrinkID));
@@ -134,19 +202,14 @@ public class FragmentDrinkDetail extends Fragment {
         }
 
 
-
-
-
-
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("KEY_DRINK_ID", drink.getDrinkID());
-                FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-                manager.setFragmentResult("KEY_UPDATE_DRINK", bundle);
-
-                ((MainActivity) getActivity()).reloadFragment(new FragmentUpdateDrink());
+                bundle.putInt("KEY_DRINK_ID_UPDATE", drink.getDrinkID());
+                FragmentUpdateDrink frm = new FragmentUpdateDrink();
+                frm.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -197,8 +260,8 @@ public class FragmentDrinkDetail extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("KEY_SAVE_STATE",receiveDrinkID );
-        Toast.makeText(getContext(), "Saving: "+receiveDrinkID, Toast.LENGTH_SHORT).show();
+        outState.putInt("KEY_SAVE_STATE", receiveDrinkID);
+        Toast.makeText(getContext(), "Saving: " + receiveDrinkID, Toast.LENGTH_SHORT).show();
 
     }
 

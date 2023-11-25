@@ -111,5 +111,4 @@ public class FragmentDrink extends Fragment {
         });
     }
 
-
 }

@@ -53,6 +53,16 @@ public class FragmentTable extends Fragment {
         tableAdapter = new TableAdapter(list, getActivity());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(tableAdapter);
+        tableAdapter.setOnTableClick(new TableOnClickListener() {
+            @Override
+            public void setItemTableClick(Table table, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("KEY_TABLE_ID", table.getTableID());
+                FragmentOrderDrink frm = new FragmentOrderDrink();
+                frm.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
+            }
+        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +81,7 @@ public class FragmentTable extends Fragment {
                         }
                     }
                 });
+
                 builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

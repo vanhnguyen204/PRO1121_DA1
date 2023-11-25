@@ -215,13 +215,13 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/customer" />
+                    android:src="@mipmap/history" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Khách hàng"
+                    android:text="Lịch sử bán hàng"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </LinearLayout>

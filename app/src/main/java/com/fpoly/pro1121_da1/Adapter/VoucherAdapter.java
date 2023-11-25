@@ -44,9 +44,9 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
-        holder.tv_priceReduce.setText("Giảm giá %: "+list.get(position).getPriceReduce());
-        holder.tv_dateExpiry.setText("Ngày hết hạn: "+list.get(position).getDateExpiry());
+        Voucher voucher = list.get(position);
+        holder.tv_priceReduce.setText("Giảm giá : "+ voucher.getPriceReduce()+" %");
+        holder.tv_dateExpiry.setText("Ngày hết hạn: "+ voucher.getDateExpiry());
 
         voucherDAO = new VoucherDAO(activity,new Dbhelper(activity));
 

@@ -52,7 +52,7 @@ public class FragmentSales extends Fragment {
         btn_addVoucher = view.findViewById(R.id.btn_add_voucher);
 
         voucherDAO = new VoucherDAO(getContext(),new Dbhelper(getContext()));
-        listVoucher = voucherDAO.getAllDrink();
+        listVoucher = voucherDAO.getAllVoucher();
         voucherAdapter = new VoucherAdapter(getActivity(),listVoucher);
 
         recyclerView.setAdapter(voucherAdapter);

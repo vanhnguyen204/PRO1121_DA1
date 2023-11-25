@@ -3,6 +3,7 @@ package com.fpoly.pro1121_da1.Adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +24,10 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
+import com.fpoly.pro1121_da1.database.VoucherDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.Voucher;
 
 import java.util.ArrayList;
 
@@ -35,7 +38,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
     IngredientDAO ingredientDAO;
     Activity atv;
     public SenDataClick senDataClick;
-    public void sentData(SenDataClick senDataClick){
+
+    public void sentData(SenDataClick senDataClick) {
         this.senDataClick = senDataClick;
     }
 
@@ -66,9 +70,22 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
         holder.tvDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               senDataClick.sendData(drink);
+                senDataClick.sendData(drink);
             }
         });
+        VoucherDAO voucherDAO = new VoucherDAO(atv, new Dbhelper(atv));
+        Voucher voucher = voucherDAO.getVoucherByID(String.valueOf(drink.getVoucherID()));
+        if (voucher.getPriceReduce() == 0){
+            holder.tvPriceReduce.setVisibility(View.INVISIBLE);
+            holder.imgSale.setVisibility(View.INVISIBLE);
+
+        }else {
+            holder.tvPriceReduce.setVisibility(View.VISIBLE);
+            holder.tvPriceReduce.setText(""+(drink.getPrice() - (drink.getPrice() * voucher.getPriceReduce() / 100)));
+            holder.imgSale.setVisibility(View.VISIBLE);
+            holder.tvPrice.setPaintFlags( holder.tvPriceReduce.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvPrice.setTextColor(Color.BLUE);
+        }
 
     }
 
@@ -78,8 +95,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder {
-        ImageView imgDrink;
-        TextView tvNameDrink, tvPrice, tvDetail;
+        ImageView imgDrink, imgSale;
+        TextView tvNameDrink, tvPrice, tvDetail, tvPriceReduce;
 
 
         public Viewholder(@NonNull View itemView) {
@@ -88,6 +105,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
             tvPrice = itemView.findViewById(R.id.tv_price_drink);
             tvDetail = itemView.findViewById(R.id.tv_seeDetail_drink);
             imgDrink = itemView.findViewById(R.id.img_drink);
+            tvPriceReduce = itemView.findViewById(R.id.tv_priceReduce_itemRCVDrink);
+            imgSale = itemView.findViewById(R.id.img_sale_drink);
         }
     }
 

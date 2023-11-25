@@ -56,13 +56,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("KEY_TABLE_ID", table.getTableID());
-                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
-                manager.setFragmentResult("KEY_ARR", bundle);
-
-                ((MainActivity) activity).reloadFragment(new FragmentOrderDrink());
-
+              tableOnClickListener.setItemTableClick(table, position);
             }
         });
     }

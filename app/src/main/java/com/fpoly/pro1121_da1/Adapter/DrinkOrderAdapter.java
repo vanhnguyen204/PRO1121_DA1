@@ -1,5 +1,6 @@
 package com.fpoly.pro1121_da1.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,9 +18,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpoly.pro1121_da1.Fragment.FragmentDrinkDetail;
+import com.fpoly.pro1121_da1.Fragment.FragmentOrderDrink;
 import com.fpoly.pro1121_da1.Interface.MyOnItemClickListener;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.database.Dbhelper;
+import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 
 import java.util.ArrayList;
@@ -28,7 +32,8 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
     ArrayList<Drink> list;
     Activity activity;
     private MyOnItemClickListener myOnItemClickListener;
-    public void setMyOnItemClick(MyOnItemClickListener myOnItemClickListener){
+
+    public void setMyOnItemClick(MyOnItemClickListener myOnItemClickListener) {
         this.myOnItemClickListener = myOnItemClickListener;
     }
 
@@ -45,17 +50,29 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
         Drink drink = list.get(position);
+        DrinkDAO drinkDAO = new DrinkDAO(activity, new Dbhelper(activity));
         holder.imgDrink.setImageResource(drink.getImage());
         holder.tvNameDrink.setText(drink.getName());
+        ArrayList<String> listDrink = FragmentOrderDrink.listDrinkID_checkbox;
+        if (listDrink != null) {
+            for (int i = 0; i < listDrink.size(); i++) {
+                if (listDrink.get(i).equalsIgnoreCase(String.valueOf(drink.getDrinkID()))) {
+                    holder.chkOrder.setChecked(true);
+                }
+            }
+        }
+
+
         holder.chkOrder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
-                    myOnItemClickListener.onClick(drink);
-                }else {
+                if (b) {
+                    myOnItemClickListener.onClick(drink, position);
+                } else {
                     Toast.makeText(activity, "UnClicked", Toast.LENGTH_SHORT).show();
+                    myOnItemClickListener.setDeleteDrink(drink, position);
                 }
 
             }
