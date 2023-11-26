@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.User;
 import com.fpoly.pro1121_da1.spinner.SpinnerTypeOfDrink;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -40,8 +42,9 @@ public class FragmentDrink extends Fragment {
     DrinkDAO drinkDAO;
     EditText edtSearch;
     DrinkAdapter adapter;
-    Button btnAddDrink;
+    FloatingActionButton btnAddDrink;
     View view;
+    ImageView imgBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,12 +60,22 @@ public class FragmentDrink extends Fragment {
         drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         btnAddDrink = view.findViewById(R.id.btn_add_drink);
         edtSearch = view.findViewById(R.id.edt_search_fragmentDrink);
+        imgBack = view.findViewById(R.id.img_back_fragmentDrink);
         list = drinkDAO.getAllDrink();
         recyclerView = view.findViewById(R.id.rcv_drink);
-
+        ((MainActivity)getActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
         adapter = new DrinkAdapter(list, getActivity());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentHome());
+                ((MainActivity)getActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+                ((MainActivity)getActivity()).chipNavigationBar.setItemSelected(R.id.home, true);
+            }
+        });
+
         User user = ((MainActivity)getActivity()).user;
         if (!user.getRole().equalsIgnoreCase("admin")){
             btnAddDrink.setVisibility(View.INVISIBLE);
@@ -113,7 +126,19 @@ public class FragmentDrink extends Fragment {
                 bundle.putInt("DRINK_ID", drink.getDrinkID());
                 FragmentDrinkDetail detail = new FragmentDrinkDetail();
                 detail.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.container_layout, detail).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, detail).commit();
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0){
+                    btnAddDrink.setVisibility(View.INVISIBLE);
+                }else {
+                    btnAddDrink.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

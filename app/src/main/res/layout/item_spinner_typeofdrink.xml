@@ -7,6 +7,7 @@
     android:layout_width="wrap_content"
     android:text="Pha chế"
     android:textSize="19sp"
+    android:textColor="@color/white"
     android:id="@+id/tv_typeOfDrink_spinner"
     android:layout_height="wrap_content"/>
 </LinearLayout>

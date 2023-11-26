@@ -1,5 +1,6 @@
 package com.fpoly.pro1121_da1.spinner;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class SpinnerImageDrink extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = activity.getLayoutInflater();

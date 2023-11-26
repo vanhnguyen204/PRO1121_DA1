@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     android:padding="10dp">
 
     <ImageView
@@ -24,12 +23,15 @@
     <Spinner
         android:id="@+id/spinner_image_drink_fragmentAddDrink"
         android:layout_width="match_parent"
+        android:popupBackground="@drawable/border_edt"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_edt"
         android:layout_below="@+id/title_addDrink" />
 
     <EditText
         android:id="@+id/edt_nameDrink_addDrink"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinner_image_drink_fragmentAddDrink"
         android:background="@drawable/border_edt"
@@ -38,10 +40,12 @@
 
     <EditText
         android:id="@+id/edt_priceDrink_addDrink"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edt_nameDrink_addDrink"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/spinner_typeOfDrink_addDrink"
         android:background="@drawable/border_edt"
         android:hint="Giá"
         android:inputType="number"
@@ -49,16 +53,24 @@
 
     <Spinner
         android:id="@+id/spinner_typeOfDrink_addDrink"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_priceDrink_addDrink" />
+        android:layout_above="@+id/edt_quantity_addDrink"
+        android:layout_below="@+id/edt_nameDrink_addDrink"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border_spinner"
+        android:popupBackground="@drawable/border_spinner" />
 
     <EditText
         android:id="@+id/edt_quantity_addDrink"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_typeOfDrink_addDrink"
+        android:layout_below="@+id/edt_priceDrink_addDrink"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
+        android:layout_toStartOf="@+id/spinner_voucherDrink_addDrink"
         android:background="@drawable/border_edt"
         android:hint="Số lượng"
         android:inputType="number"
@@ -66,10 +78,14 @@
 
     <Spinner
         android:id="@+id/spinner_voucherDrink_addDrink"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_quantity_addDrink"
-        android:layout_marginTop="5dp"
+        android:layout_above="@+id/edt_dateExpiry_addDrink"
+        android:layout_below="@+id/spinner_typeOfDrink_addDrink"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+
         android:background="@drawable/border_spinner"
         android:popupBackground="@drawable/border_spinner" />
 
@@ -78,7 +94,7 @@
         android:id="@+id/edt_dateExpiry_addDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_voucherDrink_addDrink"
+        android:layout_below="@+id/edt_quantity_addDrink"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/border_edt"
@@ -92,7 +108,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edt_dateExpiry_addDrink"
         android:text="Chọn nguyên liệu"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/img_addIngredient_fragmentAddDrink"
@@ -107,7 +124,8 @@
         android:id="@+id/recyclerView_ingredient_fragmentAddDrink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/img_addIngredient_fragmentAddDrink" />
+        android:layout_below="@+id/btnConfirm_addDrink"
+        android:layout_marginTop="10dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnConfirm_addDrink"

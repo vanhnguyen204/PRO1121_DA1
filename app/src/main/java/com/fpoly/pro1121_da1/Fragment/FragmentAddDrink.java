@@ -1,6 +1,7 @@
 package com.fpoly.pro1121_da1.Fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.IngredientAdapterAddDrink;
@@ -40,6 +43,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class FragmentAddDrink extends Fragment {
 
@@ -54,6 +58,7 @@ public class FragmentAddDrink extends Fragment {
     IngredientAdapterAddDrink ingredientAdapterAddDrink;
     Spinner spinnerImageDrink;
     String getIngredientID = "";
+    TextView tvTitleAddIngredient;
     int getImageDrink;
     int getVoucher;
 
@@ -63,6 +68,25 @@ public class FragmentAddDrink extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ingredientAdapterAddDrink = new IngredientAdapterAddDrink(list, getActivity());
         recyclerView.setAdapter(ingredientAdapterAddDrink);
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                listAddRecyclerView.remove(position);
+                ingredientAdapterAddDrink.notifyItemRemoved(position);
+                s = new StringBuilder();
+                for (int i = 0; i < listAddRecyclerView.size(); i++) {
+                    s.append(listAddRecyclerView.get(i).getIngredientID() + " ");
+                }
+                Toast.makeText(getContext(), ""+s, Toast.LENGTH_SHORT).show();
+            }
+        };
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -83,7 +107,7 @@ public class FragmentAddDrink extends Fragment {
         spinnerVoucher = view1.findViewById(R.id.spinner_voucherDrink_addDrink);
         imgBack = view1.findViewById(R.id.img_back_fragmentAddDrink);
         edtDateExpiry = view1.findViewById(R.id.edt_dateExpiry_addDrink);
-
+        tvTitleAddIngredient = view1.findViewById(R.id.tv_ingredientID_addDrink);
         imgShowIngredient = view1.findViewById(R.id.img_addIngredient_fragmentAddDrink);
         recyclerView = view1.findViewById(R.id.recyclerView_ingredient_fragmentAddDrink);
         int[] arrImageDrink = new int[]{
@@ -101,7 +125,7 @@ public class FragmentAddDrink extends Fragment {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentDrink());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
             }
         });
         SpinnerImageDrink spinnerDrinkImage = new SpinnerImageDrink(arrImageDrink, getActivity());
@@ -156,13 +180,15 @@ public class FragmentAddDrink extends Fragment {
                 getTypeOfDrink = type[i];
 
                 if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-
+                    imgShowIngredient.setVisibility(View.VISIBLE);
+                    tvTitleAddIngredient.setVisibility(View.VISIBLE);
                     edtDateExpiry.setEnabled(false);
                     edtDateExpiry.setHint("Bỏ qua");
                     edtQuantityDrink.setEnabled(false);
                     edtQuantityDrink.setHint("Bỏ qua");
                 } else {
-
+                    imgShowIngredient.setVisibility(View.INVISIBLE);
+                    tvTitleAddIngredient.setVisibility(View.INVISIBLE);
                     edtDateExpiry.setEnabled(true);
                     edtDateExpiry.setHint("Ngày hết hạn");
                     edtQuantityDrink.setEnabled(true);
@@ -196,16 +222,19 @@ public class FragmentAddDrink extends Fragment {
 
                 getDateAdd = dateFormat.format(cal.getTime());
                 getDateExpiry = edtDateExpiry.getText().toString().trim();
-                if (getVoucher == 0) {
+                if (getName.length() == 0) {
+                    Toast.makeText(getContext(), "Không được để trống tên đồ uống.", Toast.LENGTH_SHORT).show();
+                } else if (isNumber(edtPriceDrink, "Giá phải lớn hơn 0", "Giá phải là số")) {
+
+                } else  if (getVoucher == 0) {
                     Toast.makeText(getContext(), "Vui lòng chọn phiếu giảm giá !", Toast.LENGTH_SHORT).show();
                 } else {
-
                     if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
+
                         if (s.toString().equalsIgnoreCase("")) {
                             Toast.makeText(getContext(), "Vui lòng chọn nguyên liệu cho đồ uống pha chế !", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             try {
-
                                 if (drinkDAO.insertDrink(new Drink(s.toString(), getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), 0, getImageDrink))) {
                                     ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
                                 }
@@ -213,19 +242,36 @@ public class FragmentAddDrink extends Fragment {
                                 Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
                             }
                         }
-
-
                     } else {
-                        if (drinkDAO.insertDrink(new Drink(" ", getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink))) {
-                            ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                        if (isNumber(edtQuantityDrink, "Số lượng phải lớn hơn 0", "Số lượng phải là số.")) {
+
+                        } else if (getDateExpiry.length() == 0) {
+                            Toast.makeText(getContext(), "Không được để trống ngày hết hạn", Toast.LENGTH_SHORT).show();
+                        }else {
+                            if (drinkDAO.insertDrink(new Drink(" ", getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink))) {
+                                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                            }
                         }
+
                     }
                 }
-
-
             }
         });
 
+    }
+
+    public boolean isNumber(EditText editText, String mess, String messErr) {
+        try {
+            int number = Integer.parseInt(editText.getText().toString().trim());
+            if (number < 0) {
+                Toast.makeText(getContext(), mess, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), messErr, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 
     Spinner spinnerIngredient;
@@ -234,6 +280,7 @@ public class FragmentAddDrink extends Fragment {
     ArrayList<Ingredient> listIngredient;
     ArrayList<Ingredient> listAddRecyclerView;
 
+    // show dialog to add ingredient
     public void showDialogIngredient() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Style_AlertDialog_Corner);
         LayoutInflater inflater = getLayoutInflater();
@@ -266,10 +313,20 @@ public class FragmentAddDrink extends Fragment {
         alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
+
                 for (int i = 0; i < listAddRecyclerView.size(); i++) {
+                    for (int j = i + 1; j < listAddRecyclerView.size(); j++) {
+                        if (listAddRecyclerView.get(i).getIngredientID().equalsIgnoreCase(listAddRecyclerView.get(j).getIngredientID())){
+                            listAddRecyclerView.remove(j);
+                            Toast.makeText(getContext(), "Đã có nguyên liệu này rồi", Toast.LENGTH_SHORT).show();
+                            continue;
+                        }
+
+                    }
+
                     s.append(listAddRecyclerView.get(i).getIngredientID() + " ");
                 }
-                Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), ""+s, Toast.LENGTH_SHORT).show();
                 setAdapterRecyclerView(listAddRecyclerView);
             }
         });

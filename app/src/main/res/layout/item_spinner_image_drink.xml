@@ -5,6 +5,7 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_margin="10dp"
         android:src="@mipmap/dragon_fruit"
         android:id="@+id/img_spinnerADD_drink"
         />
