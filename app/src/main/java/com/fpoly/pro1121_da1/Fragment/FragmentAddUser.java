@@ -26,7 +26,7 @@ import com.fpoly.pro1121_da1.spinner.SpinnerRole;
 
 
 public class FragmentAddUser extends Fragment {
-    EditText edtCCCD, edtCalendarID, edtUserName, edtPassWord, edtFullName, edtDateOfBirth, edtAddress, edtPhoneNumber;
+    EditText edtCCCD, edtUserName, edtPassWord, edtFullName, edtDateOfBirth, edtAddress, edtPhoneNumber;
     Spinner spinner;
     UserDAO userDAO;
     Button btnConfirmAddUser;
@@ -45,7 +45,7 @@ public class FragmentAddUser extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
         edtCCCD = view.findViewById(R.id.edt_addCCCD_fragmentAddUser);
-        edtCalendarID = view.findViewById(R.id.edt_addCalendarID_fragmentAddUser);
+
         edtUserName = view.findViewById(R.id.edt_addUserName_fragmentAddUser);
         edtPassWord = view.findViewById(R.id.edt_addPassWord_fragmentAddUser);
         edtFullName = view.findViewById(R.id.edt_addFullName_fragmentAddUser);
@@ -59,29 +59,29 @@ public class FragmentAddUser extends Fragment {
             @Override
             public void onClick(View view) {
                 getCCCD = edtCCCD.getText().toString().trim();
-                getCalendarID = edtCalendarID.getText().toString().trim();
+
                 getUserName = edtUserName.getText().toString().trim();
                 getPassWord = edtPassWord.getText().toString().trim();
                 getFullName = edtFullName.getText().toString().trim();
                 getDateOfBirth = edtDateOfBirth.getText().toString().trim();
                 getAddress = edtAddress.getText().toString().trim();
-getPhoneNumber = edtPhoneNumber.getText().toString().trim();
-                if (getCCCD.length() == 0) {
+                getPhoneNumber = edtPhoneNumber.getText().toString().trim();
+                if (checkCCCD(edtCCCD)) {
 
-                } else if (getCalendarID.length() == 0) {
+                } else if (checkUserName(edtUserName)) {
 
-                } else if (getUserName.length() == 0) {
-
-                } else if (getPassWord.length() == 0) {
+                } else if (checkPassWord(edtPassWord)) {
 
                 } else if (getFullName.length() == 0) {
-
+                    Toast.makeText(getContext(), "Không được bỏ trống họ tên", Toast.LENGTH_SHORT).show();
                 } else if (getDateOfBirth.length() == 0) {
-
+                    Toast.makeText(getContext(), "Không được bỏ trống ngày sinh", Toast.LENGTH_SHORT).show();
                 } else if (getAddress.length() == 0) {
-
+                    Toast.makeText(getContext(), "Không được bỏ trống địa chỉ", Toast.LENGTH_SHORT).show();
+                } else if (checkPhoneNumber(edtPhoneNumber)) {
+                    
                 } else {
-                    User user = new User(getCCCD, Integer.parseInt(getCalendarID), getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, "staff", 0, getPhoneNumber);
+                    User user = new User(getCCCD, 0, getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, "staff", 0, getPhoneNumber);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 
                         ((MainActivity) getActivity()).reloadFragment(new FragmentAddUser());
@@ -101,5 +101,57 @@ getPhoneNumber = edtPhoneNumber.getText().toString().trim();
         });
     }
 
+    public boolean checkCCCD(EditText editText) {
+        String getCCCD = editText.getText().toString().trim();
+        if (getCCCD.length() == 0) {
+            Toast.makeText(getContext(), "Không được bỏ trống căn cước công dân", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (getCCCD.length() != 12) {
+            Toast.makeText(getContext(), "Căn cước công dân phải có 12 số", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    public boolean checkUserName(EditText editText) {
+        String getUserName = editText.getText().toString().trim();
+        if (getUserName.length() == 0){
+            Toast.makeText(getContext(), "Không được để trống tên đăng nhập", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (getUserName.length() > 20) {
+            Toast.makeText(getContext(), "Tên đăng nhập không được quá 20 ký tự", Toast.LENGTH_SHORT).show();
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean checkPassWord(EditText editText){
+        String getPass = editText.getText().toString().trim();
+        if (getPass.length() == 0){
+            Toast.makeText(getContext(), "Không được để trống mật khẩu", Toast.LENGTH_SHORT).show();
+            return true;
+        }else if(getPass.length() < 8 || getPass.length() > 16){
+            Toast.makeText(getContext(), "Mật khẩu chỉ được 8 - 16 ký tự", Toast.LENGTH_SHORT).show();
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    
+    public boolean checkPhoneNumber(EditText editText){
+        String getPhone = editText.getText().toString().trim();
+        if (getPhone.length() == 0){
+            Toast.makeText(getContext(), "Không được để trống số điện thoại", Toast.LENGTH_SHORT).show();
+            return true;
+        }else if (getPhone.length() != 10){
+            Toast.makeText(getContext(), "Số điện thoại phải là 10 số", Toast.LENGTH_SHORT).show();
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

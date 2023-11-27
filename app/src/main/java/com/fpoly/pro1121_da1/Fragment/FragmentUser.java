@@ -7,11 +7,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.fpoly.pro1121_da1.Adapter.DrinkAdapter;
 import com.fpoly.pro1121_da1.Adapter.UserAdapter;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
@@ -46,12 +49,47 @@ public class FragmentUser extends Fragment {
 
         list = userDAO.getAllUser();
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getRole().equalsIgnoreCase("admin")){
+            if (list.get(i).getRole().equalsIgnoreCase("admin")) {
                 list.remove(i);
             }
         }
         userAdapter = new UserAdapter(getActivity(), list);
         rcv.setAdapter(userAdapter);
 
+        ArrayList<User> listClone = userDAO.getAllUser();
+        edt_search_User.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                list.clear();
+
+                String getTextFromEdt = charSequence.toString().trim();
+                if (getTextFromEdt.length() == 0) {
+                    for (int j = 0; j < listClone.size(); j++) {
+                        if (listClone.get(i).getRole().equals("admin")){
+                            listClone.remove(i);
+                        }
+                    }
+                    rcv.setAdapter(new UserAdapter(getActivity(), listClone));
+                } else {
+                    for (int index = 0; index < listClone.size(); index++) {
+                        if (listClone.get(index).getFullName().equalsIgnoreCase(getTextFromEdt)) {
+
+                            list.add(listClone.get(index));
+                        }
+                    }
+                    rcv.setAdapter(new UserAdapter(getActivity(), list));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 }

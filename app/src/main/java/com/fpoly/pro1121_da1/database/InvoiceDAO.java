@@ -52,16 +52,6 @@ public class InvoiceDAO {
         }
     }
 
-    public boolean deleteInvoice(String invoiceID) {
-        SQLiteDatabase sql = dbhelper.getWritableDatabase();
-        long result = sql.delete("Invoice", "invoice_id = ?", new String[]{invoiceID});
-        if (result > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public ArrayList<Invoice> getInvoice(String query, String... agrs) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ArrayList<Invoice> list = new ArrayList<>();
@@ -81,12 +71,12 @@ public class InvoiceDAO {
 
                     int getTotalBill = cursor.getInt(5);
                     String getDateCreate = cursor.getString(6);
-
+                    list.add(new Invoice(getInvoiceID, getUserID, getCustomerID, getDrinkID, getTableID, getTotalBill, getDateCreate));
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();
         } catch (Exception e) {
-
+            Toast.makeText(context, "Err invoice", Toast.LENGTH_SHORT).show();
         } finally {
             sql.endTransaction();
         }
@@ -101,4 +91,5 @@ public class InvoiceDAO {
     public Invoice getInvoiceByID(String invoiceID) {
         return getInvoice("SELECT * FROM Invoice WHERE invoice_id = ?", invoiceID).get(0);
     }
+
 }

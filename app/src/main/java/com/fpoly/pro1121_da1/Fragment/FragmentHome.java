@@ -10,9 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.database.Dbhelper;
+import com.fpoly.pro1121_da1.database.InvoiceDAO;
+import com.fpoly.pro1121_da1.model.Invoice;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FragmentHome extends Fragment {
     LinearLayout manageIngredient, manegeUser, manageDrink;
@@ -39,15 +46,17 @@ public class FragmentHome extends Fragment {
         manegeUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentUser());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentUser());
             }
         });
         manageDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentDrink());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
             }
         });
 
+
     }
+
 }

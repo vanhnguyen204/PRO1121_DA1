@@ -21,8 +21,8 @@
             <ImageView
                 android:id="@+id/avatar_staff"
                 android:layout_width="50dp"
-                android:contentDescription="@string/avatar"
                 android:layout_height="50dp"
+                android:contentDescription="@string/avatar"
                 android:src="@mipmap/staff" />
 
             <TextView
@@ -63,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:text="Doanh thu / tháng"
                 android:textColor="@color/green"
-                android:textStyle="bold"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,9 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Đơn hàng / tháng"
-                android:textStyle="bold"
                 android:textColor="@color/green"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -283,6 +283,11 @@
             </LinearLayout>
         </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerView_fragmentHome"
+            />
     </LinearLayout>
 
 </LinearLayout>

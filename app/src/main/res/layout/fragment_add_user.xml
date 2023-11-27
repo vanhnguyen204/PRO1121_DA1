@@ -30,16 +30,10 @@
         android:hint="CCCD"
         android:id="@+id/edt_addCCCD_fragmentAddUser"
         />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_below="@id/edt_addCCCD_fragmentAddUser"
-        android:hint="Mã công việc"
-        android:layout_height="wrap_content"
-        android:id="@+id/edt_addCalendarID_fragmentAddUser"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_below="@id/edt_addCalendarID_fragmentAddUser"
         android:layout_height="wrap_content"
         android:id="@+id/edt_addUserName_fragmentAddUser"
         android:hint="Tên đăng nhập"

@@ -1,5 +1,6 @@
 package com.fpoly.pro1121_da1.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class FragmentExportInvoice extends Fragment {
     String getTableID;
     Button btnConfirm;
 
-String getDrinkID;
+String getDrinkID = "";
     int sumPrice = 0;
 
     @Override
@@ -57,6 +58,7 @@ String getDrinkID;
         return inflater.inflate(R.layout.fragment_export_invoice, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -87,6 +89,8 @@ String getDrinkID;
             sumPrice += drinkDAO.getDrinkByID(listDrinkID.get(i)).getPrice();
             getDrinkID += listDrinkID.get(i)+" ";
         }
+
+        Toast.makeText(getContext(), ""+listDrinkID.toString(), Toast.LENGTH_SHORT).show();
         tvTotalBill.setText("Tổng tiền: " + sumPrice + " VNĐ");
         tvNameDrink.setText("Đồ uống đã chọn: " + nameDrink);
         User user = ((MainActivity) getActivity()).user;
@@ -123,6 +127,7 @@ String getDrinkID;
 
             }
         });
+        Toast.makeText(getContext(), ""+getDrinkID, Toast.LENGTH_SHORT).show();
         imgAddCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,11 +135,13 @@ String getDrinkID;
                 showAlertCreateNewCustomer(getCustomerID);
             }
         });
+
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Invoice invoice = new Invoice(invoiceID, user.getUserID(), 1, getDrinkID, getTableID, sumPrice, getDateCreate);
                 if (invoiceDAO.insertInvoice(invoice)){
+                    Toast.makeText(getContext(), ""+invoice.getDrinkID(), Toast.LENGTH_SHORT).show();
                     getParentFragmentManager().beginTransaction().replace(R.id.container_layout, new FragmentTable()).commit();
                 }
             }

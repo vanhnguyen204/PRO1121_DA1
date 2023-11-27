@@ -105,8 +105,13 @@ public class FragmentOrderDrink extends Fragment {
 
             @Override
             public void setDeleteDrink(Drink drink, int position) {
-                listDrinkID.remove(position);
-                Toast.makeText(getContext(), ""+listDrinkID.size(), Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < listDrinkID.size() ; i++) {
+                    if (listDrinkID.get(i).equals(String.valueOf(drink.getDrinkID()))){
+                        listDrinkID.remove(i);
+                    }
+                }
+
+                Toast.makeText(getContext(), ""+listDrinkID.size()+listDrinkID.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
