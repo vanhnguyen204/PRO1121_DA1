@@ -156,6 +156,8 @@ public class FragmentDrinkDetail extends Fragment {
         drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         btnUpdate = view.findViewById(R.id.btnUpdateDrink_fragmentDrinkDetail);
         btnDelete = view.findViewById(R.id.btnDeleteDrink_fragmentDrinkDetail);
+
+
         Animation animation = new TranslateAnimation(0, 0, 0, 50);
         animation.setDuration(2200);
         animation.setRepeatMode(Animation.REVERSE);

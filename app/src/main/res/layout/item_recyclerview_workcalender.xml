@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="30dp"
+    android:layout_margin="10dp"
+    android:padding="5dp"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#907E1E88"
+        >
+        <TextView
+            android:id="@+id/tv_dayWork_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ngày làm việc: 2030/12/10"
+            />
+        <TextView
+            android:id="@+id/tv_shiftWork_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ca làm việc: Ca sáng"
+            />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

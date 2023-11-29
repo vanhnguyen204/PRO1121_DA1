@@ -61,6 +61,7 @@ public class Dbhelper extends SQLiteOpenHelper {
             " price INTEGER," +
             "quantity INTEGER ," +
             " image_drink BLOB)";
+    String createCalendarforStaff = "CREATE TABLE Calendarforstaff(calenderfortaff_id INTEGER PRIMARY KEY ,calenderWork_id REFERENCES Calendar(calendar_id), user_id REFERENCES User(user_id))";
 
     String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0, '0339207001')";
     String createTable = "CREATE TABLE TableDrink(table_id TEXT PRIMARY KEY, status INTEGER)";
@@ -76,6 +77,7 @@ public class Dbhelper extends SQLiteOpenHelper {
         db.execSQL(createDrink);
         db.execSQL(insertAdmin);
         db.execSQL(createTable);
+        db.execSQL(createCalendarforStaff);
 
     }
 
