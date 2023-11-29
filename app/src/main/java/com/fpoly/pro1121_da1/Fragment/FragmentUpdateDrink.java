@@ -221,49 +221,9 @@ public class FragmentUpdateDrink extends Fragment {
 
                      }else {
                          if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-                             try {
-                                 Drink drink = new Drink(
-                                         drinkUpdate.getDrinkID(),
-                                         s.toString(),
-                                        getVoucher,
-                                         getName,
-                                         getTypeOfDrink,
-                                         getDateExpiry,
-                                         getDateAdd,
-                                         Integer.parseInt(getPrice),
-                                         Integer.parseInt(getQuantity),
-                                         getImageDrink);
-                                 if (drinkDAO.updateDrink(drink)) {
-                                     ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                                 }
-                             } catch (Exception e) {
-                                 Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
-                             }
 
                          } else {
-                             try {
-                                 Drink drink = new Drink(
-                                         drinkUpdate.getDrinkID(),
-                                         " ",
-                                        getVoucher,
-                                         getName,
-                                         getTypeOfDrink,
-                                         getDateExpiry,
-                                         getDateAdd,
-                                         Integer.parseInt(getPrice),
-                                         Integer.parseInt(getQuantity),
-                                         getImageDrink);
 
-                                 if (drinkDAO.updateDrink(drink)) {
-                                     Bundle bundle = new Bundle();
-                                     bundle.putInt("KEY_UPDATE_DRINK", drink.getDrinkID());
-                                     FragmentManager fragmentManager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-                                     fragmentManager.setFragmentResult("KEY_UPDATE", bundle);
-                                     ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                                 }
-                             } catch (Exception e) {
-
-                             }
 
                          }
                      }

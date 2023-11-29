@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.model.Drink;
+import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.User;
 
 import java.text.ParseException;
@@ -34,6 +35,7 @@ public class DrinkDAO {
     public boolean insertDrink(Drink drink) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("drink_id", drink.getDrinkID());
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
                 .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
         try {
@@ -46,7 +48,7 @@ public class DrinkDAO {
 
         }
 
-        values.put("ingredient_id", drink.getIngredientID());
+
         values.put("voucher_id", drink.getVoucherID());
         values.put("name", drink.getName());
         values.put("typeOf_drink", drink.getTypeOfDrink());
@@ -54,6 +56,7 @@ public class DrinkDAO {
         values.put("price", drink.getPrice());
         values.put("quantity", drink.getQuantity());
         values.put("image_drink", drink.getImage());
+        values.put("unit", drink.getUnit());
         long reslut = sql.insert("Drink", null, values);
         if (reslut > 0) {
             Toast.makeText(context, "Thêm đồ uống thành công", Toast.LENGTH_SHORT).show();
@@ -67,7 +70,7 @@ public class DrinkDAO {
     public boolean updateDrink(Drink drink) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-
+values.put("drink_id", drink.getDrinkID());
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
                 .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
         try {
@@ -88,6 +91,7 @@ public class DrinkDAO {
         values.put("price", drink.getPrice());
         values.put("quantity", drink.getQuantity());
         values.put("image_drink", drink.getImage());
+        values.put("unit", drink.getUnit());
         long reslut = sql.update("Drink", values, "drink_id = ?", new String[]{String.valueOf(drink.getDrinkID())});
         if (reslut > 0) {
             Toast.makeText(context, "Update đồ uống thành công", Toast.LENGTH_SHORT).show();
@@ -122,18 +126,19 @@ public class DrinkDAO {
                 cursor.moveToFirst();
                 do {
                     int getDrinkID = cursor.getInt(0);
-                    String getIngredientID = cursor.getString(1);
-                    int getVoucherID = cursor.getInt(2);
-                    String getNameDrink = cursor.getString(3);
-                    String getTyofDrink = cursor.getString(4);
-                    String getDateExpiry = cursor.getString(6);
-                    String getDateAdd = cursor.getString(5);
-                    int getPrice = cursor.getInt(7);
-                    int getQuantity = cursor.getInt(8);
-                    int getImage = cursor.getInt(9);
+
+                    int getVoucherID = cursor.getInt(1);
+                    String getNameDrink = cursor.getString(2);
+                    String getTyofDrink = cursor.getString(3);
+                    String getDateAdd = cursor.getString(4);
+                    String getDateExpiry = cursor.getString(5);
+
+                    int getPrice = cursor.getInt(6);
+                    int getQuantity = cursor.getInt(7);
+                    int getImage = cursor.getInt(8);
+                    String getUnit = cursor.getString(9);
                     list.add(new Drink(
                             getDrinkID,
-                            getIngredientID,
                             getVoucherID,
                             getNameDrink,
                             getTyofDrink,
@@ -141,7 +146,8 @@ public class DrinkDAO {
                             getDateAdd,
                             getPrice,
                             getQuantity,
-                            getImage
+                            getImage,
+                            getUnit
                     ));
                 } while (cursor.moveToNext());
             }
@@ -165,4 +171,45 @@ public class DrinkDAO {
         return getDrink("SELECT * FROM Drink");
     }
 
+    public ArrayList<Ingredient> getIngredientFromDrinkID(int drinkID){
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ArrayList<Ingredient> listIngredient = new ArrayList<>();
+
+        sql.beginTransaction();
+        try {
+            Cursor cursor = sql.rawQuery("SELECT Ingredient.* " +
+                    "FROM IngredientForDrink " +
+                    "JOIN Drink ON IngredientForDrink.drink_id = Drink.drink_id " +
+                    "JOIN Ingredient ON IngredientForDrink.ingredient_id = Ingredient.ingredient_id WHERE Drink.drink_id = ?", new String[]{String.valueOf(drinkID)});
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                  String getIngredient = cursor.getString(0);
+                  String getName= cursor.getString(1);
+                  String getDateAdd = cursor.getString(2);
+                  String getDateExpiry = cursor.getString(3);
+                  int getPrice = cursor.getInt(4);
+                  double getQuantity = cursor.getDouble(5);
+                  int getImage = cursor.getInt(6);
+                  Ingredient ingredient = new Ingredient(
+                          getIngredient,
+                          getName,
+                          getDateAdd,
+                          getDateExpiry,
+                          getPrice,
+                          getQuantity,
+                          getImage
+                          );
+                  listIngredient.add(ingredient);
+                } while (cursor.moveToNext());
+            }
+            Toast.makeText(context, ""+cursor.getCount(), Toast.LENGTH_SHORT).show();
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+            Toast.makeText(context, "Errrr", Toast.LENGTH_SHORT).show();
+        } finally {
+            sql.endTransaction();
+        }
+        return listIngredient;
+    }
 }

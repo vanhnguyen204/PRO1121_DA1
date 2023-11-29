@@ -32,6 +32,7 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
+import com.fpoly.pro1121_da1.database.IngredientForDrinkDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.User;
@@ -169,12 +170,14 @@ public class FragmentDrinkDetail extends Fragment {
             btnUpdate.setVisibility(View.INVISIBLE);
         }
         ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
-
+        ArrayList<Ingredient> ingredientArrayList;
         Bundle bundle = this.getArguments();
+        IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
         if (bundle != null) {
             receiveDrinkID = bundle.getInt("DRINK_ID");
 
             drink = drinkDAO.getDrinkByID(String.valueOf(receiveDrinkID));
+
             tvDrinkID.setText("Mã đồ uống: " + drink.getDrinkID());
             imgDrink.setImageResource(drink.getImage());
             tvVoucherID.setText("Mã giảm giá:" + drink.getVoucherID());
@@ -185,83 +188,74 @@ public class FragmentDrinkDetail extends Fragment {
             tvPrice.setText("Giá: " + drink.getPrice());
             tvQuantity.setText("Số lượng: " + drink.getQuantity());
 
+            ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
+
+            Toast.makeText(getContext(), "arr ingre" + ingredientArrayList.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), ""+ ingredientArrayList.get(0).getName(), Toast.LENGTH_SHORT).show();
             geIdDrinkUD(drink.getDrinkID());
 
             StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < ingredientArrayList.size(); i++) {
+                stringBuilder.append(ingredientArrayList.get(i).getName()+" ");
+
+            }
+            tvIngredientID.setText("Tên nguyên liệu: "+stringBuilder.toString());
             if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
-                ArrayList<Ingredient> ingredients = checkIngredientID(drink.getIngredientID());
-                for (int i = 0; i < ingredients.size(); i++) {
-                    stringBuilder.append(ingredients.get(i).getName());
+
+
+            }
+
+
+            btnUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("KEY_DRINK_ID_UPDATE", drink.getDrinkID());
+                    FragmentUpdateDrink frm = new FragmentUpdateDrink();
+                    frm.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
                 }
+            });
+            imgBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                tvIngredientID.setText("Nguyên liệu: " + stringBuilder.toString());
-            } else {
-                tvIngredientID.setText("Nguyên liệu: không có");
-            }
+                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                }
+            });
 
-        }
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Bạn có muốn xoá đồ uống này không");
+                    builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            drinkDAO.deleteDrink(drink);
+                            ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                        }
+                    });
+                    builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
+                        }
+                    });
+                    builder.show();
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("KEY_DRINK_ID_UPDATE", drink.getDrinkID());
-                FragmentUpdateDrink frm = new FragmentUpdateDrink();
-                frm.setArguments(bundle);
-                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
-            }
-        });
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-            }
-        });
-
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Bạn có muốn xoá đồ uống này không");
-                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        drinkDAO.deleteDrink(drink);
-                        ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                    }
-                });
-                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.show();
-
-            }
-        });
-
-    }
-
-
-    public ArrayList<Ingredient> checkIngredientID(String ingredientID) {
-        String[] arrID = ingredientID.split(" ");
-        ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
-        for (int i = 0; i < arrID.length; i++) {
-            ingredientArrayList.add(ingredientDAO.getIngredientByID(arrID[i]));
+                }
+            });
 
         }
-        return ingredientArrayList;
+
+
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("KEY_SAVE_STATE", receiveDrinkID);
-        Toast.makeText(getContext(), "Saving: " + receiveDrinkID, Toast.LENGTH_SHORT).show();
 
     }
 

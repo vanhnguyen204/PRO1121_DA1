@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Drink implements Serializable {
     private int drinkID;
-    private String ingredientID;
+
     private int voucherID;
     private String name;
     private String typeOfDrink;
@@ -13,10 +13,10 @@ public class Drink implements Serializable {
     private int price;
     private int quantity;
     private int image;
+    private String unit;
 
-    public Drink(int drinkID, String ingredientID, int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity, int image) {
+    public Drink(int drinkID, int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity, int image, String unit) {
         this.drinkID = drinkID;
-        this.ingredientID = ingredientID;
         this.voucherID = voucherID;
         this.name = name;
         this.typeOfDrink = typeOfDrink;
@@ -25,10 +25,10 @@ public class Drink implements Serializable {
         this.price = price;
         this.quantity = quantity;
         this.image = image;
+        this.unit = unit;
     }
 
-    public Drink(String ingredientID, int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity, int image) {
-        this.ingredientID = ingredientID;
+    public Drink(int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity, int image, String unit) {
         this.voucherID = voucherID;
         this.name = name;
         this.typeOfDrink = typeOfDrink;
@@ -37,6 +37,7 @@ public class Drink implements Serializable {
         this.price = price;
         this.quantity = quantity;
         this.image = image;
+        this.unit = unit;
     }
 
     public int getDrinkID() {
@@ -45,14 +46,6 @@ public class Drink implements Serializable {
 
     public void setDrinkID(int drinkID) {
         this.drinkID = drinkID;
-    }
-
-    public String getIngredientID() {
-        return ingredientID;
-    }
-
-    public void setIngredientID(String ingredientID) {
-        this.ingredientID = ingredientID;
     }
 
     public int getVoucherID() {
@@ -117,5 +110,13 @@ public class Drink implements Serializable {
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

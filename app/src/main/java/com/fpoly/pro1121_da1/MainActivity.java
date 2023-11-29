@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentHome fragmentHome = new FragmentHome();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container_layout, fragmentHome).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_layout, fragmentHome).commit();
         chipNavigationBar = findViewById(R.id.buttonNavigation);
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("KEY_USER_NAME");

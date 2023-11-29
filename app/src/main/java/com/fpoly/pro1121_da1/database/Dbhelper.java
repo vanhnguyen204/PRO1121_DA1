@@ -16,6 +16,7 @@ public class Dbhelper extends SQLiteOpenHelper {
             = "CREATE TABLE Calendar(calendar_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "date_work DATE NOT NULL," +
             "shift_work TEXT NOT NULL)";
+    String createIngredientForDrink ="CREATE TABLE IngredientForDrink(id INTEGER PRIMARY KEY, drink_id REFERENCES Drink(drink_id), ingredient_id REFERENCES Ingredient(ingredient_id))";
     String createCustomer
             = "CREATE TABLE Customer(customer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "full_name TEXT," +
@@ -51,8 +52,7 @@ public class Dbhelper extends SQLiteOpenHelper {
             " price_reduce INTEGER," +
             " date_expiry DATE)";
     String createDrink
-            = "CREATE TABLE Drink(drink_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            " ingredient_id REFERENCES Ingredient(ingredient_id)," +
+            = "CREATE TABLE Drink(drink_id INTEGER PRIMARY KEY," +
             " voucher_id REFERENCES Voucher(voucher_id)," +
             " name TEXT," +
             " typeOf_drink TEXT," +
@@ -60,7 +60,8 @@ public class Dbhelper extends SQLiteOpenHelper {
             " date_expiry DATE," +
             " price INTEGER," +
             "quantity INTEGER ," +
-            " image_drink BLOB)";
+            "image_drink BLOB ," +
+            "unit TEXT)";
 
     String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0, '0339207001')";
     String createTable = "CREATE TABLE TableDrink(table_id TEXT PRIMARY KEY, status INTEGER)";
@@ -69,6 +70,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createCalendarWork);
         db.execSQL(createUser);
+        db.execSQL(createIngredientForDrink);
         db.execSQL(createCustomer);
         db.execSQL(createInvoice);
         db.execSQL(createIngredient);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -44,10 +45,19 @@
                 android:textColor="@color/white" />
 
             <ImageView
+                android:id="@+id/img_notification"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
+                android:layout_toLeftOf="@+id/tv_numberNotification"
                 android:src="@mipmap/bell" />
+
+            <TextView
+                android:id="@+id/tv_numberNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+
+                android:text="1" />
         </RelativeLayout>
 
         <LinearLayout
@@ -67,13 +77,12 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_revenue_fragmentHome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="12.000.000.000 VNĐ"
                 android:textColor="@color/green"
-                android:textSize="17sp"
-
-                />
+                android:textSize="17sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -84,210 +93,228 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_countInvoice_atWeek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="12.000 Đơn"
                 android:textColor="@color/green"
-
                 android:textSize="17sp" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
+        android:background="@drawable/custom_layout_home">
 
-        android:background="@drawable/custom_layout_home"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/shippori_mincho"
-            android:gravity="center"
-            android:text="Danh mục"
-            android:textSize="30sp" />
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <LinearLayout
-                android:id="@+id/manage_member"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="10dp"
-
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/custom_staffview_fragmenthome"
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/shippori_mincho"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:text="Danh mục"
+                android:textSize="30sp" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/staff" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/manage_member"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="10dp"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/custom_staffview_fragmenthome"
+
                     android:gravity="center"
-                    android:text="Nhân viên"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/manage_drink"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toEndOf="@+id/manage_member"
-                android:background="@drawable/custom_drinklayout_fragmenthome"
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/staff" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Nhân viên"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/manage_drink"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toEndOf="@+id/manage_member"
+                    android:background="@drawable/custom_drinklayout_fragmenthome"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/drink" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Đồ uống"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:id="@+id/manage_ingredient"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toEndOf="@+id/manage_drink"
+                    android:background="@drawable/custom_ingredient_fragmenthome"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/ingredient" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Nguyên liệu"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/manage_customer"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@+id/manage_member"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/custom_customer_fragmenthome"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/history" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Lịch sử bán hàng"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/manage_table"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@+id/manage_drink"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toRightOf="@+id/manage_customer"
+                    android:background="@drawable/custom_table_fragmenthome"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/table" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Bàn"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/manage_statistical"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@+id/manage_ingredient"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toRightOf="@+id/manage_table"
+                    android:background="@drawable/custom_graph_fragmenthome"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/graph" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Thống kê"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dancingscript"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:text="Hot drink !"
+                android:textColor="@color/menu"
+                android:textSize="34dp"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/drink" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_fragmentHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Đồ uống"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
+        </LinearLayout>
 
-            <LinearLayout
+    </ScrollView>
 
-                android:id="@+id/manage_ingredient"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toEndOf="@+id/manage_drink"
-                android:background="@drawable/custom_ingredient_fragmenthome"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/ingredient" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Nguyên liệu"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/manage_customer"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@+id/manage_member"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/custom_customer_fragmenthome"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/history" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Lịch sử bán hàng"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/manage_table"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@+id/manage_drink"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@+id/manage_customer"
-                android:background="@drawable/custom_table_fragmenthome"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/table" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Bàn"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/manage_statistical"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@+id/manage_ingredient"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@+id/manage_table"
-                android:background="@drawable/custom_graph_fragmenthome"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/graph" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Thống kê"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recyclerView_fragmentHome"
-            />
-    </LinearLayout>
 
 </LinearLayout>

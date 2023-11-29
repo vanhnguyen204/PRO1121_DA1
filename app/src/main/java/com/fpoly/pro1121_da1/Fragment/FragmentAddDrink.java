@@ -30,9 +30,11 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
+import com.fpoly.pro1121_da1.database.IngredientForDrinkDAO;
 import com.fpoly.pro1121_da1.database.VoucherDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.IngredientForDrink;
 import com.fpoly.pro1121_da1.model.Voucher;
 import com.fpoly.pro1121_da1.spinner.SpinnerAddIngredientToDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerImageDrink;
@@ -44,23 +46,23 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.Random;
 
 public class FragmentAddDrink extends Fragment {
 
     EditText edtNameDrink, edtPriceDrink, edtQuantityDrink, edtDateAdd, edtDateExpiry;
-    String getName, getPrice, getQuantity, getDateAdd, getDateExpiry, getTypeOfDrink = "Pha chế";
+    String getName, getPrice, getQuantity, getDateAdd, getDateExpiry, getTypeOfDrink = "Pha chế", getIngredientID;
     Spinner spinner, spinnerVoucher;
     Button btnConfirmAddDrink;
+    ArrayList<Ingredient> listAddRecyclerView;
     DrinkDAO drinkDAO;
     ImageView imgShowIngredient, imgBack;
-    StringBuilder s = new StringBuilder();
     RecyclerView recyclerView;
     IngredientAdapterAddDrink ingredientAdapterAddDrink;
     Spinner spinnerImageDrink;
-    String getIngredientID = "";
     TextView tvTitleAddIngredient;
     int getImageDrink;
-    int getVoucher;
+    int getVoucher, getDrinkID, getIngredientForDrink;
 
 
     public void setAdapterRecyclerView(ArrayList<Ingredient> list) {
@@ -79,11 +81,7 @@ public class FragmentAddDrink extends Fragment {
                 int position = viewHolder.getAdapterPosition();
                 listAddRecyclerView.remove(position);
                 ingredientAdapterAddDrink.notifyItemRemoved(position);
-                s = new StringBuilder();
-                for (int i = 0; i < listAddRecyclerView.size(); i++) {
-                    s.append(listAddRecyclerView.get(i).getIngredientID() + " ");
-                }
-                Toast.makeText(getContext(), ""+s, Toast.LENGTH_SHORT).show();
+
             }
         };
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
@@ -110,6 +108,10 @@ public class FragmentAddDrink extends Fragment {
         tvTitleAddIngredient = view1.findViewById(R.id.tv_ingredientID_addDrink);
         imgShowIngredient = view1.findViewById(R.id.img_addIngredient_fragmentAddDrink);
         recyclerView = view1.findViewById(R.id.recyclerView_ingredient_fragmentAddDrink);
+        ingredientDAO = new IngredientDAO(getActivity(), new Dbhelper(getActivity()));
+        listIngredient = ingredientDAO.getAllIngredient();
+        IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
+        getDrinkID = new Random().nextInt(1000);
         int[] arrImageDrink = new int[]{
                 R.mipmap.juice_watermelon,
                 R.mipmap.peach_drink,
@@ -226,20 +228,19 @@ public class FragmentAddDrink extends Fragment {
                     Toast.makeText(getContext(), "Không được để trống tên đồ uống.", Toast.LENGTH_SHORT).show();
                 } else if (isNumber(edtPriceDrink, "Giá phải lớn hơn 0", "Giá phải là số")) {
 
-                } else  if (getVoucher == 0) {
+                } else if (getVoucher == 0) {
                     Toast.makeText(getContext(), "Vui lòng chọn phiếu giảm giá !", Toast.LENGTH_SHORT).show();
                 } else {
                     if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
+                        Toast.makeText(getContext(), ""+getDateAdd, Toast.LENGTH_SHORT).show();
+                        Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, "24h sau ngày mua", getDateAdd, Integer.parseInt(getPrice), 0, getImageDrink, "lit");
+                        getIngredientForDrink = new Random().nextInt(1000);
+                        if (drinkDAO.insertDrink(drink)) {
+                            for (int i = 0; i < listAddRecyclerView.size(); i++) {
+                                IngredientForDrink ingredient = new IngredientForDrink(getIngredientForDrink, getDrinkID, listAddRecyclerView.get(i).getIngredientID());
+                                ingredientForDrinkDAO.insertValues(ingredient);
+                                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
 
-                        if (s.toString().equalsIgnoreCase("")) {
-                            Toast.makeText(getContext(), "Vui lòng chọn nguyên liệu cho đồ uống pha chế !", Toast.LENGTH_SHORT).show();
-                        } else {
-                            try {
-                                if (drinkDAO.insertDrink(new Drink(s.toString(), getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), 0, getImageDrink))) {
-                                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                                }
-                            } catch (Exception e) {
-                                Toast.makeText(getContext(), "Nhầm loại đồ uống rồi", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
@@ -247,10 +248,9 @@ public class FragmentAddDrink extends Fragment {
 
                         } else if (getDateExpiry.length() == 0) {
                             Toast.makeText(getContext(), "Không được để trống ngày hết hạn", Toast.LENGTH_SHORT).show();
-                        }else {
-                            if (drinkDAO.insertDrink(new Drink(" ", getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink))) {
-                                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                            }
+                        } else {
+                            Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "long");
+
                         }
 
                     }
@@ -278,7 +278,7 @@ public class FragmentAddDrink extends Fragment {
     IngredientDAO ingredientDAO;
     SpinnerAddIngredientToDrink spinnerAddIngredientToDrink;
     ArrayList<Ingredient> listIngredient;
-    ArrayList<Ingredient> listAddRecyclerView;
+
 
     // show dialog to add ingredient
     public void showDialogIngredient() {
@@ -289,8 +289,7 @@ public class FragmentAddDrink extends Fragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         spinnerIngredient = viewDialog.findViewById(R.id.spinner_addIngredient_fragmentAddDrink);
-        ingredientDAO = new IngredientDAO(getActivity(), new Dbhelper(getActivity()));
-        listIngredient = ingredientDAO.getAllIngredient();
+
 
         listIngredient.add(0, new Ingredient());
         spinnerAddIngredientToDrink = new SpinnerAddIngredientToDrink(listIngredient, getActivity());
@@ -309,24 +308,21 @@ public class FragmentAddDrink extends Fragment {
 
             }
         });
-        s = new StringBuilder();
+
         alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
 
                 for (int i = 0; i < listAddRecyclerView.size(); i++) {
                     for (int j = i + 1; j < listAddRecyclerView.size(); j++) {
-                        if (listAddRecyclerView.get(i).getIngredientID().equalsIgnoreCase(listAddRecyclerView.get(j).getIngredientID())){
+                        if (listAddRecyclerView.get(i).getIngredientID().equalsIgnoreCase(listAddRecyclerView.get(j).getIngredientID())) {
                             listAddRecyclerView.remove(j);
                             Toast.makeText(getContext(), "Đã có nguyên liệu này rồi", Toast.LENGTH_SHORT).show();
-                            continue;
+
                         }
 
                     }
-
-                    s.append(listAddRecyclerView.get(i).getIngredientID() + " ");
                 }
-                Toast.makeText(getContext(), ""+s, Toast.LENGTH_SHORT).show();
                 setAdapterRecyclerView(listAddRecyclerView);
             }
         });
