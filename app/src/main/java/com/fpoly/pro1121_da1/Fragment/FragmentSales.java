@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.VoucherAdapter;
 import com.fpoly.pro1121_da1.MainActivity;
@@ -86,10 +87,20 @@ public class FragmentSales extends Fragment {
                         String get_date_Expiry = edt_date_Expiry.getText().toString().trim();
                         String get_ma = edt_ma_giamgia.getText().toString().trim();
 
-                        Voucher voucher = new Voucher(Integer.valueOf(get_ma),Integer.valueOf(get_Price_Reduce),get_date_Expiry);
-                        listVoucher.add(voucher);
-                        voucherDAO.insertVoucher(voucher);
-                        voucherAdapter.notifyDataSetChanged();
+                        if (get_ma.equals("")){
+                            Toast.makeText(getContext(), "Mã voucher không được để chống!", Toast.LENGTH_SHORT).show();
+                        }else if (get_Price_Reduce.equals("")){
+                            Toast.makeText(getContext(), "Số phần trăm bạn muốn giảm giá không được để chống!", Toast.LENGTH_SHORT).show();
+                        }else if (get_date_Expiry.equals("")){
+                            Toast.makeText(getContext(), "Số ngày hết hạn giảm giá không được để chống!", Toast.LENGTH_SHORT).show();
+                        }else{
+
+                            Voucher voucher = new Voucher(Integer.valueOf(get_ma),Integer.valueOf(get_Price_Reduce),get_date_Expiry);
+                            listVoucher.add(voucher);
+                            voucherDAO.insertVoucher(voucher);
+                            voucherAdapter.notifyDataSetChanged();
+                        }
+
 
                         alertDialog.dismiss();
                     }
