@@ -250,7 +250,9 @@ public class FragmentAddDrink extends Fragment {
                             Toast.makeText(getContext(), "Không được để trống ngày hết hạn", Toast.LENGTH_SHORT).show();
                         } else {
                             Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "long");
+if (drinkDAO.insertDrink(drink)){
 
+}
                         }
 
                     }
