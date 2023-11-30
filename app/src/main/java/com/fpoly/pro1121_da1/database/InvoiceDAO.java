@@ -1,5 +1,6 @@
 package com.fpoly.pro1121_da1.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.model.Invoice;
-import com.fpoly.pro1121_da1.model.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -90,6 +90,53 @@ public class InvoiceDAO {
 
     public Invoice getInvoiceByID(String invoiceID) {
         return getInvoice("SELECT * FROM Invoice WHERE invoice_id = ?", invoiceID).get(0);
+    }
+
+    public int getRevenue() {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+       ArrayList<Integer> doanhThu = new ArrayList<>();
+
+        sql.beginTransaction();
+        try {
+            Cursor cursor = sql.rawQuery("SELECT SUM(total_bill) AS DoanhThu FROM Invoice ", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                  @SuppressLint("Range") int getDoanhThu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("DoanhThu")));
+                  doanhThu.add(getDoanhThu);
+                } while (cursor.moveToNext());
+            }
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+            Toast.makeText(context, "Err invoice", Toast.LENGTH_SHORT).show();
+        } finally {
+            sql.endTransaction();
+        }
+        return doanhThu.get(0);
+
+    }
+
+    public int countInvoiceExported(){
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ArrayList<Integer> count = new ArrayList<>();
+
+        sql.beginTransaction();
+        try {
+            Cursor cursor = sql.rawQuery("SELECT Count(invoice_id) AS QuantityExport FROM Invoice ", null);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    @SuppressLint("Range") int getExport = Integer.parseInt(cursor.getString(cursor.getColumnIndex("QuantityExport")));
+                    count.add(getExport);
+                } while (cursor.moveToNext());
+            }
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+            Toast.makeText(context, "Err invoice", Toast.LENGTH_SHORT).show();
+        } finally {
+            sql.endTransaction();
+        }
+        return count.get(0);
     }
 
 }

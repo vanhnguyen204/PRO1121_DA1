@@ -43,7 +43,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
         Ingredient ingredient = list.get(position);
         holder.tvName.setText(String.format("Tên nguyên liệu: %s", ingredient.getName()));
-        holder.tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity() + " Kg"));
+        holder.tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity() +" "+ ingredient.getUnit()));
         holder.tvSeeDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,6 +1,7 @@
 package com.fpoly.pro1121_da1.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -82,7 +83,7 @@ public class FragmentIngredientDetail extends Fragment {
                 tvDateAdd.setText(String.format("Ngày thêm: %s \n", ingredient.getDateAdd()));
                 tvDateExpiry.setText(String.format("Ngày hết hạn: %s", ingredient.getDateExpiry()));
                 tvPrice.setText(String.format("Giá: %d VND", ingredient.getPrice()));
-                tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity()));
+                tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity()+" "+ingredient.getUnit()));
 
                 UserDAO userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
                 User user = ((MainActivity) getActivity()).user;
@@ -106,6 +107,35 @@ public class FragmentIngredientDetail extends Fragment {
 
                         showDialogUpdateIngredient(ingredient);
 
+                    }
+                });
+
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ingredientDAO.checkDeleteIngredient(ingredient.getIngredientID())) {
+                            Toast.makeText(getContext(), "Đang có đồ uống dùng nguyên liệu này, không thể xoá bây giờ", Toast.LENGTH_LONG).show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setMessage("Bạn có chắc muốn xoá nguyên liệu này không ?");
+                            builder.setPositiveButton("Xoá", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (ingredientDAO.deleteIngredient(ingredient.getIngredientID(), "Đã nguyên liệu", "Xoá nguyên liệu thất bại")
+                                    ) {
+                                        getParentFragmentManager().beginTransaction().replace(R.id.container_layout, new FragmentIngredient()).commit();
+                                    }
+                                }
+                            });
+
+                            builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            builder.show();
+                        }
                     }
                 });
             }
@@ -192,7 +222,7 @@ public class FragmentIngredientDetail extends Fragment {
                 } else if (getQuantity.length() == 0) {
                     Toast.makeText(getContext(), "Không được để trống số lượng", Toast.LENGTH_SHORT).show();
                 } else {
-                    Ingredient ingredient2 = new Ingredient(ingredient1.getIngredientID(), getName, ingredient1.getDateAdd(), getDateExpiry, Integer.parseInt(getPrice), Double.parseDouble(getQuantity), getImage);
+                    Ingredient ingredient2 = new Ingredient(ingredient1.getIngredientID(), getName, ingredient1.getDateAdd(), getDateExpiry, Integer.parseInt(getPrice), Double.parseDouble(getQuantity), getImage, ingredient1.getUnit());
                     if (ingredientDAO.updateIngredient(ingredient2, "Update nguyên liệu thành công", "Update nguyên liệu thất bại")) {
                         img.setImageResource(getImage);
 

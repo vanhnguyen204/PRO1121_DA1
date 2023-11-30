@@ -110,6 +110,9 @@ public class FragmentAddDrink extends Fragment {
         recyclerView = view1.findViewById(R.id.recyclerView_ingredient_fragmentAddDrink);
         ingredientDAO = new IngredientDAO(getActivity(), new Dbhelper(getActivity()));
         listIngredient = ingredientDAO.getAllIngredient();
+
+
+        listIngredient.add(0, new Ingredient());
         IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
         getDrinkID = new Random().nextInt(1000);
         int[] arrImageDrink = new int[]{
@@ -214,6 +217,7 @@ public class FragmentAddDrink extends Fragment {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
 
+        getDateAdd = dateFormat.format(cal.getTime());
         btnConfirmAddDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -222,7 +226,6 @@ public class FragmentAddDrink extends Fragment {
                 getPrice = edtPriceDrink.getText().toString().trim();
                 getQuantity = edtQuantityDrink.getText().toString().trim();
 
-                getDateAdd = dateFormat.format(cal.getTime());
                 getDateExpiry = edtDateExpiry.getText().toString().trim();
                 if (getName.length() == 0) {
                     Toast.makeText(getContext(), "Không được để trống tên đồ uống.", Toast.LENGTH_SHORT).show();
@@ -232,12 +235,12 @@ public class FragmentAddDrink extends Fragment {
                     Toast.makeText(getContext(), "Vui lòng chọn phiếu giảm giá !", Toast.LENGTH_SHORT).show();
                 } else {
                     if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-                        Toast.makeText(getContext(), ""+getDateAdd, Toast.LENGTH_SHORT).show();
-                        Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, "24h sau ngày mua", getDateAdd, Integer.parseInt(getPrice), 0, getImageDrink, "lit");
+
+                        Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateAdd, getDateAdd, Integer.parseInt(getPrice), 0, getImageDrink, "lit");
                         getIngredientForDrink = new Random().nextInt(1000);
                         if (drinkDAO.insertDrink(drink)) {
                             for (int i = 0; i < listAddRecyclerView.size(); i++) {
-                                IngredientForDrink ingredient = new IngredientForDrink(getIngredientForDrink, getDrinkID, listAddRecyclerView.get(i).getIngredientID());
+                                IngredientForDrink ingredient = new IngredientForDrink(getDrinkID, listAddRecyclerView.get(i).getIngredientID());
                                 ingredientForDrinkDAO.insertValues(ingredient);
                                 ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
 
@@ -250,9 +253,9 @@ public class FragmentAddDrink extends Fragment {
                             Toast.makeText(getContext(), "Không được để trống ngày hết hạn", Toast.LENGTH_SHORT).show();
                         } else {
                             Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "long");
-if (drinkDAO.insertDrink(drink)){
-
-}
+                            if (drinkDAO.insertDrink(drink)) {
+                                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                            }
                         }
 
                     }
@@ -292,8 +295,6 @@ if (drinkDAO.insertDrink(drink)){
         alertDialog.show();
         spinnerIngredient = viewDialog.findViewById(R.id.spinner_addIngredient_fragmentAddDrink);
 
-
-        listIngredient.add(0, new Ingredient());
         spinnerAddIngredientToDrink = new SpinnerAddIngredientToDrink(listIngredient, getActivity());
         spinnerIngredient.setAdapter(spinnerAddIngredientToDrink);
         spinnerIngredient.setSelection(0, false);

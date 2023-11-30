@@ -45,14 +45,6 @@
         android:layout_below="@+id/edt_nameDrink_updateDrink"
         android:hint="Giá" />
 
-    <Spinner
-        android:id="@+id/spinner_typeOfDrink_updateDrink"
-        android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_spinner"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_priceDrink_updateDrink" />
-
     <EditText
         android:id="@+id/edt_quantity_updateDrink"
         android:layout_width="match_parent"
@@ -60,7 +52,7 @@
         android:background="@drawable/border_edt"
         android:padding="15dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/spinner_typeOfDrink_updateDrink"
+        android:layout_below="@+id/edt_priceDrink_updateDrink"
         android:hint="Số lượng" />
 
     <Spinner

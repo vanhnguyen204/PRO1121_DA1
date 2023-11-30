@@ -16,7 +16,11 @@ public class Dbhelper extends SQLiteOpenHelper {
             = "CREATE TABLE Calendar(calendar_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "date_work DATE NOT NULL," +
             "shift_work TEXT NOT NULL)";
-    String createIngredientForDrink ="CREATE TABLE IngredientForDrink(id INTEGER PRIMARY KEY, drink_id REFERENCES Drink(drink_id), ingredient_id REFERENCES Ingredient(ingredient_id))";
+    String createIngredientForDrink ="CREATE TABLE IngredientForDrink(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " drink_id INTEGER, " +
+            "ingredient_id TEXT," +
+            "FOREIGN KEY (ingredient_id) REFERENCES Ingredient(ingredient_id) ON DELETE CASCADE," +
+            "FOREIGN KEY (drink_id) REFERENCES Drink(drink_id) ON DELETE CASCADE)";
     String createCustomer
             = "CREATE TABLE Customer(customer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "full_name TEXT," +
@@ -46,7 +50,8 @@ public class Dbhelper extends SQLiteOpenHelper {
             "date_expiry DATE, " +
             "price INTEGER, " +
             "quantity REAL," +
-            " image BLOB)";
+            " image BLOB,"+
+            " unit TEXT)";
     String createVoucher
             = "CREATE TABLE Voucher(voucher_id INTEGER PRIMARY KEY," +
             " price_reduce INTEGER," +

@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_drink"
             android:layout_marginTop="10dp"
+            android:maxLines="1"
             android:text="Tên: Cà phê"
             android:textSize="18sp" />
 

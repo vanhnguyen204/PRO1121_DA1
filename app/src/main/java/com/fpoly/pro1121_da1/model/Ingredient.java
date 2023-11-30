@@ -8,8 +8,9 @@ public class Ingredient {
     private int price;
     private Double quantity;
     private int image;
+    private String unit;
 
-    public Ingredient(String ingredientID, String name, String dateAdd, String dateExpiry, int price, Double quantity, int image) {
+    public Ingredient(String ingredientID, String name, String dateAdd, String dateExpiry, int price, Double quantity, int image, String unit) {
         this.ingredientID = ingredientID;
         this.name = name;
         this.dateAdd = dateAdd;
@@ -17,6 +18,15 @@ public class Ingredient {
         this.price = price;
         this.quantity = quantity;
         this.image = image;
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Ingredient() {

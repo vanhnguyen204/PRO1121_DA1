@@ -50,13 +50,18 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/edt_price_fragmentIngredient"
         android:hint="Số lượng" />
-
+<Spinner
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/spinner_unitIngredient"
+    android:layout_below="@+id/edt_quantity_fragmentIngredient"
+    />
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_add_fragmentIngredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/edt_quantity_fragmentIngredient"
+        android:layout_below="@+id/spinner_unitIngredient"
         android:text="Thêm" />
 
 

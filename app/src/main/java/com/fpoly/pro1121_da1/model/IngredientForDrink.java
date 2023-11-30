@@ -11,6 +11,11 @@ public class IngredientForDrink {
         this.ingredientID = ingredientID;
     }
 
+    public IngredientForDrink(int drink_id, String ingredientID) {
+        this.drink_id = drink_id;
+        this.ingredientID = ingredientID;
+    }
+
     public int getId() {
         return id;
     }

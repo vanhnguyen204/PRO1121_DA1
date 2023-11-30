@@ -108,6 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
+        android:id="@+id/scrollView"
         android:background="@drawable/custom_layout_home">
 
         <LinearLayout
@@ -213,7 +214,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/manage_customer"
+                    android:id="@+id/manage_exportInvoice"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_below="@+id/manage_member"
@@ -248,7 +249,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_toRightOf="@+id/manage_customer"
+                    android:layout_toRightOf="@+id/manage_exportInvoice"
                     android:background="@drawable/custom_table_fragmenthome"
                     android:gravity="center"
                     android:orientation="vertical">

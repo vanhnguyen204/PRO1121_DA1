@@ -179,78 +179,79 @@ public class FragmentDrinkDetail extends Fragment {
             receiveDrinkID = bundle.getInt("DRINK_ID");
 
             drink = drinkDAO.getDrinkByID(String.valueOf(receiveDrinkID));
-
             tvDrinkID.setText("Mã đồ uống: " + drink.getDrinkID());
             imgDrink.setImageResource(drink.getImage());
             tvVoucherID.setText("Mã giảm giá:" + drink.getVoucherID());
             tvNameDrink.setText("Tên đồ uống: " + drink.getName());
             tvTypeOfDrink.setText("Loại đồ uống: " + drink.getTypeOfDrink());
+
             tvDateAdd.setText("Ngày thêm: " + drink.getDateAdd());
-            tvDateExpiry.setText("Ngày hết hạn: " + drink.getDateExpiry());
+
             tvPrice.setText("Giá: " + drink.getPrice());
             tvQuantity.setText("Số lượng: " + drink.getQuantity());
 
             ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
 
-            Toast.makeText(getContext(), "arr ingre" + ingredientArrayList.size(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(), ""+ ingredientArrayList.get(0).getName(), Toast.LENGTH_SHORT).show();
-            geIdDrinkUD(drink.getDrinkID());
-
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < ingredientArrayList.size(); i++) {
-                stringBuilder.append(ingredientArrayList.get(i).getName()+" ");
+                stringBuilder.append(ingredientArrayList.get(i).getName() + " ");
 
             }
-            tvIngredientID.setText("Tên nguyên liệu: "+stringBuilder.toString());
-            if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+            if (drink.getTypeOfDrink().equals("Pha chế")) {
+                tvDateExpiry.setText("Ngày hết hạn: 24h sau ngày mua");
+                tvIngredientID.setText("Tên nguyên liệu: " + stringBuilder.toString());
 
-
+            }else {
+                tvDateExpiry.setText("Ngày hết hạn: " + drink.getDateExpiry());
+                tvIngredientID.setText("Tên nguyên liệu: không cần nguyên liệu pha chế");
             }
 
-
-            btnUpdate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("KEY_DRINK_ID_UPDATE", drink.getDrinkID());
-                    FragmentUpdateDrink frm = new FragmentUpdateDrink();
-                    frm.setArguments(bundle);
-                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
-                }
-            });
-            imgBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                }
-            });
-
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("Bạn có muốn xoá đồ uống này không");
-                    builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            drinkDAO.deleteDrink(drink);
-                            ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
-                        }
-                    });
-                    builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    });
-                    builder.show();
-
-                }
-            });
 
         }
 
+
+
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("KEY_DRINK_ID_UPDATE", drink.getDrinkID());
+                FragmentUpdateDrink frm = new FragmentUpdateDrink();
+                frm.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
+            }
+        });
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Bạn có muốn xoá đồ uống này không");
+                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        drinkDAO.deleteDrink(drink);
+                        ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                    }
+                });
+                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
+
+            }
+        });
 
     }
 

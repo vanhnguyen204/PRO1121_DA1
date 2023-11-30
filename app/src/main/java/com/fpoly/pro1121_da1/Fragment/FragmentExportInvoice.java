@@ -90,7 +90,7 @@ String getDrinkID = "";
             getDrinkID += listDrinkID.get(i)+" ";
         }
 
-        Toast.makeText(getContext(), ""+listDrinkID.toString(), Toast.LENGTH_SHORT).show();
+
         tvTotalBill.setText("Tổng tiền: " + sumPrice + " VNĐ");
         tvNameDrink.setText("Đồ uống đã chọn: " + nameDrink);
         User user = ((MainActivity) getActivity()).user;
@@ -127,7 +127,7 @@ String getDrinkID = "";
 
             }
         });
-        Toast.makeText(getContext(), ""+getDrinkID, Toast.LENGTH_SHORT).show();
+
         imgAddCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,7 +141,7 @@ String getDrinkID = "";
             public void onClick(View view) {
                 Invoice invoice = new Invoice(invoiceID, user.getUserID(), 1, getDrinkID, getTableID, sumPrice, getDateCreate);
                 if (invoiceDAO.insertInvoice(invoice)){
-                    Toast.makeText(getContext(), ""+invoice.getDrinkID(), Toast.LENGTH_SHORT).show();
+
                     getParentFragmentManager().beginTransaction().replace(R.id.container_layout, new FragmentTable()).commit();
                 }
             }

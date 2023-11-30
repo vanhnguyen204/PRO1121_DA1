@@ -176,6 +176,7 @@ values.put("drink_id", drink.getDrinkID());
         ArrayList<Ingredient> listIngredient = new ArrayList<>();
 
         sql.beginTransaction();
+
         try {
             Cursor cursor = sql.rawQuery("SELECT Ingredient.* " +
                     "FROM IngredientForDrink " +
@@ -191,6 +192,7 @@ values.put("drink_id", drink.getDrinkID());
                   int getPrice = cursor.getInt(4);
                   double getQuantity = cursor.getDouble(5);
                   int getImage = cursor.getInt(6);
+                  String getUnit = cursor.getString(7);
                   Ingredient ingredient = new Ingredient(
                           getIngredient,
                           getName,
@@ -198,12 +200,13 @@ values.put("drink_id", drink.getDrinkID());
                           getDateExpiry,
                           getPrice,
                           getQuantity,
-                          getImage
+                          getImage,
+                          getUnit
                           );
                   listIngredient.add(ingredient);
                 } while (cursor.moveToNext());
             }
-            Toast.makeText(context, ""+cursor.getCount(), Toast.LENGTH_SHORT).show();
+
             sql.setTransactionSuccessful();
         } catch (Exception e) {
             Toast.makeText(context, "Errrr", Toast.LENGTH_SHORT).show();

@@ -42,6 +42,7 @@ public class IngredientDAO {
         values.put("price", ingredient.getPrice());
         values.put("quantity", ingredient.getQuantity());
         values.put("image", ingredient.getImage());
+        values.put("unit", ingredient.getUnit());
         long result = sql.insert("Ingredient", null, values);
         if (result > 0) {
             Toast.makeText(context, mess1, Toast.LENGTH_SHORT).show();
@@ -70,6 +71,7 @@ public class IngredientDAO {
         values.put("price", ingredient.getPrice());
         values.put("quantity", ingredient.getQuantity());
         values.put("image", ingredient.getImage());
+        values.put("unit", ingredient.getUnit());
         long result = sql.update("Ingredient", values, "ingredient_id = ?", new String[]{ingredient.getIngredientID()});
         if (result > 0) {
             Toast.makeText(context, mess1, Toast.LENGTH_SHORT).show();
@@ -110,7 +112,8 @@ public class IngredientDAO {
                     int getPrice = cursor.getInt(4);
                     double getQuantity = cursor.getDouble(5);
                     int getImage = cursor.getInt(6);
-                    list.add(new Ingredient(getIngredient, getName, getDateAdd, getDateExpiry, getPrice, getQuantity, getImage));
+                    String getUnit= cursor.getString(7);
+                    list.add(new Ingredient(getIngredient, getName, getDateAdd, getDateExpiry, getPrice, getQuantity, getImage, getUnit));
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();
@@ -131,5 +134,19 @@ public class IngredientDAO {
 
     public ArrayList<Ingredient> getAllIngredient() {
         return getIngredient("SELECT * FROM Ingredient");
+    }
+
+    public boolean checkDeleteIngredient(String ingredienID) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        String[] projecttion = {"drink_id"};
+        String selection = "ingredient_id = ?";
+        String[] selectionArgs = {ingredienID};
+        Cursor cursor = sql.query("IngredientForDrink", projecttion, selection, selectionArgs, null, null, null);
+        if (cursor.moveToFirst()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

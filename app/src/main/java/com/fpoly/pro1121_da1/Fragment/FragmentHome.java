@@ -14,11 +14,14 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.TopDrinkAdapter;
@@ -39,10 +42,13 @@ import java.util.List;
 import java.util.Map;
 
 public class FragmentHome extends Fragment {
-    LinearLayout manageIngredient, manegeUser, manageDrink;
+    LinearLayout manageIngredient, manegeUser, manageDrink, manageTable, manageExportInvoice;
     String sub = "";
     ImageView imgAvatar;
     RecyclerView recyclerView;
+    ScrollView scrollView;
+    TextView tvRevenue, tvExportInvoice;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,10 +56,13 @@ public class FragmentHome extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.recyclerView_fragmentHome);
+        tvRevenue = view.findViewById(R.id.tv_revenue_fragmentHome);
+        tvExportInvoice = view.findViewById(R.id.tv_countInvoice_atWeek);
         // Inflate the layout for this fragment
         InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
         ArrayList<Invoice> invoiceArrayList = invoiceDAO.getAllInvoice();
         ArrayList<String> listDrinkID = new ArrayList<>();
+        scrollView = view.findViewById(R.id.scrollView);
         for (int i = 0; i < invoiceArrayList.size(); i++) {
             listDrinkID.add(invoiceArrayList.get(i).getDrinkID());
         }
@@ -95,13 +104,6 @@ public class FragmentHome extends Fragment {
             list.add(integer);
         }
 
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = i + 1; j < list.size(); j++) {
-                if (list.get(i) == list.get(j)) {
-                    list.remove(i);
-                }
-            }
-        }
 
         Collections.sort(list, Comparator.comparingInt((Integer num) -> countMap.get(num)).reversed());
         ArrayList<Drink> drinkArrayList = new ArrayList<>();
@@ -109,8 +111,14 @@ public class FragmentHome extends Fragment {
         for (int i = 0; i < list.size(); i++) {
             drinkArrayList.add(drinkDAO.getDrinkByID(String.valueOf(list.get(i))));
         }
+        for (int i = 0; i < drinkArrayList.size() ; i++) {
+            for (int j = i + 1; j <  drinkArrayList.size(); j++) {
+                if (drinkArrayList.get(i).getDrinkID() == drinkArrayList.get(j).getDrinkID()){
+                    drinkArrayList.remove(drinkArrayList.get(i));
+                }
+            }
+        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-
 
 
         new Handler().postDelayed(new Runnable() {
@@ -128,7 +136,7 @@ public class FragmentHome extends Fragment {
                 animation1.setRepeatCount(0);
                 recyclerView.setAnimation(animation1);
             }
-        },400);
+        }, 400);
 
         return view;
     }
@@ -140,6 +148,20 @@ public class FragmentHome extends Fragment {
         manegeUser = view.findViewById(R.id.manage_member);
         manageDrink = view.findViewById(R.id.manage_drink);
         imgAvatar = view.findViewById(R.id.avatar_staff);
+        manageTable = view.findViewById(R.id.manage_table);
+        manageExportInvoice = view.findViewById(R.id.manage_exportInvoice);
+        manageExportInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentHistoryInvoice());
+            }
+        });
+        manageTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentOrderDrink());
+            }
+        });
         manageIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,6 +180,15 @@ public class FragmentHome extends Fragment {
                 ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
             }
         });
+       try {
+           InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
+           int revenueInt = invoiceDAO.getRevenue();
+           tvRevenue.setText(revenueInt + "VNĐ");
+           int count = invoiceDAO.countInvoiceExported();
+           tvExportInvoice.setText(count+" đơn.");
+       }catch (Exception e){
+
+       }
 
 
     }

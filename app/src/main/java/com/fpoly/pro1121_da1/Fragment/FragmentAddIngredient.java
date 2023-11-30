@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,15 +27,16 @@ import com.fpoly.pro1121_da1.spinner.SpinnerImageIngredient;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Random;
 
 public class FragmentAddIngredient extends Fragment {
     ImageView imgBack;
     EditText edtAddName, edtDateExpiry, edtPrice, edtQuantity;
     Button btnConfirmAdd;
-    String getName, getDateADD, getDateExpiry, getPrice, getQuantity;
+    String getName, getDateADD, getDateExpiry, getPrice, getQuantity, getUnit = "Kg";
     IngredientDAO ingredientDAO;
-    Spinner spinner;
+    Spinner spinner, spinnerUnit;
     SpinnerImageIngredient spinnerImageIngredient;
     int getImage;
 
@@ -57,8 +59,26 @@ public class FragmentAddIngredient extends Fragment {
         edtPrice = view.findViewById(R.id.edt_price_fragmentIngredient);
         edtQuantity = view.findViewById(R.id.edt_quantity_fragmentIngredient);
         btnConfirmAdd = view.findViewById(R.id.btn_add_fragmentIngredient);
+        spinnerUnit = view.findViewById(R.id.spinner_unitIngredient);
+        String[] unitArr = {"Kg","Lít"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                unitArr
+        );
+        spinnerUnit.setAdapter(adapter);
+        spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                getUnit = unitArr[i];
+            }
 
-        int arrImage[] = new int[]{
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        int[] arrImage = new int[]{
                 R.mipmap.sugar,
                 R.mipmap.milk,
                 R.mipmap.matcha,
@@ -71,9 +91,7 @@ public class FragmentAddIngredient extends Fragment {
                 R.mipmap.orange,
                 R.mipmap.lemons
         };
-        for (int i = 0; i < arrImage.length; i++) {
-            Log.d(String.valueOf(arrImage[i]), "OK");
-        }
+
         spinnerImageIngredient = new SpinnerImageIngredient(arrImage, getActivity());
         spinner.setAdapter(spinnerImageIngredient);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -101,7 +119,7 @@ public class FragmentAddIngredient extends Fragment {
                 getPrice = edtPrice.getText().toString().trim();
                 getQuantity = edtQuantity.getText().toString().trim();
 
-                if (ingredientDAO.insertIngredient(new Ingredient(addIngredientID, getName, getDateADD, getDateExpiry, Integer.parseInt(getPrice), Double.parseDouble(getQuantity), getImage), "Thêm nguyên liệu thành công", "Thêm nguyên liệu thất bại")){
+                if (ingredientDAO.insertIngredient(new Ingredient(addIngredientID, getName, getDateADD, getDateExpiry, Integer.parseInt(getPrice), Double.parseDouble(getQuantity), getImage, getUnit), "Thêm nguyên liệu thành công", "Thêm nguyên liệu thất bại")) {
                     clearEditText();
                 }
 
@@ -112,7 +130,7 @@ public class FragmentAddIngredient extends Fragment {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentIngredient());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentIngredient());
             }
         });
     }

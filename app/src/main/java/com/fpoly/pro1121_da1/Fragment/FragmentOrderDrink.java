@@ -92,15 +92,12 @@ public class FragmentOrderDrink extends Fragment {
             }
         }
 
-
-        Toast.makeText(getContext(), "" + listDrinkID.size(), Toast.LENGTH_SHORT).show();
-
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
             public void onClick(Drink drink, int position) {
 
                 listDrinkID.add(String.valueOf(drink.getDrinkID()));
-                Toast.makeText(getContext(), "Clicked---" + listDrinkID.size() + " " + drink.getName(), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -111,7 +108,7 @@ public class FragmentOrderDrink extends Fragment {
                     }
                 }
 
-                Toast.makeText(getContext(), ""+listDrinkID.size()+listDrinkID.toString(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
