@@ -82,7 +82,7 @@ public class CalenderDAO {
                 do {
                     int id_Calender = cursor.getInt(0);
                     String dateWork = cursor.getString(1);
-                    String shiftWork = cursor.getString(2);
+                    int shiftWork = cursor.getInt(2);
 
                     CalenderWork calenderWork = new CalenderWork(id_Calender,dateWork,shiftWork);
                     list.add(calenderWork);

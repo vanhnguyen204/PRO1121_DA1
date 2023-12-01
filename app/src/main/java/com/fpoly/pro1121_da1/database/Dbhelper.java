@@ -15,7 +15,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     String createCalendarWork
             = "CREATE TABLE Calendar(calendar_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "date_work DATE NOT NULL," +
-            "shift_work TEXT NOT NULL)";
+            "shift_work INTEGER NOT NULL)";
     String createIngredientForDrink ="CREATE TABLE IngredientForDrink(id INTEGER PRIMARY KEY AUTOINCREMENT," +
             " drink_id INTEGER, " +
             "ingredient_id TEXT," +
@@ -27,7 +27,6 @@ public class Dbhelper extends SQLiteOpenHelper {
             " phone_number TEXT)";
     String createUser
             = "CREATE TABLE User(user_id TEXT PRIMARY KEY," +
-            " calendar_work REFERENCES Calendar(calendar_id), " +
             "user_name TEXT, pass_word TEXT," +
             " full_name TEXT, date_of_birth DATE, " +
             "address TEXT," +
@@ -67,8 +66,9 @@ public class Dbhelper extends SQLiteOpenHelper {
             "quantity INTEGER ," +
             "image_drink BLOB ," +
             "unit TEXT)";
+    String createCalendarWorkForStaff = "CREATE TABLE CalendarWorkForStaff(calendarworkforstaff_id TEXT PRIMARY KEY, uer_id REFERENCES User(user_id), clendarWork_id REFERENCES Calendar(calendar_id))";
 
-    String insertAdmin = "INSERT INTO User VALUES('033204003937', 1, 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0, '0339207001')";
+    String insertAdmin = "INSERT INTO User VALUES('033204003937', 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0, '0339207001')";
     String createTable = "CREATE TABLE TableDrink(table_id TEXT PRIMARY KEY, status INTEGER)";
 
     @Override
@@ -83,6 +83,7 @@ public class Dbhelper extends SQLiteOpenHelper {
         db.execSQL(createDrink);
         db.execSQL(insertAdmin);
         db.execSQL(createTable);
+        db.execSQL(createCalendarWorkForStaff);
 
     }
 

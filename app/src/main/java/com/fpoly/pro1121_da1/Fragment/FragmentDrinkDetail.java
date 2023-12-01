@@ -173,6 +173,7 @@ public class FragmentDrinkDetail extends Fragment {
         }
         ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
         ArrayList<Ingredient> ingredientArrayList;
+
         Bundle bundle = this.getArguments();
         IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
         if (bundle != null) {

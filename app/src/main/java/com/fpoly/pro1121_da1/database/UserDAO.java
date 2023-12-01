@@ -41,7 +41,6 @@ public class UserDAO {
         }
 
         values.put("user_id", user.getUserID());
-        values.put("calendar_work", user.getCalendarWork());
         values.put("user_name", user.getUserName());
         values.put("pass_word", user.getPassWord());
         values.put("full_name", user.getFullName());
@@ -74,7 +73,6 @@ public class UserDAO {
         }
 
         values.put("user_id", user.getUserID());
-        values.put("calendar_work", user.getCalendarWork());
         values.put("user_name", user.getUserName());
         values.put("pass_word", user.getPassWord());
         values.put("full_name", user.getFullName());
@@ -146,17 +144,16 @@ public class UserDAO {
                 cursor.moveToFirst();
                 do {
                     String getUserID = cursor.getString(0);
-                    int getCalendarID = cursor.getInt(1);
-                    String getUserName = cursor.getString(2);
-                    String getPassWord = cursor.getString(3);
-                    String getFullName = cursor.getString(4);
-                    String getDateOfBirth = cursor.getString(5);
-                    String getAddress = cursor.getString(6);
-                    String getRole = cursor.getString(7);
-                    int getStatus = cursor.getInt(8);
-                    String getPhoneNumber = cursor.getString(9);
+                    String getUserName = cursor.getString(1);
+                    String getPassWord = cursor.getString(2);
+                    String getFullName = cursor.getString(3);
+                    String getDateOfBirth = cursor.getString(4);
+                    String getAddress = cursor.getString(5);
+                    String getRole = cursor.getString(6);
+                    int getStatus = cursor.getInt(7);
+                    String getPhoneNumber = cursor.getString(8);
                     list.add(new User(getUserID,
-                            getCalendarID,
+
                             getUserName,
                             getPassWord,
                             getFullName,

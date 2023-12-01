@@ -16,6 +16,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fpoly.pro1121_da1.Fragment.FragmentShowDetailCalendar;
+import com.fpoly.pro1121_da1.Interface.SenDataCalenderWorkClick;
+import com.fpoly.pro1121_da1.Interface.SenDataClick;
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.CalenderDAO;
 import com.fpoly.pro1121_da1.database.Dbhelper;
@@ -30,7 +34,12 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
     CalenderDAO calenderDAO;
     Spinner spinner;
-    String getShiftWork;
+    int getShiftWork;
+    public SenDataCalenderWorkClick senDataCalenderWorkClick;
+
+    public void setOnCalendaClick(SenDataCalenderWorkClick senDataCalenderWorkClick) {
+        this.senDataCalenderWorkClick = senDataCalenderWorkClick;
+    }
 
     public CalenderAdapter(Activity activity, ArrayList<CalenderWork> listCalender) {
         this.activity = activity;
@@ -48,8 +57,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder_Calender holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.tv_dayofWork.setText(listCalender.get(position).getDayofWork());
-        holder.tv_shiftWork.setText(listCalender.get(position).getShiftWork());
+        holder.tv_dayofWork.setText("Ngày Làm Việc:"+listCalender.get(position).getDayofWork());
+        holder.tv_shiftWork.setText("Ca làm việc:"+listCalender.get(position).getShiftWork());
 
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -63,18 +72,27 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
                 calenderDAO = new CalenderDAO(activity,new Dbhelper(activity));
 
+                CalenderWork calenderWork = listCalender.get(holder.getAdapterPosition());
+
                 EditText edt_dayOfWork = view.findViewById(R.id.edt_dayOfwork_dialogUpdateCalender);
                 spinner = view.findViewById(R.id.spn_shiftWork_dialog);
                 Button btn_updateCalender = view.findViewById(R.id.btn_updateCalender);
 
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        senDataCalenderWorkClick.senData(calenderWork);
+                    }
+                });
 
-                String[] shiftWork = new String[]{
-                        "Ca sáng: 8h -> 13h",
-                        "Ca chiều: 13h -> 18h",
-                        "Ca tối: 18h -> 23h"
+
+                Integer[] shiftWork = new Integer[]{
+                        1,
+                        2,
+                        3
                 };
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                ArrayAdapter<Integer> adapter = new ArrayAdapter<>(
                         activity,
                         android.R.layout.simple_spinner_dropdown_item,
                         shiftWork
@@ -116,6 +134,15 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
             }
         });
 
+
+
+        holder.tv_showdetail_calender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)activity).reloadFragment(new FragmentShowDetailCalendar());
+            }
+        });
+
     }
 
     @Override
@@ -124,18 +151,19 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     }
 
     public static class ViewHolder_Calender extends RecyclerView.ViewHolder{
-        TextView tv_dayofWork , tv_shiftWork;
+        TextView tv_dayofWork , tv_shiftWork, tv_showdetail_calender;
         public ViewHolder_Calender(@NonNull View itemView) {
             super(itemView);
             tv_dayofWork = itemView.findViewById(R.id.tv_dayWork_item);
             tv_shiftWork = itemView.findViewById(R.id.tv_shiftWork_item);
+            tv_showdetail_calender = itemView.findViewById(R.id.tv_showdetail_calendarwork_item);
 
         }
     }
-    public void setDefauselected(String arrShiftWork[], String ShiftWork){
+    public void setDefauselected(Integer arrShiftWork[], int ShiftWork){
 
         for (int i = 0; i < arrShiftWork.length; i++) {
-            if (ShiftWork.equals(arrShiftWork[i])){
+            if (ShiftWork == arrShiftWork[i]){
                spinner.setSelection(i);
             }
         }

@@ -3,15 +3,15 @@ package com.fpoly.pro1121_da1.model;
 public class CalenderWork {
     private int id_calender;
     private String dayofWork;
-    private String shiftWork;
+    private int shiftWork;
 
-    public CalenderWork(int id_calender, String dayofWork, String shiftWork) {
+    public CalenderWork(int id_calender, String dayofWork, int shiftWork) {
         this.id_calender = id_calender;
         this.dayofWork = dayofWork;
         this.shiftWork = shiftWork;
     }
 
-    public CalenderWork(String dayofWork, String shiftWork) {
+    public CalenderWork(String dayofWork, int shiftWork) {
         this.dayofWork = dayofWork;
         this.shiftWork = shiftWork;
     }
@@ -32,11 +32,11 @@ public class CalenderWork {
         this.dayofWork = dayofWork;
     }
 
-    public String getShiftWork() {
+    public int getShiftWork() {
         return shiftWork;
     }
 
-    public void setShiftWork(String shiftWork) {
+    public void setShiftWork(int shiftWork) {
         this.shiftWork = shiftWork;
     }
 }

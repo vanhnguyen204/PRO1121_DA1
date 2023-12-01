@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,10 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.CalenderAdapter;
+import com.fpoly.pro1121_da1.Interface.SenDataCalenderWorkClick;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.CalenderDAO;
@@ -50,10 +53,11 @@ public class FragmentCalendar extends Fragment {
     TextView tv_dayNow, tv_daytoWork;
     ImageView img_calendar, img_back_fragmentSetting;
     Button btn_addWordCalender;
-    String[] shiftWork;
+    Integer[] shiftWork;
+
 
     Calendar calendar;
-    String getShift;
+    int getShift;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +81,7 @@ public class FragmentCalendar extends Fragment {
         calendarArrayList = calenderDAO.getAllCalendar();
         calenderAdapter = new CalenderAdapter(getActivity(),calendarArrayList);
         rcViewCalendar.setAdapter(calenderAdapter);
-
+        Toast.makeText(getContext(), ""+calendarArrayList.size(), Toast.LENGTH_SHORT).show();
         Animation animation = new TranslateAnimation(0,0,0,50);
         animation.setDuration(2000);
         animation.setRepeatMode(Animation.REVERSE);
@@ -86,13 +90,13 @@ public class FragmentCalendar extends Fragment {
 
         setTimeNow(tv_dayNow);
 
-         shiftWork = new String[]{
-                "Ca sáng: 8h -> 13h",
-                "Ca chiều: 13h -> 18h",
-                "Ca tối: 18h -> 23h"
+         shiftWork = new Integer[]{
+                1,
+                2,
+                3
         };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(
                 getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 shiftWork
@@ -176,6 +180,16 @@ public class FragmentCalendar extends Fragment {
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rcViewCalendar);
+       calenderAdapter.setOnCalendaClick(new SenDataCalenderWorkClick() {
+            @Override
+            public void senData(CalenderWork calenderWork) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("CALENDER_ID",1);
+                FragmentShowDetailCalendar detailCalendar = new FragmentShowDetailCalendar();
+                detailCalendar.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, detailCalendar).commit();
+            }
+        });
 
     }
 
@@ -207,5 +221,6 @@ public class FragmentCalendar extends Fragment {
         Calendar calendar1 = Calendar.getInstance();
         textView.setText(dateFormat.format(calendar1.getTime()));
     }
+
 
 }

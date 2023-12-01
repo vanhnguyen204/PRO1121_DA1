@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private String userID;
-    private int calendarWork;
     private String userName;
     private String passWord;
     private String fullName;
@@ -15,9 +14,8 @@ public class User implements Serializable {
     private String phoneNumber;
 
 
-    public User(String userID, int calendarWork, String userName, String passWord, String fullName, String dateOfBirth, String address, String role, int status, String phoneNumber) {
+    public User(String userID, String userName, String passWord, String fullName, String dateOfBirth, String address, String role, int status, String phoneNumber) {
         this.userID = userID;
-        this.calendarWork = calendarWork;
         this.userName = userName;
         this.passWord = passWord;
         this.fullName = fullName;
@@ -28,36 +26,12 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getUserID() {
         return userID;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    public int getCalendarWork() {
-        return calendarWork;
-    }
-
-    public void setCalendarWork(int calendarWork) {
-        this.calendarWork = calendarWork;
     }
 
     public String getUserName() {
@@ -106,5 +80,21 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

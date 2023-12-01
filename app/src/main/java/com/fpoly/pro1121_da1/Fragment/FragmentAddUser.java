@@ -81,7 +81,7 @@ public class FragmentAddUser extends Fragment {
                 } else if (checkPhoneNumber(edtPhoneNumber)) {
                     
                 } else {
-                    User user = new User(getCCCD, 0, getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, "staff", 0, getPhoneNumber);
+                    User user = new User(getCCCD, getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, "staff", 0, getPhoneNumber);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 
                         ((MainActivity) getActivity()).reloadFragment(new FragmentAddUser());
