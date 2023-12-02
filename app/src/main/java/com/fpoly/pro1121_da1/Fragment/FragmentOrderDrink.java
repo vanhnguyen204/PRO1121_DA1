@@ -123,7 +123,6 @@ public class FragmentOrderDrink extends Fragment {
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
             public void onClick(Drink drink, int position) {
-
                 listDrinkID.add(String.valueOf(drink.getDrinkID()));
 
             }

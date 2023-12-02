@@ -68,6 +68,7 @@ public class FragmentCalendar extends Fragment {
 
     public void setRecyclerView(String day) {
         calendarArrayList = calenderDAO.getAllCalendarByDay(day);
+        Toast.makeText(getContext(), "lich lam viec: "+ calendarArrayList.size(), Toast.LENGTH_SHORT).show();
         if (calendarArrayList.size() != 0) {
             calenderAdapter = new CalenderAdapter(getActivity(), calendarArrayList, getParentFragmentManager());
             rcViewCalendar.setAdapter(calenderAdapter);
@@ -148,6 +149,7 @@ public class FragmentCalendar extends Fragment {
             }
         });
         setRecyclerView(tv_dayNow.getText().toString());
+
         btn_addWordCalender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

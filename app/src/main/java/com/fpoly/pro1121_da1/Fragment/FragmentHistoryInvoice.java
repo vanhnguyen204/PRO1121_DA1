@@ -14,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.HistoryInvoiceAdapter;
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.InvoiceDAO;
@@ -29,6 +31,7 @@ public class FragmentHistoryInvoice extends Fragment {
     HistoryInvoiceAdapter adapter;
     ArrayList<Invoice> list;
     InvoiceDAO invoiceDAO;
+    ImageView imgBack;
     EditText edtSearch;
 
     @Override
@@ -45,11 +48,18 @@ public class FragmentHistoryInvoice extends Fragment {
         list = invoiceDAO.getAllInvoice();
         adapter = new HistoryInvoiceAdapter(getActivity(), list);
         recyclerView = view.findViewById(R.id.recyclerview_history);
+        imgBack = view.findViewById(R.id.img_back_fragmentHistoryInvoice);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         ArrayList<Invoice> listClone = invoiceDAO.getAllInvoice();
         edtSearch = view.findViewById(R.id.edt_searchHistoryInvoice);
 
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)requireActivity()).reloadFragment(new FragmentSettings());
+            }
+        });
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
