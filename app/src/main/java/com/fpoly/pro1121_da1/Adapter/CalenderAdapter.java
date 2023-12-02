@@ -35,6 +35,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     CalenderDAO calenderDAO;
     Spinner spinner;
     int getShiftWork;
+    CalenderWork calenderWork;
     public SenDataCalenderWorkClick senDataCalenderWorkClick;
 
     public void setOnCalendaClick(SenDataCalenderWorkClick senDataCalenderWorkClick) {
@@ -56,9 +57,9 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder_Calender holder, @SuppressLint("RecyclerView") int position) {
-
-        holder.tv_dayofWork.setText("Ngày Làm Việc:"+listCalender.get(position).getDayofWork());
-        holder.tv_shiftWork.setText("Ca làm việc:"+listCalender.get(position).getShiftWork());
+        calenderWork = listCalender.get(position);
+        holder.tv_dayofWork.setText("Ngày Làm Việc:"+calenderWork.getDayofWork());
+        holder.tv_shiftWork.setText("Ca làm việc:"+calenderWork.getShiftWork());
 
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -139,7 +140,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         holder.tv_showdetail_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)activity).reloadFragment(new FragmentShowDetailCalendar());
+                senDataCalenderWorkClick.senData(calenderWork);
             }
         });
 

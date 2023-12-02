@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="30dp"
+    android:background="@drawable/border_item_showdetail_calenderfowork"
+    android:layout_marginBottom="5dp"
+    >
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_nameStaff_itemAddCalendarWorkForStaff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Họ và tên: Nguyễn Văn A"
+            />
+        <TextView
+            android:id="@+id/tv_phoneNumberStaff_itemAddCalendarWorkForStaff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SDT: 086601234"
+            android:layout_below="@+id/tv_nameStaff_itemAddCalendarWorkForStaff"
+            />
+
+        <CheckBox
+            android:id="@+id/chk_status_itemAddCalendarWorkForStaff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

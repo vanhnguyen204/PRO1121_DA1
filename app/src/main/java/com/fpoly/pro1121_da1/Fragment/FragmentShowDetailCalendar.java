@@ -16,11 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.CalenderAdapter;
+import com.fpoly.pro1121_da1.Adapter.ShowdetailCalenderAdapter;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.CalenderDAO;
+import com.fpoly.pro1121_da1.database.CalenderShowDetailDAO;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.model.CalenderWork;
+import com.fpoly.pro1121_da1.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -35,10 +38,12 @@ public class FragmentShowDetailCalendar extends Fragment {
     FloatingActionButton btn_addStaff_showDetailCalendar;
 
     ArrayList<CalenderWork> listCalendarWord;
-    int receiveCalenDarID;
-    CalenderAdapter calenderAdapter;
-    CalenderWork calenderWork;
+    int receiveShiffWork;
+    String reciveDateWork;
+    ShowdetailCalenderAdapter calenderAdapter;
+    ArrayList<User> userArrayList;
     CalenderDAO calenderDAO;
+    CalenderShowDetailDAO calenderShowDetailDAO;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,20 +62,32 @@ public class FragmentShowDetailCalendar extends Fragment {
         btn_addStaff_showDetailCalendar = view.findViewById(R.id.btn_add_staffForShowDetail_CalendarWork);
         btn_deleteStaff_showDetailCalendar = view.findViewById(R.id.btn_delete_staffForShowDetail_CalendarWork);
         calenderDAO = new CalenderDAO(getActivity(),new Dbhelper(getActivity()));
+        calenderShowDetailDAO = new CalenderShowDetailDAO(getActivity(),new Dbhelper(getActivity()));
+
 
 
         Bundle bundle = this.getArguments();
         if (bundle != null){
-            receiveCalenDarID = bundle.getInt("CALENDER_ID");
+            receiveShiffWork = bundle.getInt("KEY_SHIFT_WORK");
+            reciveDateWork = bundle.getString("KEY_DATE_WORK");
+            userArrayList = calenderShowDetailDAO.getUserWithShiftWork(receiveShiffWork,reciveDateWork);
 
-
-//            tv_shiftNow.setText(""+calenderWork.getShiftWork());
-            Toast.makeText(getActivity(), receiveCalenDarID+"", Toast.LENGTH_SHORT).show();
-
+            if (receiveShiffWork == 1){
+                tv_shiftNow.setText("Ca làm việc: Ca Sáng");
+            }else if(receiveShiffWork == 2){
+                tv_shiftNow.setText("Ca làm việc: Ca Chiều");
+            }else{
+                tv_shiftNow.setText("Ca làm việc: Ca Tối");
+             }
 
         }else {
             Toast.makeText(getContext(), "null", Toast.LENGTH_SHORT).show();
         }
+
+        calenderAdapter = new ShowdetailCalenderAdapter(getActivity(),userArrayList);
+        calenderShowDetailDAO = new CalenderShowDetailDAO(getActivity(),new Dbhelper(getActivity()));
+        rcv_calendarShowDetail.setAdapter(calenderAdapter);
+
 
         imgBackFragmentCalenDarWork.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -103,7 +103,13 @@ public class CalenderDAO {
         ArrayList<CalenderWork> list = getCalender("SELECT * FROM Calendar WHERE = calendar_id",String.valueOf(CalenderID));
         return list.get(0);
     }
+
     public ArrayList<CalenderWork> getAllCalendar (){
         return getCalender("SELECT * FROM Calendar");
+    }
+
+    public CalenderWork getIDCalendarByShiftWorkAndDateWork (int ShiftWork,String DateWork){
+        ArrayList<CalenderWork> list = getCalender("SELECT * FROM Calendar WHERE = date_work = ? AND shift_work = ?",DateWork,String.valueOf(ShiftWork));
+        return list.get(0);
     }
 }

@@ -17,7 +17,7 @@ import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 
 public class FragmentSettings extends Fragment {
-    ImageView imgGotoAddUser, imgGotoAddSale , imgGotoCalendar, imbLogout, imgGotoHistoryInvoice;
+    ImageView imgGotoAddUser, imgGotoAddSale , imgGotoCalendar, imbLogout, imgGotoHistoryInvoice,imgGotoAddCalenderForStaff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +34,7 @@ public class FragmentSettings extends Fragment {
         imgGotoCalendar = view.findViewById(R.id.arrow4_setting);
         imbLogout = view.findViewById(R.id.arrow5_setting);
         imgGotoHistoryInvoice = view.findViewById(R.id.img_showHistory);
+        imgGotoAddCalenderForStaff = view.findViewById(R.id.img_arrow6_setting);
         imbLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +79,12 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity)getActivity()).reloadFragment(new FragmentHistoryInvoice());
+            }
+        });
+        imgGotoAddCalenderForStaff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentAddCalenderForStaff());
             }
         });
     }

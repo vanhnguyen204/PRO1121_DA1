@@ -192,7 +192,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/arrow3_setting"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:src="@mipmap/arrow_right" />
 
             <ImageView
@@ -214,14 +214,40 @@
                 android:textSize="16dp"
 
                 />
-
             <ImageView
+                android:id="@+id/img_calendar_staff"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_calendar_staff"
+                android:layout_below="@+id/img_calendar_sting"
+                />
+            <TextView
+                android:id="@+id/tv_calendar_staff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lịch làm việc cho nhân viên"
+                android:layout_toRightOf="@+id/img_calendar_staff"
+                android:layout_below="@+id/img_calendar_sting"
+                android:layout_marginStart="10dp"
+                android:textSize="16dp"
+                />
+            <ImageView
+                android:id="@+id/img_arrow6_setting"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/arrow_right"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/arrow4_setting"
+                />
+            <ImageView
+
                 android:id="@+id/arrow5_setting"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_below="@+id/arrow4_setting"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="35dp"
                 android:src="@mipmap/arrow_right" />
         </RelativeLayout>
 

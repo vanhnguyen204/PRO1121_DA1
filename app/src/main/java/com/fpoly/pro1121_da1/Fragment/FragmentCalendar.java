@@ -184,12 +184,14 @@ public class FragmentCalendar extends Fragment {
             @Override
             public void senData(CalenderWork calenderWork) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("CALENDER_ID",1);
+                bundle.putInt("KEY_SHIFT_WORK",calenderWork.getShiftWork());
+                bundle.putString("KEY_DATE_WORK",calenderWork.getDayofWork());
                 FragmentShowDetailCalendar detailCalendar = new FragmentShowDetailCalendar();
                 detailCalendar.setArguments(bundle);
                 getParentFragmentManager().beginTransaction().replace(R.id.container_layout, detailCalendar).commit();
             }
         });
+
 
     }
 

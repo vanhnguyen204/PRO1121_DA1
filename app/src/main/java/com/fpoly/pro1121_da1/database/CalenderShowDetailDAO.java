@@ -146,7 +146,7 @@ public class CalenderShowDetailDAO {
         }
 
 
-        public ArrayList<User> getUserWithShiftWork(int shiftWork){
-            return getUser("SELECT User.* FROM CalendarWorkForStaff JOHN User ON User.user_id  =  CalendarWorkForStaff.uer_id JOHN Calendar ON Calendar.calendar_id = CalendarWorkForStaff.clendarWork_id WHERE clendarWork_id = ?",String.valueOf(shiftWork));
+        public ArrayList<User> getUserWithShiftWork(int shiftWork, String dateWork){
+            return getUser("SELECT User.* FROM CalendarWorkForStaff JOHN User ON User.user_id  =  CalendarWorkForStaff.uer_id JOHN Calendar ON Calendar.calendar_id =? CalendarWorkForStaff.clendarWork_id WHERE Calendar.shift_work = ? and Calendar.date_work = ?",String.valueOf(shiftWork), dateWork);
         }
 }

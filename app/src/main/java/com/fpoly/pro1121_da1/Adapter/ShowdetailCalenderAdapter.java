@@ -11,16 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.CalendarWorkForStaff;
+import com.fpoly.pro1121_da1.model.User;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 public class ShowdetailCalenderAdapter extends RecyclerView.Adapter<ShowdetailCalenderAdapter.ViewHoder> {
 
-    Activity activity;
-    ArrayList<CalendarWorkForStaff> list;
 
-    public ShowdetailCalenderAdapter(Activity activity, ArrayList<CalendarWorkForStaff> list) {
+    Activity activity;
+    ArrayList<User> list;
+
+
+    public ShowdetailCalenderAdapter(Activity activity, ArrayList<User> list) {
         this.activity = activity;
         this.list = list;
     }
@@ -36,7 +39,8 @@ public class ShowdetailCalenderAdapter extends RecyclerView.Adapter<ShowdetailCa
     @Override
     public void onBindViewHolder(@NonNull ViewHoder holder, int position) {
 
-
+        holder.tv_nameStaff.setText(list.get(position).getFullName());
+        holder.tv_StaffID.setText(list.get(position).getUserID());
 
 
     }
