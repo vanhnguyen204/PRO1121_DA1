@@ -70,7 +70,9 @@ public class FragmentAddUser extends Fragment {
 
                 } else if (checkUserName(edtUserName)) {
 
-                } else if (checkPassWord(edtPassWord)) {
+                }else if (userDAO.checkUserName(getUserName)){
+                    Toast.makeText(getContext(), "Tên đăng nhập đã tồn tại", Toast.LENGTH_SHORT).show();
+                }else if (checkPassWord(edtPassWord)) {
 
                 } else if (getFullName.length() == 0) {
                     Toast.makeText(getContext(), "Không được bỏ trống họ tên", Toast.LENGTH_SHORT).show();

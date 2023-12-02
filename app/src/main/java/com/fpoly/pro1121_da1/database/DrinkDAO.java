@@ -206,10 +206,7 @@ values.put("drink_id", drink.getDrinkID());
                           );
                   listIngredient.add(ingredient);
                 } while (cursor.moveToNext());
-            }else {
-                Toast.makeText(context, "Chưa có dữ liệu đồ uống !", Toast.LENGTH_SHORT).show();
             }
-
             sql.setTransactionSuccessful();
         } catch (Exception e) {
             Toast.makeText(context, "Errrr", Toast.LENGTH_SHORT).show();

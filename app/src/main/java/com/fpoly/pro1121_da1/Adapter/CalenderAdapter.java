@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpoly.pro1121_da1.Fragment.FragmentShowDetailCalendar;
@@ -38,16 +39,24 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     int getShiftWork;
     CalenderWork calenderWork;
     public SenDataCalenderWorkClick senDataCalenderWorkClick;
+    public FragmentManager fragmentManager;
+
 
     public void setOnCalendaClick(SenDataCalenderWorkClick senDataCalenderWorkClick) {
         this.senDataCalenderWorkClick = senDataCalenderWorkClick;
     }
 
+    public CalenderAdapter(Activity activity, ArrayList<CalenderWork> listCalender, FragmentManager fragmentManager) {
+        this.activity = activity;
+        this.listCalender = listCalender;
+        this.fragmentManager  = fragmentManager;
+
+    }
     public CalenderAdapter(Activity activity, ArrayList<CalenderWork> listCalender) {
         this.activity = activity;
         this.listCalender = listCalender;
-    }
 
+    }
     @NonNull
     @Override
     public ViewHolder_Calender onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,7 +76,13 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         holder.tv_showdetail_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               senDataCalenderWorkClick.senData(calenderWork, position, listCalender.get(holder.getAdapterPosition()).getShiftWork() ,listCalender.get(holder.getAdapterPosition()).getId_calender() );
+                Bundle bundle = new Bundle();
+                bundle.putString("KEY_DAY_WORK", calenderWork.getDayofWork());
+                bundle.putInt("KEY_SHIFT_WORK", calenderWork.getShiftWork());
+                bundle.putInt("KEY_CALENDAR_ID",calenderWork.getId_calender() );
+                FragmentShowDetailCalendar frm = new FragmentShowDetailCalendar();
+                frm.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.container_layout, frm).commit();
             }
         });
 

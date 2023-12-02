@@ -196,20 +196,20 @@ public class FragmentDrinkDetail extends Fragment {
             tvPrice.setText("Giá: " + drink.getPrice());
 
 
-
             if (drink.getTypeOfDrink().equals("Pha chế")) {
                 ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
                 StringBuilder stringBuilder = new StringBuilder();
-                IngredientForDrink ingredientForDrink ;
+                IngredientForDrink ingredientForDrink;
+                Toast.makeText(getContext(), ""+ drink.getDrinkID(), Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < ingredientArrayList.size(); i++) {
                     Ingredient ingredient = ingredientArrayList.get(i);
                     ingredientForDrink = ingredientForDrinkDAO.getModelIngreForDrink(drink.getDrinkID(), ingredient.getIngredientID());
-                    stringBuilder.append(ingredient.getName()).append(" ").append(ingredientForDrink.getQuantity()).append(" ").append(ingredient.getUnit()).append("\n");
+                    stringBuilder.append(ingredient.getName()).append(" ").append(ingredientForDrink.getQuantity()).append(" ").append(ingredient.getUnit()).append(" - ");
                 }
                 tvDateExpiry.setText("Ngày hết hạn: 24h sau ngày mua");
                 tvIngredientID.setText("Nguyên liệu: " + stringBuilder.toString());
-                tvQuantity.setText("Số lượng: không pha sẵn" );
-            }else {
+                tvQuantity.setText("Số lượng: không pha sẵn");
+            } else {
                 tvDateExpiry.setText("Ngày hết hạn: " + drink.getDateExpiry());
                 tvIngredientID.setText("Nguyên liệu: không cần nguyên liệu pha chế");
                 tvQuantity.setText("Số lượng: " + drink.getQuantity());

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.fpoly.pro1121_da1.model.CalenderWork;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CalenderDAO {
     Context context;
@@ -115,5 +116,17 @@ public class CalenderDAO {
 
     public ArrayList<CalenderWork> getAllCalendarByDay (String day){
         return getCalender("SELECT * FROM Calendar WHERE date_work = ?", day);
+    }
+
+
+    public ArrayList<CalenderWork> getAllCanlendarOfUser(String userID){
+        return getCalender(
+                "SELECT Calendar.* " +
+                        "From CalendarWorkForStaff" +
+                        " JOIN Calendar ON CalendarWorkForStaff.calendar_id = Calendar.calendar_id " +
+                        "JOIN User ON User.user_id = CalendarWorkForStaff.user_id" +
+                        " WHERE User.user_id = ?"
+                , userID
+        );
     }
 }

@@ -136,7 +136,7 @@ public class FragmentAddDrink extends Fragment {
         VoucherDAO voucherDAO = new VoucherDAO(getContext(), new Dbhelper(getContext()));
         NotificationDAO notificationDAO = new NotificationDAO(getContext());
         listIngredient = ingredientDAO.getAllIngredient();
-        if (listIngredient.size() == 0){
+        if (listIngredient.size() == 0) {
             Toast.makeText(getContext(), "Nếu thêm đồ uống pha chế, hãy thêm nguyên liệu trước", Toast.LENGTH_SHORT).show();
         }
         listQuantity = new ArrayList<>();
@@ -269,8 +269,10 @@ public class FragmentAddDrink extends Fragment {
                         if (drinkDAO.insertDrink(drink)) {
                             for (int i = 0; i < listIngredientRecyclerView.size(); i++) {
                                 IngredientForDrink ingredient = new IngredientForDrink(getDrinkID, listIngredientRecyclerView.get(i).getIngredientID(), listQuantity.get(i));
-                                ingredientForDrinkDAO.insertValues(ingredient);
+                               ingredientForDrinkDAO.insertValues(ingredient);
+
                             }
+
                             ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
 
                         }
@@ -288,7 +290,7 @@ public class FragmentAddDrink extends Fragment {
                                     ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                                 }
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
 
                         }
 
@@ -350,6 +352,8 @@ public class FragmentAddDrink extends Fragment {
             public void onClick(View view) {
                 if (isNumber(edtGetQuan, "Số lượng phải lớn hơn 0", "Số lượng phải là số")) {
                     alertDialog.setCancelable(false);
+                } else if (checkQuantity(Double.parseDouble(edtGetQuan.getText().toString().trim()))) {
+
                 } else {
                     getQuantityIngredientAddForDrink = Double.parseDouble(edtGetQuan.getText().toString().trim());
                     listIngredientRecyclerView.add(ingredient);
@@ -360,6 +364,15 @@ public class FragmentAddDrink extends Fragment {
             }
         });
 
+    }
+
+    public boolean checkQuantity(double sl) {
+        if (sl > ingredient.getQuantity()) {
+            Toast.makeText(getContext(), "Số lượng còn lại không !", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean checkExpiry(String day1, String day2) throws ParseException {

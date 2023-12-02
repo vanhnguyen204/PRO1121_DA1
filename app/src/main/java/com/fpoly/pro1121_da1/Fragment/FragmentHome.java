@@ -62,7 +62,7 @@ public class FragmentHome extends Fragment {
     ImageView imgAvatar, imgNotification;
     RecyclerView recyclerView;
     ScrollView scrollView;
-    TextView tvRevenue, tvExportInvoice, tvCountNotify;
+    TextView tvRevenue, tvExportInvoice, tvCountNotify, tvNameStaff;
     ArrayList<Notification> listNotify;
 
 
@@ -76,6 +76,8 @@ public class FragmentHome extends Fragment {
         tvExportInvoice = view.findViewById(R.id.tv_countInvoice_atWeek);
         imgNotification = view.findViewById(R.id.img_notification);
         tvCountNotify = view.findViewById(R.id.tv_numberNotification);
+        tvNameStaff = view.findViewById(R.id.tv_nameOfStaff);
+
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,6 +196,8 @@ public class FragmentHome extends Fragment {
         manageTable = view.findViewById(R.id.manage_table);
         manageExportInvoice = view.findViewById(R.id.manage_exportInvoice);
         user = ((MainActivity) requireActivity()).user;
+
+        tvNameStaff.setText("Hello! "+user.getFullName());
         manageExportInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -203,7 +207,7 @@ public class FragmentHome extends Fragment {
         manageTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) requireActivity()).reloadFragment(new FragmentOrderDrink());
+                ((MainActivity) requireActivity()).reloadFragment(new FragmentTable());
             }
         });
         manageIngredient.setOnClickListener(new View.OnClickListener() {

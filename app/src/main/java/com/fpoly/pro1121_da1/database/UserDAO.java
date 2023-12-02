@@ -209,9 +209,30 @@ public class UserDAO {
         }
         return true;
     }
-//
-//    public ArrayList<User> userArrayList (){
-//        return getUser("SELECT ")
-//    }
+
+    public ArrayList<User> userArrayList() {
+        return getUser("SELECT * FROM User WHERE NOT EXISTS (SELECT 1 FROM CalendarWorkForStaff WHERE CalendarWorkForStaff.user_id = User.user_id )");
+    }
+
+    public boolean checkUserName(String userName) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+
+
+        sql.beginTransaction();
+        try {
+            Cursor cursor = sql.rawQuery("SELECT *  FROM User WHERE user_name = ?", new String[]{userName});
+            if (cursor.getCount() > 0) {
+                return true;
+
+            }
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+
+        } finally {
+            sql.endTransaction();
+        }
+        return false;
+
+    }
 
 }

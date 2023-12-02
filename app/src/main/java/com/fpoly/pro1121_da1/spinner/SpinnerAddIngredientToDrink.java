@@ -43,18 +43,22 @@ public class SpinnerAddIngredientToDrink extends BaseAdapter {
         view = inflater.inflate(R.layout.item_spinner_addngredient_drink, viewGroup, false);
         ImageView imgIngredient = view.findViewById(R.id.img_spinnerAddIngredient_drink);
         TextView tvName = view.findViewById(R.id.tv_nameIngredient_spinnerAddIngredient_drink);
+        TextView tvSl = view.findViewById(R.id.tvQuantity_ingredient);
         TextView tvPreview = view.findViewById(R.id.tv_item_first);
         if (i == 0){
             imgIngredient.setVisibility(View.INVISIBLE);
             tvName.setVisibility(View.INVISIBLE);
             tvPreview.setVisibility(View.VISIBLE);
             tvPreview.setText("--- Chọn nguyên liệu ---");
+            tvSl.setVisibility(View.INVISIBLE);
         }else {
             tvPreview.setVisibility(View.INVISIBLE);
             imgIngredient.setVisibility(View.VISIBLE);
             tvName.setVisibility(View.VISIBLE);
             imgIngredient.setImageResource(list.get(i).getImage());
             tvName.setText(list.get(i).getName());
+            tvSl.setVisibility(View.VISIBLE);
+            tvSl.setText(String.valueOf(list.get(i).getQuantity()));
         }
 
         return view;

@@ -214,32 +214,9 @@
                 android:textSize="16dp"
 
                 />
-            <ImageView
-                android:id="@+id/img_calendar_staff"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_calendar_staff"
-                android:layout_below="@+id/img_calendar_sting"
-                />
-            <TextView
-                android:id="@+id/tv_calendar_staff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lịch làm việc cho nhân viên"
-                android:layout_toRightOf="@+id/img_calendar_staff"
-                android:layout_below="@+id/img_calendar_sting"
-                android:layout_marginStart="10dp"
-                android:textSize="16dp"
-                />
-            <ImageView
-                android:id="@+id/img_arrow6_setting"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/arrow_right"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/arrow4_setting"
-                />
+
+
+
             <ImageView
 
                 android:id="@+id/arrow5_setting"
@@ -280,6 +257,33 @@
                 android:layout_height="20dp"
                 android:src="@mipmap/arrow_right"
                 android:id="@+id/img_showHistory"
+                android:layout_alignParentEnd="true"
+                />
+
+            <ImageView
+                android:layout_below="@+id/img_history"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/img_MyWork"
+                android:src="@mipmap/ic_calendar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/img_MyWork"
+                android:text="Công việc của tôi"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_mywork"
+                android:layout_below="@+id/tv_history"
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/img_showHistory"
+                android:src="@mipmap/arrow_right"
+                android:id="@+id/img_gotoMywork"
                 android:layout_alignParentEnd="true"
                 />
         </RelativeLayout>

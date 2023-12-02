@@ -35,7 +35,7 @@ public class IngredientForDrinkDAO {
             Toast.makeText(context, "Thêm nguyên liệu cho đồ uống thành công", Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(context, "Thêm nguyên liệu cho đồ uống ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Thêm nguyên liệu cho đồ uống thất bại", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -96,4 +96,7 @@ public class IngredientForDrinkDAO {
         return getIngreForDrink("SELECT * FROM IngredientForDrink WHERE drink_id = ? and ingredient_id = ?", new String[]{String.valueOf(drinkID), ingreID}).get(0);
     }
 
+    public IngredientForDrink getIngredientByDrinkID(int drink_id){
+        return getIngreForDrink("SELECT * FROM IngredientForDrink WHERE drink_id = ?",String.valueOf(drink_id)).get(0);
+    }
 }

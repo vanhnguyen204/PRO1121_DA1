@@ -50,7 +50,7 @@ public class UserToCalendarAdapter extends RecyclerView.Adapter<UserToCalendarAd
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         User user = list.get(position);
         holder.tv_nameStaff.setText("Họ và tên:" + user.getFullName());
-        holder.tv_phoneNumber.setText("SĐT: " + user.getPhoneNumber());
+        holder.tv_phoneNumber.setText("ID: " + user.getUserID());
 
         calenderDAO = new CalenderDAO(activity, new Dbhelper(activity));
 

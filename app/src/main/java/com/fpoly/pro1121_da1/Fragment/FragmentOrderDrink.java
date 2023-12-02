@@ -106,10 +106,12 @@ public class FragmentOrderDrink extends Fragment {
         );
 
         spinner.setAdapter(arrayAdapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 getStatus = i;
+
             }
 
             @Override

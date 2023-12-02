@@ -69,7 +69,7 @@ public class FragmentCalendar extends Fragment {
     public void setRecyclerView(String day) {
         calendarArrayList = calenderDAO.getAllCalendarByDay(day);
         if (calendarArrayList.size() != 0) {
-            calenderAdapter = new CalenderAdapter(getActivity(), calendarArrayList);
+            calenderAdapter = new CalenderAdapter(getActivity(), calendarArrayList, getParentFragmentManager());
             rcViewCalendar.setAdapter(calenderAdapter);
         } else {
             rcViewCalendar.setVisibility(View.INVISIBLE);
@@ -91,7 +91,7 @@ public class FragmentCalendar extends Fragment {
 
         setTimeNow(tv_dayNow);
         calenderDAO = new CalenderDAO(getActivity(), new Dbhelper(getActivity()));
-        setRecyclerView(tv_dayNow.getText().toString());
+
         tv_daytoWork.setText(tv_dayNow.getText().toString());
         Animation animation = new TranslateAnimation(0, 0, 0, 50);
         animation.setDuration(2000);
@@ -135,10 +135,11 @@ public class FragmentCalendar extends Fragment {
                         }
                     }
                     if (calendarArrayList.size() != 0) {
-                        rcViewCalendar.setAdapter(new CalenderAdapter(getActivity(), calendarArrayList));
+                        rcViewCalendar.setAdapter(new CalenderAdapter(getActivity(), calendarArrayList, getParentFragmentManager()));
                     }
 
                 }
+                Toast.makeText(getContext(), ""+calendarArrayList.size(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -146,7 +147,7 @@ public class FragmentCalendar extends Fragment {
 
             }
         });
-
+        setRecyclerView(tv_dayNow.getText().toString());
         btn_addWordCalender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,18 +179,6 @@ public class FragmentCalendar extends Fragment {
             }
         });
 
-        if (calendarArrayList.size() != 0) {
-            calenderAdapter.setOnCalendaClick((calenderWork, pos, shift, id) -> {
-                Bundle bundle = new Bundle();
-                bundle.putString("KEY_DAY_WORK", calenderWork.getDayofWork());
-                bundle.putInt("KEY_SHIFT_WORK", shift);
-                bundle.putInt("KEY_CALENDAR_ID", id);
-                FragmentShowDetailCalendar frm = new FragmentShowDetailCalendar();
-                frm.setArguments(bundle);
-                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
-
-            });
-        }
 
     }
 

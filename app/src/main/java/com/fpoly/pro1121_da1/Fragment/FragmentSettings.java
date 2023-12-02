@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.model.User;
 
 public class FragmentSettings extends Fragment {
     ImageView imgGotoAddUser, imgGotoAddSale , imgGotoCalendar, imbLogout, imgGotoHistoryInvoice,imgGotoAddCalenderForStaff;
@@ -34,7 +35,19 @@ public class FragmentSettings extends Fragment {
         imgGotoCalendar = view.findViewById(R.id.arrow4_setting);
         imbLogout = view.findViewById(R.id.arrow5_setting);
         imgGotoHistoryInvoice = view.findViewById(R.id.img_showHistory);
-        imgGotoAddCalenderForStaff = view.findViewById(R.id.img_arrow6_setting);
+        imgGotoAddCalenderForStaff = view.findViewById(R.id.img_gotoMywork);
+        User user = ((MainActivity)getActivity()).user;
+        if (user.getRole().equalsIgnoreCase("admin")){
+            imgGotoAddCalenderForStaff.setVisibility(View.INVISIBLE);
+        }else {
+            imgGotoAddCalenderForStaff.setVisibility(View.VISIBLE);
+        }
+        imgGotoAddCalenderForStaff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentMyWork());
+            }
+        });
         imbLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

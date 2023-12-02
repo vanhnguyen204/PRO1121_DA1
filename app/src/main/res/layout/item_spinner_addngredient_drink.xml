@@ -25,6 +25,15 @@ android:padding="10dp"
         android:textSize="22sp"
         android:id="@+id/tv_nameIngredient_spinnerAddIngredient_drink"
         android:layout_marginTop="10dp"
+       android:layout_toRightOf="@+id/img_spinnerAddIngredient_drink"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Số lượng"
+        android:textSize="22sp"
+        android:id="@+id/tvQuantity_ingredient"
+        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         />
 </RelativeLayout>

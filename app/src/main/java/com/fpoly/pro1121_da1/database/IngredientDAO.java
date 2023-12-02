@@ -81,6 +81,21 @@ public class IngredientDAO {
             return false;
         }
     }
+    public boolean updateQuantityIngredient(String ingredient_id, double quantity) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("quantity", quantity);
+
+        long result = sql.update("Ingredient", values, "ingredient_id = ?", new String[]{ingredient_id});
+        if (result > 0) {
+
+            return true;
+        } else {
+
+            return false;
+        }
+    }
 
     public boolean deleteIngredient(String ingredientID, String mess1, String mess2) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
