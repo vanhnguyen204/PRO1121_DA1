@@ -57,7 +57,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class FragmentHome extends Fragment {
-    LinearLayout manageIngredient, manegeUser, manageDrink, manageTable, manageExportInvoice;
+    LinearLayout manageIngredient, manegeUser, manageDrink, manageTable, manageExportInvoice, manegeStatistical;
     String sub = "";
     ImageView imgAvatar, imgNotification;
     RecyclerView recyclerView;
@@ -77,6 +77,7 @@ public class FragmentHome extends Fragment {
         imgNotification = view.findViewById(R.id.img_notification);
         tvCountNotify = view.findViewById(R.id.tv_numberNotification);
         tvNameStaff = view.findViewById(R.id.tv_nameOfStaff);
+
 
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +196,7 @@ public class FragmentHome extends Fragment {
         imgAvatar = view.findViewById(R.id.avatar_staff);
         manageTable = view.findViewById(R.id.manage_table);
         manageExportInvoice = view.findViewById(R.id.manage_exportInvoice);
+        manegeStatistical = view.findViewById(R.id.manage_statistical);
         user = ((MainActivity) requireActivity()).user;
 
         tvNameStaff.setText("Hello! "+user.getFullName());
@@ -238,7 +240,12 @@ public class FragmentHome extends Fragment {
         } catch (Exception e) {
 
         }
-
+        manegeStatistical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getContext()).reloadFragment(new FragmentTurnOver());
+            }
+        });
 
     }
 

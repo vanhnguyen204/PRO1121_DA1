@@ -176,6 +176,27 @@ values.put("status", invoice.getStatus());
     public Invoice getInvoiceByTableID(String tableID){
         return getInvoice("SELECT * FROM Invoice WHERE table_id = ?", tableID).get(0);
     }
+    int doanhthu;
+    @SuppressLint("Range")
+    public int getTotalBill (String startDay, String endDay){
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        Cursor cursor = sql.rawQuery("SELECT SUM(total_bill) as turnover FROM Invoice WHERE date_created BETWEEN ? AND ?",new String[]{startDay,endDay});
+
+
+
+        cursor.moveToFirst();
+        while (cursor.moveToNext()){
+            try {
+                doanhthu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("turnover")));
+            }catch (Exception e){
+
+            }
+
+        }
+
+        return doanhthu;
+
+    }
 
 
 }

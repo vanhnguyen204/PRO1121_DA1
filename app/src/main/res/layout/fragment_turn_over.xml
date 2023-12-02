@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.FragmentTurnOver">
+    <ImageView
+        android:id="@+id/img_back_home"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:src="@mipmap/arrow_left"
+        android:layout_alignParentStart="true"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:text="THỐNG KÊ DOANH THU"
+        android:textSize="30dp"
+        android:layout_below="@+id/img_back_home"
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Từ ngày"
+        android:layout_below="@+id/textView"
+        />
+    <LinearLayout
+        android:id="@+id/linearlauot1"
+        android:layout_below="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:padding="0dp"
+        >
+        <TextView
+            android:id="@+id/tv_dayStart"
+            android:layout_weight="8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:hint="yyyy-MM-dd"
+            android:padding="10dp"
+
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_dateStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn ngày"
+            android:layout_weight="2"
+            android:background="@drawable/custom_buttonadd_drink"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đến ngày"
+        android:layout_below="@+id/linearlauot1"
+        />
+    <LinearLayout
+        android:id="@+id/linearlauot2"
+        android:layout_below="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:padding="0dp"
+        >
+        <TextView
+            android:id="@+id/tv_dateEnd"
+            android:layout_weight="8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:hint="yyyy-MM-dd"
+            android:padding="10dp"
+
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_dateEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn ngày"
+            android:layout_weight="2"
+            android:background="@drawable/custom_buttonadd_drink"
+            />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_confirm_Statistical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearlauot2"
+        android:text="Xác Nhận"
+        android:background="@drawable/custom_buttonadd_drink"
+        android:layout_marginTop="50dp"
+        />
+    <TextView
+        android:id="@+id/text4"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/btn_confirm_Statistical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Doanh thu là:"/>
+    <TextView
+        android:id="@+id/tv_turnover"
+        android:layout_below="@+id/text4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        />
+
+
+
+</RelativeLayout>
