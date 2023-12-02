@@ -16,10 +16,12 @@ import android.widget.EditText;
 
 import com.fpoly.pro1121_da1.Adapter.DrinkAdapter;
 import com.fpoly.pro1121_da1.Adapter.UserAdapter;
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.UserDAO;
 import com.fpoly.pro1121_da1.model.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 public class FragmentUser extends Fragment {
 
     EditText edt_search_User;
+    FloatingActionButton floatingActionButton;
     RecyclerView rcv;
     UserDAO userDAO;
     ArrayList<User> list;
@@ -46,7 +49,13 @@ public class FragmentUser extends Fragment {
         userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
         edt_search_User = view.findViewById(R.id.edt_search_User);
         rcv = view.findViewById(R.id.rcv_user);
-
+        floatingActionButton = view.findViewById(R.id.btnAddUser);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentAddUser());
+            }
+        });
         list = userDAO.getAllUser();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getRole().equalsIgnoreCase("admin")) {
@@ -70,7 +79,7 @@ public class FragmentUser extends Fragment {
                 String getTextFromEdt = charSequence.toString().trim();
                 if (getTextFromEdt.length() == 0) {
                     for (int j = 0; j < listClone.size(); j++) {
-                        if (listClone.get(i).getRole().equals("admin")){
+                        if (listClone.get(i).getRole().equals("admin")) {
                             listClone.remove(i);
                         }
                     }

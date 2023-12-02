@@ -87,7 +87,7 @@ public class FragmentAddUser extends Fragment {
                     User user = new User(getCCCD, getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, "staff", 0, getPhoneNumber);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 
-                        ((MainActivity) getActivity()).reloadFragment(new FragmentAddUser());
+                        ((MainActivity) requireActivity()).reloadFragment(new FragmentUser());
 
 
                     }
@@ -99,7 +99,7 @@ public class FragmentAddUser extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ((MainActivity) getActivity()).reloadFragment(new FragmentSettings());
+                ((MainActivity) requireActivity()).reloadFragment(new FragmentUser());
             }
         });
     }
