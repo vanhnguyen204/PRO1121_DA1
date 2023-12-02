@@ -2,42 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="10dp"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".Fragment.FragmentOrderDrink">
+
     <ImageView
+        android:id="@+id/img_back_fragmentOrderDrink"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@mipmap/arrow_left"
-        android:id="@+id/img_back_fragmentOrderDrink"
-        />
+        android:src="@mipmap/arrow_left" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="Quay lại"
-        android:textSize="19sp"
         android:layout_toRightOf="@+id/img_back_fragmentOrderDrink"
-        />
-<EditText
-    android:layout_width="match_parent"
-    android:hint="Nhập tên đồ uống"
-    android:layout_below="@+id/img_back_fragmentOrderDrink"
-    android:id="@+id/edt_search_orderDrink"
-    android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
+        android:text="Quay lại"
+        android:textSize="19sp" />
+
+    <EditText
+        android:id="@+id/edt_search_orderDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/img_back_fragmentOrderDrink"
+        android:hint="Nhập tên đồ uống" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_fragmentOrder"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/edt_search_orderDrink" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_orderDrink"
-        android:layout_below="@+id/edt_search_orderDrink"
-        />
-<androidx.appcompat.widget.AppCompatButton
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textColor="@color/white"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/btnConfirmSelectOrder"
-    android:text="Xác nhận"
-    android:background="@drawable/custom_button_login"
-    />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_fragmentOrder" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnConfirmSelectOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custom_button_login"
+        android:text="Xác nhận"
+        android:textColor="@color/white" />
 </RelativeLayout>

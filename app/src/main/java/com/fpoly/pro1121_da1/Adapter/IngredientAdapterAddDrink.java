@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fpoly.pro1121_da1.Interface.SetTextRecyclerView;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.Ingredient;
 
@@ -18,6 +19,10 @@ import java.util.ArrayList;
 public class IngredientAdapterAddDrink extends RecyclerView.Adapter<IngredientAdapterAddDrink.Viewholder> {
     ArrayList<Ingredient> list;
     Activity activity;
+    SetTextRecyclerView setTextRecyclerView;
+    public void setTextForTextView(SetTextRecyclerView setTextRecyclerView){
+        this.setTextRecyclerView = setTextRecyclerView;
+    }
 
     public IngredientAdapterAddDrink(ArrayList<Ingredient> list, Activity activity) {
         this.list = list;
@@ -37,6 +42,10 @@ public class IngredientAdapterAddDrink extends RecyclerView.Adapter<IngredientAd
         Ingredient ingredient = list.get(position);
         holder.imgIngredient.setImageResource(ingredient.getImage());
         holder.tvNameIngredient.setText(ingredient.getName());
+        if (ingredient.getUnit().equals("Kg")){
+            holder.tvQuantity.setText("Số lượng: " +ingredient.getUnit());
+        }
+      setTextRecyclerView.onSetText(holder.tvQuantity, ingredient, position);
     }
 
     @Override
@@ -46,12 +55,13 @@ public class IngredientAdapterAddDrink extends RecyclerView.Adapter<IngredientAd
 
     public static class Viewholder extends RecyclerView.ViewHolder {
         ImageView imgIngredient;
-        TextView tvNameIngredient;
+        TextView tvNameIngredient,tvQuantity;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             imgIngredient = itemView.findViewById(R.id.img_recyclerViewIngredient_drink);
             tvNameIngredient = itemView.findViewById(R.id.tv_nameIngredient_recyclerView);
+            tvQuantity = itemView.findViewById(R.id.tv_quantity_recyclerview);
         }
     }
 }

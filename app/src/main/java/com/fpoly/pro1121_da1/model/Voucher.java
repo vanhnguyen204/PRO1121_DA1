@@ -11,6 +11,11 @@ public class Voucher {
         this.dateExpiry = dateExpiry;
     }
 
+    public Voucher(int priceReduce, String dateExpiry) {
+        this.priceReduce = priceReduce;
+        this.dateExpiry = dateExpiry;
+    }
+
     public int getVoucherID() {
         return voucherID;
     }

@@ -8,8 +8,11 @@ public class Invoice {
     private String tableID;
     private int totalBill;
     private String dateCreate;
+    private String serve;
+    private String status;
 
-    public Invoice(int invoiceID, String userID, int customerID, String drinkID, String tableID, int totalBill, String dateCreate) {
+
+    public Invoice(int invoiceID, String userID, int customerID, String drinkID, String tableID, int totalBill, String dateCreate, String serve, String status) {
         this.invoiceID = invoiceID;
         this.userID = userID;
         this.customerID = customerID;
@@ -17,6 +20,35 @@ public class Invoice {
         this.tableID = tableID;
         this.totalBill = totalBill;
         this.dateCreate = dateCreate;
+        this.serve = serve;
+        this.status = status;
+    }
+
+    public Invoice(String userID, int customerID, String drinkID, String tableID, int totalBill, String dateCreate, String serve, String status) {
+        this.userID = userID;
+        this.customerID = customerID;
+        this.drinkID = drinkID;
+        this.tableID = tableID;
+        this.totalBill = totalBill;
+        this.dateCreate = dateCreate;
+        this.serve = serve;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getServe() {
+        return serve;
+    }
+
+    public void setServe(String serve) {
+        this.serve = serve;
     }
 
     public int getInvoiceID() {

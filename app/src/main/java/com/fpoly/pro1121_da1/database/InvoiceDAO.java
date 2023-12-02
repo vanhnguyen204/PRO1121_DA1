@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.model.Invoice;
@@ -27,6 +28,36 @@ public class InvoiceDAO {
     public boolean insertInvoice(Invoice invoice) {
         SQLiteDatabase sql = dbhelper.getReadableDatabase();
         ContentValues values = new ContentValues();
+        values.put("invoice_id", invoice.getInvoiceID());
+        values.put("user_id", invoice.getUserID());
+        values.put("customer_id", invoice.getCustomerID());
+        values.put("total_bill", invoice.getTotalBill());
+        values.put("drink_id", invoice.getDrinkID());
+        values.put("table_id", invoice.getTableID());
+values.put("status", invoice.getStatus());
+        DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
+                .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
+        try {
+            LocalDate dateCreate = LocalDate.parse(invoice.getDateCreate(), f);
+            values.put("date_created", String.valueOf(dateCreate));
+        } catch (DateTimeParseException e) {
+
+        }
+        values.put("serve", invoice.getServe());
+        long result = sql.insert("Invoice", null, values);
+        if (result > 0) {
+
+            Toast.makeText(context, "Thêm hoá đơn thành công", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            Toast.makeText(context, "Thêm hoá đơn thất bại", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+    public boolean updateInvoice(Invoice invoice) {
+        SQLiteDatabase sql = dbhelper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("invoice_id", invoice.getInvoiceID());
         values.put("user_id", invoice.getUserID());
         values.put("customer_id", invoice.getCustomerID());
         values.put("total_bill", invoice.getTotalBill());
@@ -41,16 +72,19 @@ public class InvoiceDAO {
         } catch (DateTimeParseException e) {
 
         }
-        long result = sql.insert("Invoice", null, values);
+        values.put("serve", invoice.getServe());
+        values.put("status", invoice.getStatus());
+        long result = sql.update("Invoice",  values, "invoice_id = ?", new String[]{String.valueOf(invoice.getInvoiceID())});
         if (result > 0) {
 
-            Toast.makeText(context, "Thêm hoá đơn thành công", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Update hoá đơn thành công", Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(context, "Thêm hoá đơn thất bại", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Update hoá đơn thất bại", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
+
 
     public ArrayList<Invoice> getInvoice(String query, String... agrs) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
@@ -64,14 +98,14 @@ public class InvoiceDAO {
                 do {
                     int getInvoiceID = cursor.getInt(0);
                     String getUserID = cursor.getString(1);
-
                     int getCustomerID = cursor.getInt(2);
                     String getDrinkID = cursor.getString(3);
                     String getTableID = cursor.getString(4);
-
                     int getTotalBill = cursor.getInt(5);
                     String getDateCreate = cursor.getString(6);
-                    list.add(new Invoice(getInvoiceID, getUserID, getCustomerID, getDrinkID, getTableID, getTotalBill, getDateCreate));
+                    String getServe = cursor.getString(7);
+                    String getStatus = cursor.getString(8);
+                    list.add(new Invoice(getInvoiceID, getUserID, getCustomerID, getDrinkID, getTableID, getTotalBill, getDateCreate, getServe, getStatus));
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();
@@ -108,7 +142,7 @@ public class InvoiceDAO {
             }
             sql.setTransactionSuccessful();
         } catch (Exception e) {
-            Toast.makeText(context, "Err invoice", Toast.LENGTH_SHORT).show();
+           Log.e("ERROR", "Lỗi lấy doanh thu");
         } finally {
             sql.endTransaction();
         }
@@ -132,11 +166,16 @@ public class InvoiceDAO {
             }
             sql.setTransactionSuccessful();
         } catch (Exception e) {
-            Toast.makeText(context, "Err invoice", Toast.LENGTH_SHORT).show();
+            Log.e("ERROR", "Lỗi đếm hoá đơn");
         } finally {
             sql.endTransaction();
         }
         return count.get(0);
     }
+
+    public Invoice getInvoiceByTableID(String tableID){
+        return getInvoice("SELECT * FROM Invoice WHERE table_id = ?", tableID).get(0);
+    }
+
 
 }

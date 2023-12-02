@@ -4,16 +4,27 @@ public class IngredientForDrink {
     private int id;
     private int drink_id;
     private String ingredientID;
+    private double quantity;
 
-    public IngredientForDrink(int id, int drink_id, String ingredientID) {
+    public IngredientForDrink(int id, int drink_id, String ingredientID, double quantity) {
         this.id = id;
         this.drink_id = drink_id;
         this.ingredientID = ingredientID;
+        this.quantity = quantity;
     }
 
-    public IngredientForDrink(int drink_id, String ingredientID) {
+    public IngredientForDrink(int drink_id, String ingredientID, double quantity) {
         this.drink_id = drink_id;
         this.ingredientID = ingredientID;
+        this.quantity = quantity;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
     public int getId() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="5dp"
     >
     <RelativeLayout
@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_margin="5dp"
-        android:background="@drawable/border_item_showdetail_calenderfowork"
+        android:background="@drawable/border_edt"
         >
         <TextView
             android:id="@+id/tv_staffID_item_showDetailCalendarWork"

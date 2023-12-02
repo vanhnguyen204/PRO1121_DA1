@@ -29,30 +29,18 @@ public class IngredientForDrinkDAO {
 
         contentValues.put("drink_id", ingredientForDrink.getDrink_id());
         contentValues.put("ingredient_id", ingredientForDrink.getIngredientID());
+        contentValues.put("quantity", ingredientForDrink.getQuantity());
         long result = sql.insert("IngredientForDrink", null, contentValues);
         if (result > 0) {
-            Toast.makeText(context, "Thêm dữ liệu thành công", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Thêm nguyên liệu cho đồ uống thành công", Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(context, "Thêm dữ liệu thất bại", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Thêm nguyên liệu cho đồ uống ", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
 
-    public boolean updateValues(String ingreNew, String drinkIdOld, String ingreOld) {
-        SQLiteDatabase sql = dbhelper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
 
-        contentValues.put("ingredient_id", ingreNew);
-        long result = sql.update("IngredientForDrink", contentValues, "ingredient_id = ? and drink_id = ?", new String[]{ingreOld, drinkIdOld});
-        if (result > 0) {
-            Toast.makeText(context, "update ingredient success", Toast.LENGTH_SHORT).show();
-            return true;
-        } else {
-            Toast.makeText(context, "update ingredient fail", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
 
     public boolean deleteIngredientForDrink(int drinkId) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
@@ -91,7 +79,8 @@ public class IngredientForDrinkDAO {
                     int getID = cursor.getInt(0);
                     int getDrinkID = cursor.getInt(1);
                     String getIngreID = cursor.getString(2);
-                    list.add(new IngredientForDrink(getID, getDrinkID, getIngreID));
+                    double getQuantity = cursor.getDouble(3);
+                    list.add(new IngredientForDrink(getID, getDrinkID, getIngreID, getQuantity));
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();
@@ -103,4 +92,8 @@ public class IngredientForDrinkDAO {
         return list;
 
     }
+    public IngredientForDrink getModelIngreForDrink(int drinkID, String ingreID){
+        return getIngreForDrink("SELECT * FROM IngredientForDrink WHERE drink_id = ? and ingredient_id = ?", new String[]{String.valueOf(drinkID), ingreID}).get(0);
+    }
+
 }

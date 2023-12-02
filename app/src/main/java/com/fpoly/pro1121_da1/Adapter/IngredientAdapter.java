@@ -51,11 +51,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
                 Bundle bundle = new Bundle();
                 // Put anything what you want
                 bundle.putString("KEY_ING_ID", ingredient1.getIngredientID());
-
                 FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
                 manager.setFragmentResult("KEY_INGREDIENT", bundle);
 
                 ((MainActivity) activity).reloadFragment(new FragmentIngredientDetail());
+
+
             }
         });
         holder.imgIngredient.setImageResource(ingredient.getImage());

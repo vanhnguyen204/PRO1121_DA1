@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArraySet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.IngredientAdapterAddDrink;
+import com.fpoly.pro1121_da1.Interface.SetTextRecyclerView;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
@@ -51,6 +53,7 @@ public class FragmentUpdateDrink extends Fragment {
     String getName, getPrice, getQuantity, getDateAdd, getDateExpiry, getTypeOfDrink = "Pha chế";
     Spinner spinner;
     TextView tvAddIngredient;
+    ArrayList<Double> listQuantity;
     Spinner spinnerIngredient;
     IngredientDAO ingredientDAO;
     SpinnerAddIngredientToDrink spinnerAddIngredientToDrink;
@@ -61,34 +64,43 @@ public class FragmentUpdateDrink extends Fragment {
     ImageView imgShowIngredient;
     StringBuilder s;
     RecyclerView recyclerView;
-    IngredientAdapterAddDrink ingredientAdapterUpdateDrink;
+    IngredientAdapterAddDrink ingredientAdapterAddDrink;
     Spinner spinnerImageDrink, spinnerVoucher;
     String getIngredientID = "";
     int getImageDrink, getVoucher;
+    IngredientForDrinkDAO ingredientForDrinkDAO;
     ImageView imgback;
     int getDrinkIdUpdate;
+    IngredientForDrink ingredientForDrink;
 
     public void setAdapterRecyclerView(ArrayList<Ingredient> list) {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ingredientAdapterUpdateDrink = new IngredientAdapterAddDrink(list, getActivity());
-        recyclerView.setAdapter(ingredientAdapterUpdateDrink);
+        ingredientAdapterAddDrink = new IngredientAdapterAddDrink(list, getActivity());
+        recyclerView.setAdapter(ingredientAdapterAddDrink);
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-
                 return false;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition();
-                listAddRecyclerView.remove(listAddRecyclerView.get(position));
-                ingredientAdapterUpdateDrink.notifyItemRemoved(position);
-
+                int position = viewHolder.getAdapterPosition();
+                listAddRecyclerView.remove(position);
+                ingredientAdapterAddDrink.notifyItemRemoved(position);
+                listQuantity.remove(position);
             }
         };
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
+
+        ingredientAdapterAddDrink.setTextForTextView(new SetTextRecyclerView() {
+            @Override
+            public void onSetText(TextView textView, Ingredient ingredient, int position) {
+
+                textView.setText("Số lượng: " + listQuantity.get(position) + " " + ingredient.getUnit());
+            }
+        });
     }
 
     @Override
@@ -103,13 +115,16 @@ public class FragmentUpdateDrink extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         drinkDAO = new DrinkDAO(getActivity(), new Dbhelper(getActivity()));
         Bundle bundle = this.getArguments();
-        listAddRecyclerView = new ArrayList<>();
+         ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
+        listQuantity = new ArrayList<>();
+
+
         if (bundle != null) {
             getDrinkIdUpdate = bundle.getInt("KEY_DRINK_ID_UPDATE");
-
-
         }
-
+        ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
+        listIngredient = ingredientDAO.getAllIngredient();
+        listIngredient.add(0, new Ingredient());
         Drink drinkUpdate = drinkDAO.getDrinkByID(String.valueOf(getDrinkIdUpdate));
 
         spinnerVoucher = view.findViewById(R.id.spn_voucherDrink_updateDrink);
@@ -127,7 +142,12 @@ public class FragmentUpdateDrink extends Fragment {
         btnConfirmUpdateDrink = view.findViewById(R.id.btnConfirm_updateDrink_fragmentUpdateDrink);
 
 
-        listAddRecyclerView = drinkDAO.getIngredientFromDrinkID(getDrinkIdUpdate);
+        listAddRecyclerView = drinkDAO.getIngredientFromDrinkID(drinkUpdate.getDrinkID());
+        for (int i = 0; i < listAddRecyclerView.size(); i++) {
+            ingredientForDrink = ingredientForDrinkDAO.getModelIngreForDrink(getDrinkIdUpdate, listAddRecyclerView.get(i).getIngredientID());
+            listQuantity.add(ingredientForDrink.getQuantity());
+        }
+
         setAdapterRecyclerView(listAddRecyclerView);
 
         int[] arrImageDrink = new int[]{
@@ -241,10 +261,11 @@ public class FragmentUpdateDrink extends Fragment {
                 } else {
                     if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
                         Drink drink = new Drink(getDrinkIdUpdate, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "lit");
-                        if (ingredientForDrinkDAO.deleteIngredientForDrink(getDrinkIdUpdate) && drinkDAO.updateDrink(drink)) {
+                        if (ingredientForDrinkDAO.deleteIngredientForDrink(getDrinkIdUpdate) && drinkDAO.updateDrink(drink) && listAddRecyclerView.size() == listQuantity.size()) {
                             for (int i = 0; i < listAddRecyclerView.size(); i++) {
-                                ingredientForDrinkDAO.insertValues(new IngredientForDrink(getDrinkIdUpdate, listAddRecyclerView.get(i).getIngredientID()));
+                                ingredientForDrinkDAO.insertValues(new IngredientForDrink(getDrinkIdUpdate, listAddRecyclerView.get(i).getIngredientID(), listQuantity.get(i)));
                             }
+
                             Bundle bundle1 = new Bundle();
                             bundle1.putInt("DRINK_ID", drink.getDrinkID());
                             FragmentDrinkDetail fragmentDrinkDetail = new FragmentDrinkDetail();
@@ -260,7 +281,13 @@ public class FragmentUpdateDrink extends Fragment {
         });
     }
 
+    EditText edtGetQuan;
+    Button btnConfirm;
+    Ingredient ingredient;
 
+    double getQuantityIngredientAddForDrink=0;
+
+    // show dialog to add ingredient
     public void showDialogIngredient() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Style_AlertDialog_Corner);
         LayoutInflater inflater = getLayoutInflater();
@@ -270,11 +297,9 @@ public class FragmentUpdateDrink extends Fragment {
         alertDialog.show();
 
         spinnerIngredient = viewDialog.findViewById(R.id.spinner_addIngredient_fragmentAddDrink);
-        ingredientDAO = new IngredientDAO(getActivity(), new Dbhelper(getActivity()));
+        edtGetQuan = viewDialog.findViewById(R.id.edt_numIngreAddDrink);
 
-        listIngredient = ingredientDAO.getAllIngredient();
-
-
+        btnConfirm = viewDialog.findViewById(R.id.btnConfirmAddIngredientForDrink);
         spinnerAddIngredientToDrink = new SpinnerAddIngredientToDrink(listIngredient, getActivity());
         spinnerIngredient.setAdapter(spinnerAddIngredientToDrink);
         spinnerIngredient.setSelection(0, false);
@@ -282,7 +307,8 @@ public class FragmentUpdateDrink extends Fragment {
         spinnerIngredient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                listAddRecyclerView.add(listIngredient.get(i));
+
+                ingredient = listIngredient.get(i);
 
             }
 
@@ -291,14 +317,36 @@ public class FragmentUpdateDrink extends Fragment {
 
             }
         });
-        s = new StringBuilder();
-        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-
-                setAdapterRecyclerView(listAddRecyclerView);
+            public void onClick(View view) {
+                if (isNumber(edtGetQuan, "Số lượng phải lớn hơn 0", "Số lượng phải là số")) {
+                    alertDialog.setCancelable(false);
+                } else {
+                    getQuantityIngredientAddForDrink = Double.parseDouble(edtGetQuan.getText().toString().trim());
+                    listAddRecyclerView.add(ingredient);
+                   listQuantity.add(getQuantityIngredientAddForDrink);
+                   ingredientAdapterAddDrink.notifyItemInserted(listAddRecyclerView.size());
+                    alertDialog.dismiss();
+                }
+                Toast.makeText(getContext(), "List SL: " + listQuantity.size() + "--- List ingre:  " + listAddRecyclerView.size(), Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    public boolean isNumber(EditText editText, String mess, String messErr) {
+        try {
+            int number = Integer.parseInt(editText.getText().toString().trim());
+            if (number < 0) {
+                Toast.makeText(getContext(), mess, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), messErr, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 
     public void setDefaultImageSpinner(int arrImage[], int img) {

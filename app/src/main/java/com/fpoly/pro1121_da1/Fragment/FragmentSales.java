@@ -23,10 +23,18 @@ import com.fpoly.pro1121_da1.Adapter.VoucherAdapter;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
+import com.fpoly.pro1121_da1.database.NotificationDAO;
 import com.fpoly.pro1121_da1.database.VoucherDAO;
+import com.fpoly.pro1121_da1.model.Notification;
+import com.fpoly.pro1121_da1.model.User;
 import com.fpoly.pro1121_da1.model.Voucher;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class FragmentSales extends Fragment {
@@ -37,6 +45,7 @@ public class FragmentSales extends Fragment {
     ArrayList<Voucher> listVoucher;
     VoucherDAO voucherDAO;
     VoucherAdapter voucherAdapter;
+    User user;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,36 +56,43 @@ public class FragmentSales extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        user = ((MainActivity) getActivity()).user;
         img_Comeback_setting = view.findViewById(R.id.img_back_fragmentSale);
         recyclerView = view.findViewById(R.id.rcv_sales);
         btn_addVoucher = view.findViewById(R.id.btn_add_voucher);
 
-        voucherDAO = new VoucherDAO(getContext(),new Dbhelper(getContext()));
+        voucherDAO = new VoucherDAO(getContext(), new Dbhelper(getContext()));
         listVoucher = voucherDAO.getAllVoucher();
-        voucherAdapter = new VoucherAdapter(getActivity(),listVoucher);
+        for (int i = 0; i < listVoucher.size(); i++) {
+            if (listVoucher.get(i).getPriceReduce() == 0) {
+                listVoucher.remove(i);
+            }
+        }
+        voucherAdapter = new VoucherAdapter(getActivity(), listVoucher);
 
         recyclerView.setAdapter(voucherAdapter);
 
-
+        NotificationDAO notificationDAO = new NotificationDAO(getContext());
         img_Comeback_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentSettings());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentSettings());
             }
         });
+
+
         btn_addVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getLayoutInflater();
-                View view1  = inflater.inflate(R.layout.dialog_add_voucher,null,false);
+                View view1 = inflater.inflate(R.layout.dialog_add_voucher, null, false);
                 builder.setView(view1);
                 AlertDialog alertDialog = builder.create();
 
                 EditText edt_Price_Reduce = view1.findViewById(R.id.edt_price_reduce_dialogAddVoucher);
                 EditText edt_date_Expiry = view1.findViewById(R.id.edt_date_expiry_dialogAddVoucher);
-                EditText edt_ma_giamgia = view1.findViewById(R.id.edt_id_voucher_dialogAddVoucher);
+
                 Button btnAdd = view1.findViewById(R.id.btn_add_voucher_dialog);
 
                 btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -85,35 +101,33 @@ public class FragmentSales extends Fragment {
 
                         String get_Price_Reduce = edt_Price_Reduce.getText().toString().trim();
                         String get_date_Expiry = edt_date_Expiry.getText().toString().trim();
-                        String get_ma = edt_ma_giamgia.getText().toString().trim();
 
-                        if (get_ma.equals("")){
-                            Toast.makeText(getContext(), "Mã voucher không được để chống!", Toast.LENGTH_SHORT).show();
-                        }else if (get_Price_Reduce.equals("")){
+
+                        if (get_Price_Reduce.equals("")) {
                             Toast.makeText(getContext(), "Số phần trăm bạn muốn giảm giá không được để chống!", Toast.LENGTH_SHORT).show();
-                        }else if (get_date_Expiry.equals("")){
+                        } else if (get_date_Expiry.equals("")) {
                             Toast.makeText(getContext(), "Số ngày hết hạn giảm giá không được để chống!", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
 
-                            Voucher voucher = new Voucher(Integer.valueOf(get_ma),Integer.valueOf(get_Price_Reduce),get_date_Expiry);
-                            listVoucher.add(voucher);
-                            voucherDAO.insertVoucher(voucher);
-                            voucherAdapter.notifyDataSetChanged();
+                            Voucher voucher = new Voucher(Integer.valueOf(get_Price_Reduce), get_date_Expiry);
+
+
+                            if (voucherDAO.insertVoucher(voucher)) {
+                                listVoucher.add(voucher);
+                                voucherAdapter.notifyItemInserted(listVoucher.size());
+                                notificationDAO.insertNotifi(new Notification(user.getFullName() + "\nĐã thêm phiếu giảm giá mới","now"));
+                            }
                         }
-
-
                         alertDialog.dismiss();
                     }
                 });
-
-
                 alertDialog.show();
 
             }
         });
 
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT| ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -136,7 +150,7 @@ public class FragmentSales extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         listVoucher.remove(position);
-                        voucherDAO.deleteVoucher(listVoucher.get(position).getVoucherID(),"Xoa Voucher thành công","Xóa voucher không thành công");
+                        voucherDAO.deleteVoucher(listVoucher.get(position).getVoucherID(), "Xoa Voucher thành công", "Xóa voucher không thành công");
                         voucherAdapter.notifyItemRemoved(position);
                     }
                 });

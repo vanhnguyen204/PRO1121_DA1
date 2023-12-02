@@ -15,4 +15,7 @@
     <style name="Style_AlertDialog_Corner" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/border_alertdialog</item>
     </style>
+    <style name="Style_AlertDialog_Corner_ver2" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/border_alertdialog_ver2</item>
+    </style>
 </resources>

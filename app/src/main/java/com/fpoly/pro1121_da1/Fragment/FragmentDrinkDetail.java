@@ -1,5 +1,6 @@
 package com.fpoly.pro1121_da1.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -35,6 +36,7 @@ import com.fpoly.pro1121_da1.database.IngredientDAO;
 import com.fpoly.pro1121_da1.database.IngredientForDrinkDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.IngredientForDrink;
 import com.fpoly.pro1121_da1.model.User;
 import com.fpoly.pro1121_da1.spinner.SpinnerImageDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerTypeOfDrink;
@@ -138,6 +140,7 @@ public class FragmentDrinkDetail extends Fragment {
         return inflater.inflate(R.layout.fragment_drink_detail, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -157,25 +160,27 @@ public class FragmentDrinkDetail extends Fragment {
         drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         btnUpdate = view.findViewById(R.id.btnUpdateDrink_fragmentDrinkDetail);
         btnDelete = view.findViewById(R.id.btnDeleteDrink_fragmentDrinkDetail);
-
-
-        Animation animation = new TranslateAnimation(0, 0, 0, 50);
+        IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
+        ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
+        ArrayList<Ingredient> ingredientArrayList;
+        User user = ((MainActivity) requireActivity()).user;
+        Animation animation = new TranslateAnimation(
+                0, 0, 0, 50);
         animation.setDuration(2200);
         animation.setRepeatMode(Animation.REVERSE);
         animation.setRepeatCount(Animation.INFINITE);
         imgDrink.setAnimation(animation);
         setAnimationText();
 
-        User user = ((MainActivity) getActivity()).user;
+
         if (!user.getRole().equals("admin")) {
             btnDelete.setVisibility(View.INVISIBLE);
             btnUpdate.setVisibility(View.INVISIBLE);
         }
-        ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
-        ArrayList<Ingredient> ingredientArrayList;
+
 
         Bundle bundle = this.getArguments();
-        IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
+
         if (bundle != null) {
             receiveDrinkID = bundle.getInt("DRINK_ID");
 
@@ -189,29 +194,29 @@ public class FragmentDrinkDetail extends Fragment {
             tvDateAdd.setText("Ngày thêm: " + drink.getDateAdd());
 
             tvPrice.setText("Giá: " + drink.getPrice());
-            tvQuantity.setText("Số lượng: " + drink.getQuantity());
 
-            ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
 
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < ingredientArrayList.size(); i++) {
-                stringBuilder.append(ingredientArrayList.get(i).getName() + " ");
 
-            }
             if (drink.getTypeOfDrink().equals("Pha chế")) {
+                ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
+                StringBuilder stringBuilder = new StringBuilder();
+                IngredientForDrink ingredientForDrink ;
+                for (int i = 0; i < ingredientArrayList.size(); i++) {
+                    Ingredient ingredient = ingredientArrayList.get(i);
+                    ingredientForDrink = ingredientForDrinkDAO.getModelIngreForDrink(drink.getDrinkID(), ingredient.getIngredientID());
+                    stringBuilder.append(ingredient.getName()).append(" ").append(ingredientForDrink.getQuantity()).append(" ").append(ingredient.getUnit()).append("\n");
+                }
                 tvDateExpiry.setText("Ngày hết hạn: 24h sau ngày mua");
-                tvIngredientID.setText("Tên nguyên liệu: " + stringBuilder.toString());
-
+                tvIngredientID.setText("Nguyên liệu: " + stringBuilder.toString());
+                tvQuantity.setText("Số lượng: không pha sẵn" );
             }else {
                 tvDateExpiry.setText("Ngày hết hạn: " + drink.getDateExpiry());
-                tvIngredientID.setText("Tên nguyên liệu: không cần nguyên liệu pha chế");
+                tvIngredientID.setText("Nguyên liệu: không cần nguyên liệu pha chế");
+                tvQuantity.setText("Số lượng: " + drink.getQuantity());
             }
 
 
         }
-
-
-
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,20 +232,20 @@ public class FragmentDrinkDetail extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
             }
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                 builder.setMessage("Bạn có muốn xoá đồ uống này không");
                 builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         drinkDAO.deleteDrink(drink);
-                        ((MainActivity) getActivity()).reloadFragment(new FragmentDrink());
+                        ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                     }
                 });
                 builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {

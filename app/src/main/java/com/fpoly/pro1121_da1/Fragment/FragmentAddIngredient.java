@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
@@ -60,7 +61,7 @@ public class FragmentAddIngredient extends Fragment {
         edtQuantity = view.findViewById(R.id.edt_quantity_fragmentIngredient);
         btnConfirmAdd = view.findViewById(R.id.btn_add_fragmentIngredient);
         spinnerUnit = view.findViewById(R.id.spinner_unitIngredient);
-        String[] unitArr = {"Kg","Lít"};
+        String[] unitArr = {"Kg", "Lít"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -102,7 +103,7 @@ public class FragmentAddIngredient extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                getImage = arrImage[0];
             }
         });
         btnConfirmAdd.setOnClickListener(new View.OnClickListener() {
@@ -118,12 +119,21 @@ public class FragmentAddIngredient extends Fragment {
                 getDateExpiry = edtDateExpiry.getText().toString().trim();
                 getPrice = edtPrice.getText().toString().trim();
                 getQuantity = edtQuantity.getText().toString().trim();
-
-                if (ingredientDAO.insertIngredient(new Ingredient(addIngredientID, getName, getDateADD, getDateExpiry, Integer.parseInt(getPrice), Double.parseDouble(getQuantity), getImage, getUnit), "Thêm nguyên liệu thành công", "Thêm nguyên liệu thất bại")) {
-                    clearEditText();
+                if (getName.length() == 0){
+                    Toast.makeText(getContext(), "Không được để trống tên nguyên liệu", Toast.LENGTH_SHORT).show();
+                } else if (getDateExpiry.length() ==0) {
+                    Toast.makeText(getContext(), "Không được để trống ngày hết hạn", Toast.LENGTH_SHORT).show();
+                } else if (checkIsNumber(edtPrice,"Giá phải lớn hơn 0","Giá phải là số !")) {
+                    
+                } else if (checkIsNumber(edtQuantity, "Số lượng phải lớn hơn 0", "Số lượng phải là số !")) {
+                    
+                } else if (ingredientDAO.checkExistsIngredient(getName)) {
+                    Toast.makeText(getContext(), "Đã có nguyên liệu này rồi, vui lòng quay lại để xem thêm thông tin !", Toast.LENGTH_SHORT).show();
+                }else {
+                    if (ingredientDAO.insertIngredient(new Ingredient(addIngredientID, getName, getDateADD, getDateExpiry, Integer.parseInt(getPrice), Double.parseDouble(getQuantity), getImage, getUnit), "Thêm nguyên liệu thành công", "Thêm nguyên liệu thất bại")) {
+                        clearEditText();
+                    }
                 }
-
-
             }
         });
 
@@ -140,5 +150,18 @@ public class FragmentAddIngredient extends Fragment {
         edtDateExpiry.setText("");
         edtQuantity.setText("");
         edtPrice.setText("");
+    }
+    public boolean checkIsNumber(EditText edt, String mess, String messError){
+        try {
+            int getNumber = Integer.parseInt(edt.getText().toString().trim());
+            if (getNumber < 0){
+                Toast.makeText(getContext(), mess, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }catch (Exception e){
+            Toast.makeText(getContext(), messError, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 }

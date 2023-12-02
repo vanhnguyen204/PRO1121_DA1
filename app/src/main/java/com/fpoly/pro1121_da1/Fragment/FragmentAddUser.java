@@ -65,7 +65,7 @@ public class FragmentAddUser extends Fragment {
                 getFullName = edtFullName.getText().toString().trim();
                 getDateOfBirth = edtDateOfBirth.getText().toString().trim();
                 getAddress = edtAddress.getText().toString().trim();
-                getPhoneNumber = edtPhoneNumber.getText().toString().trim();
+
                 if (checkCCCD(edtCCCD)) {
 
                 } else if (checkUserName(edtUserName)) {
@@ -81,6 +81,7 @@ public class FragmentAddUser extends Fragment {
                 } else if (checkPhoneNumber(edtPhoneNumber)) {
                     
                 } else {
+                    getPhoneNumber = edtPhoneNumber.getText().toString().trim();
                     User user = new User(getCCCD, getUserName, getPassWord, getFullName, getDateOfBirth, getAddress, "staff", 0, getPhoneNumber);
                     if (userDAO.insertUser(user, "Tạo người dùng thành công", "Tạo người dùng thất bại")) {
 

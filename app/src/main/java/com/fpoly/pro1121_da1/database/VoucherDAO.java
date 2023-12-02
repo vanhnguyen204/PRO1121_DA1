@@ -24,7 +24,7 @@ public class VoucherDAO {
 
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues value = new ContentValues();
-        value.put("voucher_id", voucher.getVoucherID());
+
         value.put("price_reduce", voucher.getPriceReduce());
         value.put("date_expiry", voucher.getDateExpiry());
 
@@ -42,7 +42,7 @@ public class VoucherDAO {
     public boolean updateVoucher(Voucher voucher, String messPositive, String messNegative) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues value = new ContentValues();
-        value.put("voucher_id", voucher.getVoucherID());
+
         value.put("price_reduce", voucher.getPriceReduce());
         value.put("date_expiry", voucher.getDateExpiry());
 

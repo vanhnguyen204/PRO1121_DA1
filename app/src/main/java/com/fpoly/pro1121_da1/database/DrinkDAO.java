@@ -181,7 +181,8 @@ values.put("drink_id", drink.getDrinkID());
             Cursor cursor = sql.rawQuery("SELECT Ingredient.* " +
                     "FROM IngredientForDrink " +
                     "JOIN Drink ON IngredientForDrink.drink_id = Drink.drink_id " +
-                    "JOIN Ingredient ON IngredientForDrink.ingredient_id = Ingredient.ingredient_id WHERE Drink.drink_id = ?", new String[]{String.valueOf(drinkID)});
+                    "JOIN Ingredient ON IngredientForDrink.ingredient_id = Ingredient.ingredient_id" +
+                    " WHERE Drink.drink_id = ?", new String[]{String.valueOf(drinkID)});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
@@ -205,6 +206,8 @@ values.put("drink_id", drink.getDrinkID());
                           );
                   listIngredient.add(ingredient);
                 } while (cursor.moveToNext());
+            }else {
+                Toast.makeText(context, "Chưa có dữ liệu đồ uống !", Toast.LENGTH_SHORT).show();
             }
 
             sql.setTransactionSuccessful();

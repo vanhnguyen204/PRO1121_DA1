@@ -208,8 +208,10 @@ public class UserDAO {
             sql.endTransaction();
         }
         return true;
-
     }
-
+//
+//    public ArrayList<User> userArrayList (){
+//        return getUser("SELECT ")
+//    }
 
 }

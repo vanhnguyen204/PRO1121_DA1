@@ -70,6 +70,13 @@
             android:layout_marginTop="7dp"
             android:text="Ngày tạo: 24-12-2024"
             android:textSize="18dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phục vụ: tại quán"
+            android:textSize="18dp"
+            android:id="@+id/tv_serve_exportInvoice"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

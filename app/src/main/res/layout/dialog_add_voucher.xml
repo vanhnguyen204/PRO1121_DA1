@@ -14,12 +14,7 @@
         android:textStyle="bold"
         android:textSize="30dp"
         />
-    <EditText
-        android:id="@+id/edt_id_voucher_dialogAddVoucher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mã giảm giá"
-        />
+
 
     <EditText
         android:id="@+id/edt_price_reduce_dialogAddVoucher"

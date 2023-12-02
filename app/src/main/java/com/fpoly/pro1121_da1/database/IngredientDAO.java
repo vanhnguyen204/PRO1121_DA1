@@ -115,10 +115,12 @@ public class IngredientDAO {
                     String getUnit= cursor.getString(7);
                     list.add(new Ingredient(getIngredient, getName, getDateAdd, getDateExpiry, getPrice, getQuantity, getImage, getUnit));
                 } while (cursor.moveToNext());
+            }else {
+
             }
             sql.setTransactionSuccessful();
         } catch (Exception e) {
-
+            Toast.makeText(context, "Lỗi lấy nguyên liệu", Toast.LENGTH_SHORT).show();
         } finally {
             sql.endTransaction();
         }
@@ -147,6 +149,25 @@ public class IngredientDAO {
         } else {
             return false;
         }
+
+    }
+    public boolean checkExistsIngredient(String name) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ArrayList<Ingredient> list = new ArrayList<>();
+
+        sql.beginTransaction();
+        try {
+            Cursor cursor = sql.rawQuery("SELECT * FROM Ingredient WHERE name = ?", new String[]{name});
+            if (cursor.getCount() > 0) {
+              return true;
+            }
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+            Toast.makeText(context, "Lỗi check nguyên liệu theo tên", Toast.LENGTH_SHORT).show();
+        } finally {
+            sql.endTransaction();
+        }
+        return false;
 
     }
 }

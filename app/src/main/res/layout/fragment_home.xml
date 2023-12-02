@@ -56,7 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-
+android:textColor="@color/red"
+                android:textSize="16sp"
                 android:text="1" />
         </RelativeLayout>
 
@@ -80,14 +81,14 @@
                 android:id="@+id/tv_revenue_fragmentHome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="12.000.000.000 VNĐ"
+                android:text="0 VNĐ"
                 android:textColor="@color/green"
                 android:textSize="17sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Đơn hàng / tháng"
+                android:text="Đơn hàng đã bán"
                 android:textColor="@color/green"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -96,7 +97,7 @@
                 android:id="@+id/tv_countInvoice_atWeek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="12.000 Đơn"
+                android:text="0 Đơn"
                 android:textColor="@color/green"
                 android:textSize="17sp" />
         </LinearLayout>

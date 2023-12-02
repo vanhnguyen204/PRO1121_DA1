@@ -81,11 +81,6 @@ public class FragmentSettings extends Fragment {
                 ((MainActivity)getActivity()).reloadFragment(new FragmentHistoryInvoice());
             }
         });
-        imgGotoAddCalenderForStaff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentAddCalenderForStaff());
-            }
-        });
+
     }
 }

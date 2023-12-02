@@ -34,6 +34,20 @@ public class TableDAO {
             return false;
         }
     }
+    public boolean updateTable(Table table){
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("status", table.getStatus());
+        long result = sql.update("TableDrink", values, "table_id = ? ", new String[]{table.getTableID()});
+        if (result > 0){
+            Toast.makeText(context, "Update bàn thành công", Toast.LENGTH_SHORT).show();
+            return true;
+        }else {
+            Toast.makeText(context, "Update bàn thất bại", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
 
     public boolean deleteTable(String tableID){
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
@@ -61,10 +75,12 @@ public class TableDAO {
                    int getStatus = cursor.getInt(1);
                    list.add(new Table(getTableID, getStatus));
                 } while (cursor.moveToNext());
+            }else {
+                Toast.makeText(context, "Chưa có bàn ", Toast.LENGTH_SHORT).show();
             }
             sql.setTransactionSuccessful();
         } catch (Exception e) {
-
+            Toast.makeText(context, "Lỗi lấy dữ liệu bàn", Toast.LENGTH_SHORT).show();
         } finally {
             sql.endTransaction();
         }

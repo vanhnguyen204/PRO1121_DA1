@@ -109,7 +109,11 @@ public class CalenderDAO {
     }
 
     public CalenderWork getIDCalendarByShiftWorkAndDateWork (int ShiftWork,String DateWork){
-        ArrayList<CalenderWork> list = getCalender("SELECT * FROM Calendar WHERE = date_work = ? AND shift_work = ?",DateWork,String.valueOf(ShiftWork));
+        ArrayList<CalenderWork> list = getCalender("SELECT * FROM Calendar WHERE  date_work = ? AND shift_work = ?",DateWork,String.valueOf(ShiftWork));
         return list.get(0);
+    }
+
+    public ArrayList<CalenderWork> getAllCalendarByDay (String day){
+        return getCalender("SELECT * FROM Calendar WHERE date_work = ?", day);
     }
 }

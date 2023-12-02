@@ -48,10 +48,12 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> 
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         Table table = list.get(position);
         holder.tvTableID.setText("Mã bàn: " + table.getTableID());
-        if (table.getStatus() == 1) {
-            holder.imgStatus.setImageResource(R.mipmap.record);
-        } else {
+        if (table.getStatus() == 0) {
             holder.imgStatus.setImageResource(R.mipmap.rec);
+
+        } else {
+
+            holder.imgStatus.setImageResource(R.mipmap.record);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,13 +70,14 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> 
 
     public static class Viewholder extends RecyclerView.ViewHolder {
         ImageView imgTable, imgStatus;
-        TextView tvTableID;
+        TextView tvTableID, tvCountDownTime;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             imgTable = itemView.findViewById(R.id.image_item_recyclerviewTable);
             imgStatus = itemView.findViewById(R.id.img_status_table);
             tvTableID = itemView.findViewById(R.id.tv_tableID_recyclerviewTable);
+            tvCountDownTime = itemView.findViewById(R.id.tv_countDownTime);
         }
     }
 }
