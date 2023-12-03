@@ -36,18 +36,6 @@ public class FragmentSettings extends Fragment {
         imbLogout = view.findViewById(R.id.arrow5_setting);
         imgGotoHistoryInvoice = view.findViewById(R.id.img_showHistory);
 
-        User user = ((MainActivity)getActivity()).user;
-        if (user.getRole().equalsIgnoreCase("admin")){
-            imgGotoAddCalenderForStaff.setVisibility(View.INVISIBLE);
-        }else {
-            imgGotoAddCalenderForStaff.setVisibility(View.VISIBLE);
-        }
-        imgGotoAddCalenderForStaff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentMyWork());
-            }
-        });
 
         imbLogout.setOnClickListener(new View.OnClickListener() {
             @Override
