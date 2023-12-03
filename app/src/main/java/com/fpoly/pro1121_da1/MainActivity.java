@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.fpoly.pro1121_da1.Fragment.FragmentDrink;
 import com.fpoly.pro1121_da1.Fragment.FragmentHome;
 import com.fpoly.pro1121_da1.Fragment.FragmentSettings;
+import com.fpoly.pro1121_da1.Fragment.FragmentSettingsStaff;
 import com.fpoly.pro1121_da1.Fragment.FragmentTable;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.User;
@@ -48,7 +49,12 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new FragmentDrink();
 
                 } else if (i == R.id.settings) {
-                    fragment = new FragmentSettings();
+                    if (user.getRole().equalsIgnoreCase("admin")){
+                        fragment = new FragmentSettings();
+                    }else {
+                        fragment = new FragmentSettingsStaff();
+                    }
+
                 }else if (i == R.id.table){
                     fragment = new FragmentTable();
                 }

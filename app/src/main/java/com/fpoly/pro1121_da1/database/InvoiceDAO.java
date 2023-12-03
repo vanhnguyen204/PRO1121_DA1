@@ -34,7 +34,7 @@ public class InvoiceDAO {
         values.put("total_bill", invoice.getTotalBill());
         values.put("drink_id", invoice.getDrinkID());
         values.put("table_id", invoice.getTableID());
-values.put("status", invoice.getStatus());
+        values.put("status", invoice.getStatus());
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
                 .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
         try {
@@ -54,6 +54,7 @@ values.put("status", invoice.getStatus());
             return false;
         }
     }
+
     public boolean updateInvoice(Invoice invoice) {
         SQLiteDatabase sql = dbhelper.getReadableDatabase();
         ContentValues values = new ContentValues();
@@ -74,7 +75,7 @@ values.put("status", invoice.getStatus());
         }
         values.put("serve", invoice.getServe());
         values.put("status", invoice.getStatus());
-        long result = sql.update("Invoice",  values, "invoice_id = ?", new String[]{String.valueOf(invoice.getInvoiceID())});
+        long result = sql.update("Invoice", values, "invoice_id = ?", new String[]{String.valueOf(invoice.getInvoiceID())});
         if (result > 0) {
 
             Toast.makeText(context, "Update hoá đơn thành công", Toast.LENGTH_SHORT).show();
@@ -128,7 +129,7 @@ values.put("status", invoice.getStatus());
 
     public int getRevenue() {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
-       ArrayList<Integer> doanhThu = new ArrayList<>();
+        ArrayList<Integer> doanhThu = new ArrayList<>();
 
         sql.beginTransaction();
         try {
@@ -136,13 +137,13 @@ values.put("status", invoice.getStatus());
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
-                  @SuppressLint("Range") int getDoanhThu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("DoanhThu")));
-                  doanhThu.add(getDoanhThu);
+                    @SuppressLint("Range") int getDoanhThu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("DoanhThu")));
+                    doanhThu.add(getDoanhThu);
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();
         } catch (Exception e) {
-           Log.e("ERROR", "Lỗi lấy doanh thu");
+            Log.e("ERROR", "Lỗi lấy doanh thu");
         } finally {
             sql.endTransaction();
         }
@@ -150,7 +151,7 @@ values.put("status", invoice.getStatus());
 
     }
 
-    public int countInvoiceExported(){
+    public int countInvoiceExported() {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ArrayList<Integer> count = new ArrayList<>();
 
@@ -173,29 +174,28 @@ values.put("status", invoice.getStatus());
         return count.get(0);
     }
 
-    public Invoice getInvoiceByTableID(String tableID){
+    public Invoice getInvoiceByTableID(String tableID) {
         return getInvoice("SELECT * FROM Invoice WHERE table_id = ?", tableID).get(0);
     }
-    int doanhthu;
+
     @SuppressLint("Range")
-    public int getTotalBill (String startDay, String endDay){
+    public int getTotalBill(String startDay, String endDay) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
-        Cursor cursor = sql.rawQuery("SELECT SUM(total_bill) as turnover FROM Invoice WHERE date_created BETWEEN ? AND ?",new String[]{startDay,endDay});
-
-
+        ArrayList<Integer> list = new ArrayList<>();
+        Cursor cursor = sql.rawQuery("SELECT SUM(total_bill) as TurnOver FROM Invoice WHERE date_created BETWEEN ? AND ?", new String[]{startDay, endDay});
 
         cursor.moveToFirst();
-        while (cursor.moveToNext()){
-            try {
-                doanhthu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("turnover")));
-            }catch (Exception e){
 
+        while (cursor.moveToNext()) {
+            try {
+                int doanhThu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("TurnOver")));
+                list.add(doanhThu);
+            } catch (Exception e) {
+                list.add(0);
             }
 
         }
-
-        return doanhthu;
-
+        return list.get(0);
     }
 
 

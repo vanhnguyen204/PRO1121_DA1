@@ -68,7 +68,7 @@ public class FragmentCalendar extends Fragment {
 
     public void setRecyclerView(String day) {
         calendarArrayList = calenderDAO.getAllCalendarByDay(day);
-        Toast.makeText(getContext(), "lich lam viec: "+ calendarArrayList.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "lich lam viec: " + calendarArrayList.size(), Toast.LENGTH_SHORT).show();
         if (calendarArrayList.size() != 0) {
             calenderAdapter = new CalenderAdapter(getActivity(), calendarArrayList, getParentFragmentManager());
             rcViewCalendar.setAdapter(calenderAdapter);
@@ -89,7 +89,7 @@ public class FragmentCalendar extends Fragment {
         btn_addWordCalender = view.findViewById(R.id.btn_add_CalendarWord);
         rcViewCalendar = view.findViewById(R.id.rcv_calenderWork);
 
-
+        ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
         setTimeNow(tv_dayNow);
         calenderDAO = new CalenderDAO(getActivity(), new Dbhelper(getActivity()));
 
@@ -140,7 +140,7 @@ public class FragmentCalendar extends Fragment {
                     }
 
                 }
-                Toast.makeText(getContext(), ""+calendarArrayList.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + calendarArrayList.size(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -165,16 +165,20 @@ public class FragmentCalendar extends Fragment {
                     @Override
                     public void onClick(View view) {
                         String getDay = edtDay.getText().toString().trim();
-                        CalenderWork calenderWork = new CalenderWork(getDay, 1);
-                        CalenderWork calenderWork1 = new CalenderWork(getDay, 2);
-                        CalenderWork calenderWork2 = new CalenderWork(getDay, 3);
-                        calenderDAO.insertCalender(calenderWork, "", "");
-                        calenderDAO.insertCalender(calenderWork1, "", "");
-                        calenderDAO.insertCalender(calenderWork2, "", "");
+                        if (calenderDAO.checkDayAdd(getDay)) {
+                            Toast.makeText(getContext(), "Đã có có lịch của ngày này", Toast.LENGTH_SHORT).show();
+                        } else {
+                            CalenderWork calenderWork = new CalenderWork(getDay, 1);
+                            CalenderWork calenderWork1 = new CalenderWork(getDay, 2);
+                            CalenderWork calenderWork2 = new CalenderWork(getDay, 3);
 
-                        tv_daytoWork.setText(getDay);
-                        setRecyclerView(getDay);
-                        alertDialog.dismiss();
+                            if (calenderDAO.insertCalender(calenderWork) && calenderDAO.insertCalender(calenderWork1) && calenderDAO.insertCalender(calenderWork2)) {
+                                tv_daytoWork.setText(getDay);
+                                setRecyclerView(getDay);
+                                alertDialog.dismiss();
+                            }
+                        }
+
                     }
                 });
                 alertDialog.show();

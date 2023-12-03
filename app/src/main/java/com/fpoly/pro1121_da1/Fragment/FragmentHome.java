@@ -140,14 +140,12 @@ public class FragmentHome extends Fragment {
         }
 
 //        // Sắp xếp mảng theo số lần xuất hiện giảm dần
-
         List<Integer> list = new ArrayList<>();
         for (int integer : arrIntDrinkIDEnd) {
             list.add(integer);
         }
-
-
         Collections.sort(list, Comparator.comparingInt((Integer num) -> countMap.get(num)).reversed());
+
         ArrayList<Drink> drinkArrayList = new ArrayList<>();
         DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         for (int i = 0; i < list.size(); i++) {
@@ -160,15 +158,16 @@ public class FragmentHome extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
+                Toast.makeText(getContext(), ""+drinkArrayList.size(), Toast.LENGTH_SHORT).show();
                 if (!drinkArrayList.isEmpty()) {
                     for (int i = 0; i < drinkArrayList.size(); i++) {
                         for (int j = i + 1; j < drinkArrayList.size(); j++) {
-                             if (drinkArrayList.get(i).getName().equalsIgnoreCase( drinkArrayList.get(j).getName())) {
-                                drinkArrayList.remove(drinkArrayList.get(j));
+                             if (drinkArrayList.get(i).getDrinkID() == drinkArrayList.get(j).getDrinkID()) {
+                                drinkArrayList.remove(drinkArrayList.get(i));
                             }
                         }
                     }
+                    Toast.makeText(getContext(), ""+drinkArrayList.size(), Toast.LENGTH_SHORT).show();
                     TopDrinkAdapter drinkAdapter = new TopDrinkAdapter(getActivity(), drinkArrayList);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(drinkAdapter);

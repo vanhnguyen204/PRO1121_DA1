@@ -18,7 +18,7 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.User;
 
 public class FragmentSettings extends Fragment {
-    ImageView imgGotoAddUser, imgGotoAddSale , imgGotoCalendar, imbLogout, imgGotoHistoryInvoice,imgGotoAddCalenderForStaff;
+    ImageView imgGotoAddSale , imgGotoCalendar, imbLogout, imgGotoHistoryInvoice,imgGotoAddCalenderForStaff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,12 +30,12 @@ public class FragmentSettings extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        imgGotoAddUser = view.findViewById(R.id.arrow1_setting);
+
         imgGotoAddSale = view.findViewById(R.id.arrow3_setting);
         imgGotoCalendar = view.findViewById(R.id.arrow4_setting);
         imbLogout = view.findViewById(R.id.arrow5_setting);
         imgGotoHistoryInvoice = view.findViewById(R.id.img_showHistory);
-        imgGotoAddCalenderForStaff = view.findViewById(R.id.img_gotoMywork);
+
         User user = ((MainActivity)getActivity()).user;
         if (user.getRole().equalsIgnoreCase("admin")){
             imgGotoAddCalenderForStaff.setVisibility(View.INVISIBLE);
@@ -48,6 +48,7 @@ public class FragmentSettings extends Fragment {
                 ((MainActivity)getActivity()).reloadFragment(new FragmentMyWork());
             }
         });
+
         imbLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,12 +70,7 @@ public class FragmentSettings extends Fragment {
 
             }
         });
-        imgGotoAddUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentAddUser());
-            }
-        });
+
         imgGotoAddSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

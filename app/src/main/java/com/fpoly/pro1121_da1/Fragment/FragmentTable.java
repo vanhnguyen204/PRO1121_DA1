@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.TableAdapter;
 import com.fpoly.pro1121_da1.Interface.TableOnClickListener;
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.InvoiceDAO;
@@ -27,6 +28,7 @@ import com.fpoly.pro1121_da1.database.TableDAO;
 import com.fpoly.pro1121_da1.model.Invoice;
 import com.fpoly.pro1121_da1.model.InvoiceViewModel;
 import com.fpoly.pro1121_da1.model.Table;
+import com.fpoly.pro1121_da1.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -41,9 +43,10 @@ public class FragmentTable extends Fragment {
     FloatingActionButton fab;
     TableAdapter tableAdapter;
     int sendInvoiceID = 0;
-public void sendInvoiceIDFromFragmentt(int s){
-    viewModel.setInvoiceData(String.valueOf(s));
-}
+
+    public void sendInvoiceIDFromFragmentt(int s) {
+        viewModel.setInvoiceData(String.valueOf(s));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +61,7 @@ public void sendInvoiceIDFromFragmentt(int s){
             public void onChanged(String s) {
                 // xử lý mã hoá đơn
                 sendInvoiceID = Integer.parseInt(s);
-                Toast.makeText(getContext(), "Đã lấy được mã bên hoá đơn: "+sendInvoiceID, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Đã lấy được mã bên hoá đơn: " + sendInvoiceID, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -80,21 +83,25 @@ public void sendInvoiceIDFromFragmentt(int s){
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(tableAdapter);
         InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
+        User user1 = ((MainActivity) requireActivity()).user;
+        if (user1.getRole().equalsIgnoreCase("staff")) {
+            fab.setVisibility(View.GONE);
+        }
         tableAdapter.setOnTableClick(new TableOnClickListener() {
             @Override
             public void setItemTableClick(Table table, int position) {
-               if (table.getStatus() != 0) {
+                if (table.getStatus() != 0) {
                     Invoice invoice = invoiceDAO.getInvoiceByTableID(table.getTableID());
                     Bundle bundle = new Bundle();
-                   if (sendInvoiceID != 0){
-                       sendInvoiceIDFromFragmentt(sendInvoiceID);
-                       bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
-                       Toast.makeText(getContext(), "Mã hoá đơn: "+sendInvoiceID, Toast.LENGTH_SHORT).show();
-                   }else {
-                       bundle.putInt("KEY_INVOICE", invoice.getInvoiceID());
-                       bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
-                       Toast.makeText(getContext(), "Mã hoá đơn: " + invoice.getInvoiceID(), Toast.LENGTH_SHORT).show();
-                   }
+                    if (sendInvoiceID != 0) {
+                        sendInvoiceIDFromFragmentt(sendInvoiceID);
+                        bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
+                        Toast.makeText(getContext(), "Mã hoá đơn: " + sendInvoiceID, Toast.LENGTH_SHORT).show();
+                    } else {
+                        bundle.putInt("KEY_INVOICE", invoice.getInvoiceID());
+                        bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
+                        Toast.makeText(getContext(), "Mã hoá đơn: " + invoice.getInvoiceID(), Toast.LENGTH_SHORT).show();
+                    }
                     bundle.putString("KEY_TABLE_ID_EXPORT", table.getTableID());
 
                     FragmentExportInvoice fragmentExportInvoice = new FragmentExportInvoice();

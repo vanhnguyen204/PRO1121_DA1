@@ -7,19 +7,16 @@
     android:orientation="vertical"
     tools:context=".Fragment.FragmentHome">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@mipmap/background_topfragment_home"
-        android:orientation="vertical"
-        android:padding="40dp">
-
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-
+          android:layout_margin="40dp"
             android:background="@drawable/custom_layoutchild_fragmenthome"
             android:gravity="center"
             android:orientation="vertical"
@@ -54,7 +51,7 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +67,7 @@
             android:fontFamily="@font/shippori_mincho"
             android:gravity="start"
             android:paddingStart="20dp"
-            android:text="Quản lý"
+            android:text="Tài khoản"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -86,116 +83,77 @@
 
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/img_history"
-                android:src="@mipmap/history" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/img_history"
-                android:text="Lịch sử bán hàng"
-                android:layout_marginStart="10dp"
-                android:id="@+id/tv_history"
-                />
-            <ImageView
+                android:id="@+id/img_changePassWord_fragmentSettings"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/arrow_right"
-                android:id="@+id/img_showHistory"
+
                 android:layout_alignParentEnd="true"
-                />
 
-
-            <ImageView
-                android:id="@+id/img_sale_setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@+id/img_history"
-                android:layout_marginTop="10dp"
-                android:src="@mipmap/sale_tag" />
-
-            <TextView
-                android:id="@+id/tv_sale_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_history"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/img_sale_setting"
-                android:text="Phiếu giảm giá"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:id="@+id/arrow3_setting"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/img_showHistory"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
                 android:src="@mipmap/arrow_right" />
 
+
             <ImageView
-                android:id="@+id/img_calendar_sting"
+                android:id="@+id/img_key_setting"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_below="@+id/img_sale_setting"
-                android:layout_marginTop="10dp"
-                android:src="@mipmap/ic_calendar" />
+                android:src="@mipmap/key_android" />
 
             <TextView
-                android:id="@+id/tv_calendar_setting"
+                android:id="@+id/tv_changepass_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_sale_setting"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/img_calendar_sting"
-                android:text="Lịch làm việc"
+                android:layout_marginTop="5dp"
+
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/img_key_setting"
+                android:text="Đổi mật khẩu"
                 android:textSize="16dp" />
 
+
             <ImageView
-                android:id="@+id/arrow4_setting"
+                android:id="@+id/img_changeInfor"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_below="@+id/arrow3_setting"
+                android:layout_below="@+id/img_changePassWord"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:src="@mipmap/arrow_right" />
 
             <ImageView
                 android:id="@+id/img_logout_setting"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_below="@+id/img_calendar_sting"
+                android:layout_below="@+id/img_key_setting"
                 android:layout_marginTop="10dp"
-                android:src="@mipmap/logout_2" />
+
+                android:src="@mipmap/list" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_calendar_setting"
+                android:layout_below="@+id/tv_changepass_setting"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10sp"
                 android:layout_toEndOf="@+id/img_logout_setting"
-                android:text="Đăng xuất"
+                android:text="Thay đổi thông tin"
                 android:textSize="16dp"
 
                 />
 
 
-
-            <ImageView
-
-                android:id="@+id/arrow5_setting"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/arrow4_setting"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/arrow_right" />
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/shippori_mincho"
+            android:gravity="start"
+            android:paddingStart="20dp"
+            android:text="Công việc"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -206,35 +164,66 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/custom_layout_childsetting"
             android:padding="10dp">
-            <ImageView
-                android:id="@+id/arrow2_setting"
-                android:layout_width="18dp"
-                android:layout_height="15dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="25dp"
-                android:src="@mipmap/arrow_right" />
 
             <ImageView
-                android:id="@+id/img_key_setting"
+                android:id="@+id/img_history"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:src="@mipmap/key_android" />
+                android:src="@mipmap/history" />
 
             <TextView
-                android:id="@+id/tv_changepass_setting"
+                android:id="@+id/tv_history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@+id/img_key_setting"
-                android:text="Đổi mật khẩu"
-                android:textSize="16dp" />
+                android:layout_toRightOf="@+id/img_history"
+                android:text="Lịch sử bán hàng cả tôi"
+                android:textSize="16sp" />
 
+            <ImageView
+                android:id="@+id/img_showHistory_export"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:src="@mipmap/arrow_right" />
+
+            <ImageView
+                android:id="@+id/img_MyWork"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/img_history"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/ic_calendar" />
+
+            <TextView
+                android:id="@+id/tv_mywork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_history"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/img_MyWork"
+                android:text="Công việc của tôi"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/img_gotoMywork_fragmentSettingStaff"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/img_showHistory_export"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/arrow_right" />
         </RelativeLayout>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@color/red"
+            android:text="Đăng xuất"
+            android:id="@+id/btnLogoutFragmentSettingsStaff"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </LinearLayout>

@@ -74,6 +74,11 @@ public class FragmentUserDetail extends Fragment {
                 ((MainActivity) getActivity()).reloadFragment(new FragmentHome());
             }
         });
+        User user1 = ((MainActivity)requireActivity()).user;
+        if (user1.getRole().equalsIgnoreCase("staff")){
+            btn_delete_user_detail.setVisibility(View.GONE);
+            btn_update_user_detail.setVisibility(View.GONE);
+        }
         getParentFragmentManager().setFragmentResultListener("KEY_USER", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {

@@ -219,11 +219,7 @@ public class FragmentExportInvoice extends Fragment {
                             drinkArrayList1.add(drink);
                             ingredientForDrink = ingredientForDrinkDAO.getIngredientByDrinkID(Integer.parseInt(listDrinkID.get(i)));
                             ingredientForDrinkArrayList.add(ingredientForDrink);
-                        }else {
-                            continue;
                         }
-
-
                     }
                     for (int i = 0; i < drinkArrayList1.size(); i++) {
 

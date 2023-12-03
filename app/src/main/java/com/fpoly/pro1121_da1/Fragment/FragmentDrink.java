@@ -87,10 +87,10 @@ public class FragmentDrink extends Fragment {
         });
 
         User user = ((MainActivity) requireActivity()).user;
-        if (!user.getRole().equalsIgnoreCase("admin")) {
+
+        if (user.getRole().equalsIgnoreCase("staff")) {
             btnAddDrink.setVisibility(View.INVISIBLE);
-        } else {
-            btnAddDrink.setVisibility(View.VISIBLE);
+            btnAddDrink.setVisibility(View.GONE);
         }
 
         btnAddDrink.setOnClickListener(new View.OnClickListener() {

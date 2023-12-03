@@ -20,7 +20,7 @@ public class CalenderDAO {
         this.dbhelper = dbhelper;
     }
 
-    public boolean insertCalender(CalenderWork calenderWork, String messengerPositive, String messengerNegative) {
+    public boolean insertCalender(CalenderWork calenderWork) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues ctv = new ContentValues();
 
@@ -29,10 +29,8 @@ public class CalenderDAO {
 
         long result = sql.insert("Calendar", "null", ctv);
         if (result > 1) {
-            Toast.makeText(context, messengerPositive, Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(context, messengerNegative, Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -98,7 +96,6 @@ public class CalenderDAO {
             sql.endTransaction();
         }
         return list;
-
     }
     public CalenderWork getCalenderByID (int CalenderID){
         ArrayList<CalenderWork> list = getCalender("SELECT * FROM Calendar WHERE = calendar_id",String.valueOf(CalenderID));
@@ -128,5 +125,21 @@ public class CalenderDAO {
                         " WHERE User.user_id = ?"
                 , userID
         );
+    }
+    public boolean checkDayAdd(String query) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        sql.beginTransaction();
+        try {
+            Cursor cursor  = sql.rawQuery("SELECT * FROM Calendar WHERE date_work = ? ",new String[]{query});
+            if (cursor.getCount() > 0){
+                return true;
+            }
+
+        }catch (Exception e){
+
+        }finally {
+            sql.endTransaction();
+        }
+        return false;
     }
 }
