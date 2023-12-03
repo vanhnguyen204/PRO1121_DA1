@@ -37,12 +37,7 @@ public class HistoryInvoiceAdapter extends RecyclerView.Adapter<HistoryInvoiceAd
         holder.tvInvoiceID.setText("Mã hoá đơn: "+invoice.getInvoiceID());
         holder.tvTotalBill.setText("Tổng tiền: "+ invoice.getTotalBill());
         holder.tvTime.setText("Thời gian: "+invoice.getDateCreate());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(activity, ""+invoice.getDrinkID(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override

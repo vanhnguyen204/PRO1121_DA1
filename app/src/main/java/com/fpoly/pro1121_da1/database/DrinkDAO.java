@@ -57,6 +57,7 @@ public class DrinkDAO {
         values.put("quantity", drink.getQuantity());
         values.put("image_drink", drink.getImage());
         values.put("unit", drink.getUnit());
+        values.put("status", drink.getStatus());
         long reslut = sql.insert("Drink", null, values);
         if (reslut > 0) {
             Toast.makeText(context, "Thêm đồ uống thành công", Toast.LENGTH_SHORT).show();
@@ -70,7 +71,6 @@ public class DrinkDAO {
     public boolean updateDrink(Drink drink) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-values.put("drink_id", drink.getDrinkID());
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
                 .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
         try {
@@ -101,12 +101,23 @@ values.put("drink_id", drink.getDrinkID());
             return false;
         }
     }
-
-    public boolean deleteDrink(Drink drink) {
+    public boolean updateQuantityDrink(int drinkID, int quanity) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("quantity", quanity);
 
-        long reslut = sql.delete("Drink", "drink_id = ?", new String[]{String.valueOf(drink.getDrinkID())});
-        if (reslut > 0) {
+        long result = sql.update("Drink", values, "drink_id = ?", new String[]{String.valueOf(drinkID)});
+
+        return result > 0;
+    }
+
+    public boolean deleteDrink(int drinkID, int status) {
+
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("status", status);
+        long result = sql.update("Drink", values, "drink_id = ?", new String[]{String.valueOf(drinkID)});
+        if (result > 0) {
             Toast.makeText(context, "Xoá đồ uống thành công", Toast.LENGTH_SHORT).show();
             return true;
         } else {
@@ -137,6 +148,7 @@ values.put("drink_id", drink.getDrinkID());
                     int getQuantity = cursor.getInt(7);
                     int getImage = cursor.getInt(8);
                     String getUnit = cursor.getString(9);
+                    int getStatus = cursor.getInt(10);
                     list.add(new Drink(
                             getDrinkID,
                             getVoucherID,
@@ -147,7 +159,9 @@ values.put("drink_id", drink.getDrinkID());
                             getPrice,
                             getQuantity,
                             getImage,
-                            getUnit
+                            getUnit,
+                            getStatus
+
                     ));
                 } while (cursor.moveToNext());
             }
@@ -215,4 +229,9 @@ values.put("drink_id", drink.getDrinkID());
         }
         return listIngredient;
     }
+
+    public ArrayList<Drink> getDrinkNow(){
+        return getDrink("SELECT * FROM Drink WHERE status = 0");
+    }
+
 }

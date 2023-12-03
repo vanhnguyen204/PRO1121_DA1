@@ -68,7 +68,7 @@ public class FragmentDrink extends Fragment {
         edtSearch = view.findViewById(R.id.edt_search_fragmentDrink);
         imgBack = view.findViewById(R.id.img_back_fragmentDrink);
         NotificationDAO notificationDAO = new NotificationDAO(getContext());
-        list = drinkDAO.getAllDrink();
+        list = drinkDAO.getDrinkNow();
         if (list.size() == 0) {
             Toast.makeText(getContext(), "Chưa có dữ liệu đồ uống", Toast.LENGTH_SHORT).show();
         }

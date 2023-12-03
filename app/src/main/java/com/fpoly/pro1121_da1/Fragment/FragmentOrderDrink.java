@@ -32,11 +32,16 @@ import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Table;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FragmentOrderDrink extends Fragment {
 
     RecyclerView recyclerView;
     public static ArrayList<String> listDrinkID;
+    public static ArrayList<Integer> listQuantityOfDink;
+    public static ArrayList<Integer> listQuantityBack;
+    public static Map<Integer, Integer> map = new HashMap<>();
     DrinkOrderAdapter drinkOrderAdapter;
     private Bundle bundle = null;
     ArrayList<Drink> list;
@@ -69,25 +74,25 @@ public class FragmentOrderDrink extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         spinner = view.findViewById(R.id.spinner_fragmentOrder);
         recyclerView = view.findViewById(R.id.recyclerView_orderDrink);
         imgBack = view.findViewById(R.id.img_back_fragmentOrderDrink);
         drinkDAO = new DrinkDAO(getActivity(), new Dbhelper(getActivity()));
-        list = drinkDAO.getAllDrink();
+        list = drinkDAO.getDrinkNow();
         drinkOrderAdapter = new DrinkOrderAdapter(list, getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(drinkOrderAdapter);
         btnConfirmOrder = view.findViewById(R.id.btnConfirmSelectOrder);
         listDrinkOrder = new ArrayList<>();
+        listQuantityOfDink = new ArrayList<>();
         listDrinkID_checkbox = new ArrayList<>();
-
         listDrinkID = new ArrayList<>();
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
             getTableID = bundle.getString("KEY_TABLE_ID");
             listDrinkID_checkbox = (ArrayList<String>) bundle.getSerializable("KEY_CHECKBOX");
+            listQuantityBack = bundle.getIntegerArrayList("KEY_QUANTITY_BACK");
             saveTableID = bundle.getString("KEY_SAVE_TABLE_ID");
             getInvoiceIdExport = bundle.getInt("KEY_INVOICE_ID_EXPORT");
             if (saveTableID != null) {
@@ -96,11 +101,14 @@ public class FragmentOrderDrink extends Fragment {
             if (listDrinkID_checkbox != null) {
                 listDrinkID = listDrinkID_checkbox;
             }
+            if (listQuantityBack != null) {
+                listQuantityOfDink = listQuantityBack;
+            }
         }
 
         String[] arrSpinner = new String[]{"Mang về", "Tại quán"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                getActivity(),
+                requireActivity(),
                 android.R.layout.simple_spinner_dropdown_item,
                 arrSpinner
         );
@@ -111,7 +119,6 @@ public class FragmentOrderDrink extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 getStatus = i;
-
             }
 
             @Override
@@ -122,37 +129,35 @@ public class FragmentOrderDrink extends Fragment {
 
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
-            public void onClick(Drink drink, int position) {
-                listDrinkID.add(String.valueOf(drink.getDrinkID()));
-
+            public void onClick(Drink drink, int position, int quantity) {
+                map.put(drink.getDrinkID(), quantity);
             }
 
             @Override
-            public void setDeleteDrink(Drink drink, int position) {
-                for (int i = 0; i < listDrinkID.size(); i++) {
-                    if (listDrinkID.get(i).equals(String.valueOf(drink.getDrinkID()))) {
-                        listDrinkID.remove(i);
-                    }
-                }
-
+            public void setDeleteDrink(Drink drink, int position, int quantitty) {
+                map.remove(drink.getDrinkID());
 
             }
         });
-        TableDAO tableDAO = new TableDAO(getContext(), new Dbhelper(getContext()));
 
         btnConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                    System.out.println(entry.getKey() + ": " + entry.getValue());
+                    listDrinkID.add(String.valueOf(entry.getKey()));
+                    listQuantityOfDink.add(entry.getValue());
+                }
+                // Put anything what you want
                 Bundle bundle = new Bundle();
                 bundle.putInt("KEY_STATUS_TABLE", getStatus);
                 bundle.putString("KEY_TABLE_ID_EXPORT", getTableID);
-                bundle.putSerializable("KEY_ARRAY_DRINK_ID", listDrinkID); // Put anything what you want
-
+                bundle.putSerializable("KEY_ARRAY_DRINK_ID", listDrinkID);
+                bundle.putSerializable("KEY_ARRAY_QUANTITY_DRINK", listQuantityOfDink);
                 FragmentExportInvoice manager = new FragmentExportInvoice();
                 manager.setArguments(bundle);
                 getParentFragmentManager().beginTransaction().replace(R.id.container_layout, manager).commit();
-
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {

@@ -264,15 +264,23 @@ public class FragmentAddDrink extends Fragment {
                 } else {
                     if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
 
-                        Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateAdd, getDateAdd, Integer.parseInt(getPrice), 0, getImageDrink, "lit");
+                        Drink drink = new Drink(getDrinkID,
+                                getVoucher,
+                                getName,
+                                getTypeOfDrink,
+                                getDateAdd,
+                                getDateAdd,
+                                Integer.parseInt(getPrice),
+                                0,
+                                getImageDrink,
+                                "lit",
+                                0);
                         getIngredientForDrink = new Random().nextInt(1000);
                         if (drinkDAO.insertDrink(drink)) {
                             for (int i = 0; i < listIngredientRecyclerView.size(); i++) {
                                 IngredientForDrink ingredient = new IngredientForDrink(getDrinkID, listIngredientRecyclerView.get(i).getIngredientID(), listQuantity.get(i));
                                ingredientForDrinkDAO.insertValues(ingredient);
-
                             }
-
                             ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
 
                         }
@@ -285,7 +293,7 @@ public class FragmentAddDrink extends Fragment {
                             } else if (!checkExpiry(getDateExpiry, timeNow)) {
                                 Toast.makeText(getContext(), "Ngày hết hạn phải lớn hơn ngày hiện tại", Toast.LENGTH_SHORT).show();
                             } else {
-                                Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "long");
+                                Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "long", 0);
                                 if (drinkDAO.insertDrink(drink)) {
                                     ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                                 }

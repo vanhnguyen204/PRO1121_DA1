@@ -14,8 +14,9 @@ public class Drink implements Serializable {
     private int quantity;
     private int image;
     private String unit;
+    private int status;
 
-    public Drink(int drinkID, int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity, int image, String unit) {
+    public Drink(int drinkID, int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity, int image, String unit, int status) {
         this.drinkID = drinkID;
         this.voucherID = voucherID;
         this.name = name;
@@ -26,18 +27,7 @@ public class Drink implements Serializable {
         this.quantity = quantity;
         this.image = image;
         this.unit = unit;
-    }
-
-    public Drink(int voucherID, String name, String typeOfDrink, String dateExpiry, String dateAdd, int price, int quantity, int image, String unit) {
-        this.voucherID = voucherID;
-        this.name = name;
-        this.typeOfDrink = typeOfDrink;
-        this.dateExpiry = dateExpiry;
-        this.dateAdd = dateAdd;
-        this.price = price;
-        this.quantity = quantity;
-        this.image = image;
-        this.unit = unit;
+        this.status = status;
     }
 
     public int getDrinkID() {
@@ -118,5 +108,13 @@ public class Drink implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

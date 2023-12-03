@@ -4,7 +4,6 @@ public class Invoice {
     private int invoiceID;
     private String userID;
     private int customerID;
-    private String drinkID;
     private String tableID;
     private int totalBill;
     private String dateCreate;
@@ -12,11 +11,11 @@ public class Invoice {
     private String status;
 
 
-    public Invoice(int invoiceID, String userID, int customerID, String drinkID, String tableID, int totalBill, String dateCreate, String serve, String status) {
+    public Invoice(int invoiceID, String userID, int customerID, String tableID, int totalBill, String dateCreate, String serve, String status) {
         this.invoiceID = invoiceID;
         this.userID = userID;
         this.customerID = customerID;
-        this.drinkID = drinkID;
+
         this.tableID = tableID;
         this.totalBill = totalBill;
         this.dateCreate = dateCreate;
@@ -24,10 +23,10 @@ public class Invoice {
         this.status = status;
     }
 
-    public Invoice(String userID, int customerID, String drinkID, String tableID, int totalBill, String dateCreate, String serve, String status) {
+    public Invoice(String userID, int customerID, String tableID, int totalBill, String dateCreate, String serve, String status) {
         this.userID = userID;
         this.customerID = customerID;
-        this.drinkID = drinkID;
+
         this.tableID = tableID;
         this.totalBill = totalBill;
         this.dateCreate = dateCreate;
@@ -73,14 +72,6 @@ public class Invoice {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
-    }
-
-    public String getDrinkID() {
-        return drinkID;
-    }
-
-    public void setDrinkID(String drinkID) {
-        this.drinkID = drinkID;
     }
 
     public String getTableID() {

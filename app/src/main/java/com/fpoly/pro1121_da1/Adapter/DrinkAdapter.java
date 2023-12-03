@@ -66,7 +66,12 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.Viewholder> 
         holder.tvDetail.setTextColor(Color.RED);
         holder.tvPrice.setText(String.valueOf(drink.getPrice()));
         holder.imgDrink.setImageResource(drink.getImage());
-
+holder.itemView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Toast.makeText(atv, ""+drink.getStatus(), Toast.LENGTH_SHORT).show();
+    }
+});
         holder.tvDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -32,12 +32,14 @@ import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
 import com.fpoly.pro1121_da1.database.IngredientForDrinkDAO;
 import com.fpoly.pro1121_da1.database.InvoiceDAO;
+import com.fpoly.pro1121_da1.database.InvoiceDetailDao;
 import com.fpoly.pro1121_da1.database.TableDAO;
 import com.fpoly.pro1121_da1.model.Customer;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.IngredientForDrink;
 import com.fpoly.pro1121_da1.model.Invoice;
+import com.fpoly.pro1121_da1.model.InvoiceDetail;
 import com.fpoly.pro1121_da1.model.InvoiceViewModel;
 import com.fpoly.pro1121_da1.model.Table;
 import com.fpoly.pro1121_da1.model.User;
@@ -53,27 +55,22 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class FragmentExportInvoice extends Fragment {
-
-    ArrayList<Drink> list;
     private InvoiceViewModel viewModel;
     ArrayList<String> listDrinkID;
-    ArrayList<String> drinkArrayList;
+    ArrayList<Integer> listQuantityOfDink;
     TextView tvInvoiceID, tvNameStaff, tvNameDrink, tvTableID, tvTotalBill, tvDateCreate, tvServe;
     ImageView imgAddCustomer, imgBack;
+
+    ArrayList<Ingredient> arrayListIngredient = new ArrayList<>();
     String getTableID;
     Button btnConfirm;
-
-    String getDrinkID = "";
     String getServe = "";
-    String nameDrink = "";
-    ArrayList<Drink> drinkArrayList1 = new ArrayList<>();
-    ArrayList<Ingredient> ingredientArrayList = new ArrayList<>();
-    ArrayList<IngredientForDrink> ingredientForDrinkArrayList = new ArrayList<>();
+
     int sumPrice = 0;
     int getInvoiceID = 0, getGetInvoiceIdFromFragmentTable = 0;
     int getStatusTable = 0;
-    int getInvoiceOrder = 0;
-    Invoice invoice;
+    int getInvoiceIDRandom;
+    ArrayList<Drink> arrayListDrink = new ArrayList<>();
 
 
     private void getGetInvoiceIDFrom() {
@@ -104,7 +101,7 @@ public class FragmentExportInvoice extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(InvoiceViewModel.class);
         getGetInvoiceIDFrom();
-        int getInvoiceIDRandom = new Random().nextInt(1000000);
+        getInvoiceIDRandom = new Random().nextInt(1000000);
         User user = ((MainActivity) getActivity()).user;
         tvInvoiceID = view.findViewById(R.id.tv_invoiceID_fragmentExport);
         tvNameStaff = view.findViewById(R.id.tv_nameStaff_fragmentExport);
@@ -121,6 +118,8 @@ public class FragmentExportInvoice extends Fragment {
         int getIdCustomer = new Random().nextInt(100000);
         DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
 
+        IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
+        IngredientDAO ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         String getDateCreate = dateFormat.format(cal.getTime());
@@ -133,7 +132,7 @@ public class FragmentExportInvoice extends Fragment {
             getTableID = bundle.getString("KEY_TABLE_ID_EXPORT");
             getInvoiceID = bundle.getInt("KEY_INVOICE");
             getStatusTable = bundle.getInt("KEY_STATUS_TABLE");
-
+            listQuantityOfDink = (ArrayList<Integer>) bundle.getSerializable("KEY_ARRAY_QUANTITY_DRINK");
         }
 
         Table table = tableDAO.getTableByID(getTableID);
@@ -144,99 +143,122 @@ public class FragmentExportInvoice extends Fragment {
         } else {
             getServe = "Tại quán";
         }
+        // lấy đồ xuống sau khi chọn bên fragment order sau khi bắn list drink id từ fragment order qua
         if (listDrinkID.size() != 0) {
-            StringBuilder nameDrink = new StringBuilder();
-
             for (int i = 0; i < listDrinkID.size(); i++) {
-                nameDrink.append(drinkDAO.getDrinkByID(listDrinkID.get(i)).getName()).append(", ");
-                sumPrice += drinkDAO.getDrinkByID(listDrinkID.get(i)).getPrice();
-                getDrinkID += listDrinkID.get(i) + " ";
+                Drink drink = drinkDAO.getDrinkByID(listDrinkID.get(i));
+                arrayListDrink.add(drink);
             }
-            tvTotalBill.setText("Tổng tiền: " + sumPrice + " VNĐ");
-            tvNameDrink.setText("Đồ uống đã chọn: " + nameDrink);
-            tvNameStaff.setText("Nhân viên: " + user.getFullName());
-            tvDateCreate.setText("Ngày tạo: " + getDateCreate);
-            tvTableID.setText("Mã bàn: " + getTableID);
-            tvServe.setText("Phục vụ: " + getServe);
-            btnConfirm.setText("Xuất hoá đơn");
         }
+
+// đã có list đồ uống sau khi chọn
+        StringBuilder strBuilderNameDrink = new StringBuilder();
+        for (int i = 0; i < arrayListDrink.size(); i++) {
+            strBuilderNameDrink.append(arrayListDrink.get(i).getName()).append(String.valueOf(listQuantityOfDink.get(i))).append(" - ");
+            sumPrice += arrayListDrink.get(i).getPrice();
+        }
+
+        tvInvoiceID.setText("Mã hoá đơn: " + getInvoiceIDRandom);
+        tvNameStaff.setText("Nhân viên: " + user.getFullName());
+        tvNameDrink.setText("Đồ uống: " + strBuilderNameDrink.toString());
+        tvTableID.setText("Bàn: " + getTableID);
+        tvTotalBill.setText("Tổng tiền: " + sumPrice);
+        tvDateCreate.setText("Ngày tạo: " + getDateCreate);
+        tvServe.setText("Phục vụ: " + getServe);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Bạn đang tạo hoá đơn, bạn có chắc muốn thoát không");
-                builder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putSerializable("KEY_CHECKBOX", listDrinkID);
-                        bundle1.putString("KEY_SAVE_TABLE_ID", getTableID);
-                        if (getInvoiceOrder != 0) {
-                            bundle1.putInt("KEY_INVOICE_ID_EXPORT", getInvoiceOrder);
-                            Toast.makeText(getContext(), "Đã bắn " + getInvoiceOrder, Toast.LENGTH_SHORT).show();
-                        } else {
-                            bundle1.putInt("KEY_INVOICE_ID_EXPORT", getInvoiceIDRandom);
-                            Toast.makeText(getContext(), "Đã bắn " + getInvoiceIDRandom, Toast.LENGTH_SHORT).show();
-                        }
-
-                        FragmentOrderDrink frm = new FragmentOrderDrink();
-                        frm.setArguments(bundle1);
-
-                        getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
-
-                    }
-                });
-                builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.show();
-
+                showDialogBackOrder();
             }
         });
 
         imgAddCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 showAlertCreateNewCustomer(getIdCustomer);
             }
         });
-        IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
-        IngredientDAO ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
+        IngredientForDrinkDAO forDrinkDAO = new IngredientForDrinkDAO(getActivity());
+
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Invoice invoiceGetOut = new Invoice(getInvoiceIDRandom, user.getUserID(), getIdCustomer, getDrinkID, getTableID, sumPrice, getDateCreate, getServe, "Đã xuất hoá đơn");
-                if (invoiceDAO.insertInvoice(invoiceGetOut)) {
-
-                    IngredientForDrink ingredientForDrink;
-                    // lấy đồ uống pha chế và đồ uống pha chế ở bảng trung gian
-                    for (int i = 0; i < listDrinkID.size(); i++) {
-                        Drink drink = drinkDAO.getDrinkByID(listDrinkID.get(i));
-                        if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
-                            drinkArrayList1.add(drink);
-                            ingredientForDrink = ingredientForDrinkDAO.getIngredientByDrinkID(Integer.parseInt(listDrinkID.get(i)));
-                            ingredientForDrinkArrayList.add(ingredientForDrink);
+                for (int index = 0; index < arrayListDrink.size(); index++) {
+                    Drink drink = arrayListDrink.get(index);
+                    if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+                        for (int i = 0; i < arrayListDrink.size(); i++) {
+                            if (arrayListDrink.get(i).getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+                                arrayListIngredient = drinkDAO.getIngredientFromDrinkID(arrayListDrink.get(i).getDrinkID());
+                                for (int j = 0; j < arrayListIngredient.size(); j++) {
+                                    IngredientForDrink ingredientForDrink = forDrinkDAO.getModelIngreForDrink(arrayListDrink.get(i).getDrinkID(), arrayListIngredient.get(i).getIngredientID());
+                                    double quantity = ingredientForDrink.getQuantity() *  listQuantityOfDink.get(index);
+                                    ingredientDAO.updateQuantityIngredient(arrayListIngredient.get(i).getIngredientID(), arrayListIngredient.get(i).getQuantity() - quantity);
+                                }
+                            }
                         }
+                    } else {
+                        int quantityOLd = drink.getQuantity() - listQuantityOfDink.get(index);
+                        drinkDAO.updateQuantityDrink(arrayListDrink.get(index).getDrinkID(), quantityOLd);
+                        ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                     }
-
-                    for (int i = 0; i < drinkArrayList1.size(); i++) {
-                        ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drinkArrayList1.get(i).getDrinkID());
-                        for (int j = 0; j < ingredientArrayList.size(); j++) {
-                            ingredientDAO.updateQuantityIngredient(ingredientArrayList.get(j).getIngredientID(), ingredientArrayList.get(j).getQuantity() - ingredientForDrinkArrayList.get(j).getQuantity());
-                        }
-                    }
-
-
-                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, new FragmentTable()).commit();
                 }
+
+
+//                Invoice invoiceGetOut = new Invoice(getInvoiceIDRandom, user.getUserID(), getIdCustomer, getTableID, sumPrice, getDateCreate, getServe, "Đã xuất hoá đơn");
+//                if (invoiceDAO.insertInvoice(invoiceGetOut)) {
+//
+//                    IngredientForDrink ingredientForDrink;
+//                    // lấy đồ uống pha chế và đồ uống pha chế ở bảng trung gian
+//                    for (int i = 0; i < listDrinkID.size(); i++) {
+//                        Drink drink = drinkDAO.getDrinkByID(listDrinkID.get(i));
+//                        if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+//                            drinkArrayList1.add(drink);
+//                            ingredientForDrink = ingredientForDrinkDAO.getIngredientByDrinkID(Integer.parseInt(listDrinkID.get(i)));
+//                            ingredientForDrinkArrayList.add(ingredientForDrink);
+//                        }
+//                    }
+//
+//                    for (int i = 0; i < drinkArrayList1.size(); i++) {
+//                        ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drinkArrayList1.get(i).getDrinkID());
+//                        for (int j = 0; j < ingredientArrayList.size(); j++) {
+//                            ingredientDAO.updateQuantityIngredient(ingredientArrayList.get(j).getIngredientID(), ingredientArrayList.get(j).getQuantity() - ingredientForDrinkArrayList.get(j).getQuantity());
+//                        }
+//                    }
+//
+
+//                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, new FragmentTable()).commit();
+//                }
             }
         });
+    }
+
+    private void showDialogBackOrder() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Bạn đang tạo hoá đơn, bạn có chắc muốn thoát không");
+        builder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable("KEY_CHECKBOX", listDrinkID);
+                bundle1.putString("KEY_SAVE_TABLE_ID", getTableID);
+                bundle1.putInt("KEY_INVOICE_ID_EXPORT", getInvoiceIDRandom);
+                bundle1.putSerializable("KEY_QUANTITY_BACK", listQuantityOfDink);
+
+                FragmentOrderDrink frm = new FragmentOrderDrink();
+                frm.setArguments(bundle1);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
+
+            }
+        });
+        builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.show();
+
     }
 
 

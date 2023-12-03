@@ -21,15 +21,45 @@
             android:id="@+id/tv_nameDrink_item_orderDrink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/img_item_orderDrink"
             android:text="Nước ép dưa hấu"
-            android:textSize="18sp" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp" />
 
         <CheckBox
             android:id="@+id/chk_selectToOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:id="@+id/img_minus"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/tv_nameDrink_item_orderDrink"
+            android:layout_toRightOf="@+id/tv_quantityDrinkFragmentOrder"
+            android:src="@mipmap/minus" />
+
+        <TextView
+            android:id="@+id/tv_quantityDrinkFragmentOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/tv_nameDrink_item_orderDrink"
+           android:layout_toRightOf="@+id/img_item_orderDrink"
+            android:text="Số lượng: 1"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/img_increQuantity"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/tv_nameDrink_item_orderDrink"
+android:layout_toRightOf="@+id/img_minus"
+            android:src="@mipmap/plus_drink" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

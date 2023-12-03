@@ -79,105 +79,105 @@ public class FragmentHome extends Fragment {
         tvNameStaff = view.findViewById(R.id.tv_nameOfStaff);
 
 
-        imgNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogNotification();
-            }
-        });
-
-        NotificationDAO notificationDAO = new NotificationDAO(getContext());
-        listNotify = notificationDAO.getAllNotification();
-        if (listNotify.size() != 0) {
-            tvCountNotify.setText(String.valueOf(listNotify.size()));
-            for (int i = 0; i < listNotify.size(); i++) {
-                for (int j = i + 1; j < listNotify.size(); j++) {
-                    if (listNotify.get(i).getMessage().equalsIgnoreCase(listNotify.get(j).getMessage())){
-                       listNotify.remove(j);
-                       tvCountNotify.setText(""+listNotify.size());
-                    }
-                }
-            }
-        }
-
-        // Inflate the layout for this fragment
-        InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
-        ArrayList<Invoice> invoiceArrayList = invoiceDAO.getAllInvoice();
-        ArrayList<String> listDrinkID = new ArrayList<>();
-        scrollView = view.findViewById(R.id.scrollView);
-        for (int i = 0; i < invoiceArrayList.size(); i++) {
-            listDrinkID.add(invoiceArrayList.get(i).getDrinkID());
-        }
-
-        for (int i = 0; i < listDrinkID.size(); i++) {
-            sub += listDrinkID.get(i) + " ";
-        }
-        String[] listDrinkIDInvoice = sub.split(" ");
-
-        ArrayList<Integer> listIntegerDrinkID = new ArrayList<>();
-
-        for (int i = 0; i < listDrinkIDInvoice.length; i++) {
-            if (listDrinkIDInvoice[i].equals("")) {
-                continue;
-            } else {
-                listIntegerDrinkID.add(Integer.parseInt(listDrinkIDInvoice[i]));
-            }
-        }
-
-        int[] arrIntDrinkIDEnd = new int[listIntegerDrinkID.size()];
-        for (int i = 0; i < arrIntDrinkIDEnd.length; i++) {
-            arrIntDrinkIDEnd[i] = listIntegerDrinkID.get(i);
-        }
-
-//        // Sử dụng Map để đếm số lần xuất hiện của mỗi phần tử
-
-        Map<Integer, Integer> countMap = new HashMap<>();
-        for (int i = 0; i < arrIntDrinkIDEnd.length; i++) {
-
-            int countChild = countMap.getOrDefault(arrIntDrinkIDEnd[i], 0);
-
-            countMap.put(arrIntDrinkIDEnd[i], ++countChild);
-        }
-
-//        // Sắp xếp mảng theo số lần xuất hiện giảm dần
-        List<Integer> list = new ArrayList<>();
-        for (int integer : arrIntDrinkIDEnd) {
-            list.add(integer);
-        }
-        Collections.sort(list, Comparator.comparingInt((Integer num) -> countMap.get(num)).reversed());
-
-        ArrayList<Drink> drinkArrayList = new ArrayList<>();
-        DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
-        for (int i = 0; i < list.size(); i++) {
-            drinkArrayList.add(drinkDAO.getDrinkByID(String.valueOf(list.get(i))));
-        }
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!drinkArrayList.isEmpty()) {
-                    for (int i = 0; i < drinkArrayList.size(); i++) {
-                        for (int j = i + 1; j < drinkArrayList.size(); j++) {
-                             if (drinkArrayList.get(i).getDrinkID() == drinkArrayList.get(j).getDrinkID()) {
-                                drinkArrayList.remove(drinkArrayList.get(i));
-                            }
-                        }
-                    }
-
-                    TopDrinkAdapter drinkAdapter = new TopDrinkAdapter(getActivity(), drinkArrayList);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(drinkAdapter);
-                }
-                Animation animation1 = new TranslateAnimation(1000, 0, 0, 0);
-                animation1.setDuration(2000);
-                animation1.setRepeatMode(Animation.RELATIVE_TO_SELF);
-                animation1.setRepeatCount(0);
-                recyclerView.setAnimation(animation1);
-            }
-        }, 400);
+//        imgNotification.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showDialogNotification();
+//            }
+//        });
+//
+//        NotificationDAO notificationDAO = new NotificationDAO(getContext());
+//        listNotify = notificationDAO.getAllNotification();
+//        if (listNotify.size() != 0) {
+//            tvCountNotify.setText(String.valueOf(listNotify.size()));
+//            for (int i = 0; i < listNotify.size(); i++) {
+//                for (int j = i + 1; j < listNotify.size(); j++) {
+//                    if (listNotify.get(i).getMessage().equalsIgnoreCase(listNotify.get(j).getMessage())){
+//                       listNotify.remove(j);
+//                       tvCountNotify.setText(""+listNotify.size());
+//                    }
+//                }
+//            }
+//        }
+//
+//        // Inflate the layout for this fragment
+//        InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
+//        ArrayList<Invoice> invoiceArrayList = invoiceDAO.getAllInvoice();
+//        ArrayList<String> listDrinkID = new ArrayList<>();
+//        scrollView = view.findViewById(R.id.scrollView);
+//        for (int i = 0; i < invoiceArrayList.size(); i++) {
+//            listDrinkID.add(invoiceArrayList.get(i).getDrinkID());
+//        }
+//
+//        for (int i = 0; i < listDrinkID.size(); i++) {
+//            sub += listDrinkID.get(i) + " ";
+//        }
+//        String[] listDrinkIDInvoice = sub.split(" ");
+//
+//        ArrayList<Integer> listIntegerDrinkID = new ArrayList<>();
+//
+//        for (int i = 0; i < listDrinkIDInvoice.length; i++) {
+//            if (listDrinkIDInvoice[i].equals("")) {
+//                continue;
+//            } else {
+//                listIntegerDrinkID.add(Integer.parseInt(listDrinkIDInvoice[i]));
+//            }
+//        }
+//
+//        int[] arrIntDrinkIDEnd = new int[listIntegerDrinkID.size()];
+//        for (int i = 0; i < arrIntDrinkIDEnd.length; i++) {
+//            arrIntDrinkIDEnd[i] = listIntegerDrinkID.get(i);
+//        }
+//
+////        // Sử dụng Map để đếm số lần xuất hiện của mỗi phần tử
+//
+//        Map<Integer, Integer> countMap = new HashMap<>();
+//        for (int i = 0; i < arrIntDrinkIDEnd.length; i++) {
+//
+//            int countChild = countMap.getOrDefault(arrIntDrinkIDEnd[i], 0);
+//
+//            countMap.put(arrIntDrinkIDEnd[i], ++countChild);
+//        }
+//
+////        // Sắp xếp mảng theo số lần xuất hiện giảm dần
+//        List<Integer> list = new ArrayList<>();
+//        for (int integer : arrIntDrinkIDEnd) {
+//            list.add(integer);
+//        }
+//        Collections.sort(list, Comparator.comparingInt((Integer num) -> countMap.get(num)).reversed());
+//
+//        ArrayList<Drink> drinkArrayList = new ArrayList<>();
+//        DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
+//        for (int i = 0; i < list.size(); i++) {
+//            drinkArrayList.add(drinkDAO.getDrinkByID(String.valueOf(list.get(i))));
+//        }
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+//
+//
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (!drinkArrayList.isEmpty()) {
+//                    for (int i = 0; i < drinkArrayList.size(); i++) {
+//                        for (int j = i + 1; j < drinkArrayList.size(); j++) {
+//                             if (drinkArrayList.get(i).getDrinkID() == drinkArrayList.get(j).getDrinkID()) {
+//                                drinkArrayList.remove(drinkArrayList.get(i));
+//                            }
+//                        }
+//                    }
+//
+//                    TopDrinkAdapter drinkAdapter = new TopDrinkAdapter(getActivity(), drinkArrayList);
+//                    recyclerView.setLayoutManager(layoutManager);
+//                    recyclerView.setAdapter(drinkAdapter);
+//                }
+//                Animation animation1 = new TranslateAnimation(1000, 0, 0, 0);
+//                animation1.setDuration(2000);
+//                animation1.setRepeatMode(Animation.RELATIVE_TO_SELF);
+//                animation1.setRepeatCount(0);
+//                recyclerView.setAnimation(animation1);
+//            }
+//        }, 400);
 
         return view;
     }

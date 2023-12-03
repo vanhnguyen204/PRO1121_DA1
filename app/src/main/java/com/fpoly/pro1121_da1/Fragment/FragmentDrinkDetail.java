@@ -244,7 +244,7 @@ public class FragmentDrinkDetail extends Fragment {
                 builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        drinkDAO.deleteDrink(drink);
+                        drinkDAO.deleteDrink(receiveDrinkID, 1);
                         ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                     }
                 });

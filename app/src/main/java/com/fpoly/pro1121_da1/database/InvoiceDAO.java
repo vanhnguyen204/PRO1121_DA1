@@ -32,7 +32,6 @@ public class InvoiceDAO {
         values.put("user_id", invoice.getUserID());
         values.put("customer_id", invoice.getCustomerID());
         values.put("total_bill", invoice.getTotalBill());
-        values.put("drink_id", invoice.getDrinkID());
         values.put("table_id", invoice.getTableID());
         values.put("status", invoice.getStatus());
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
@@ -62,7 +61,6 @@ public class InvoiceDAO {
         values.put("user_id", invoice.getUserID());
         values.put("customer_id", invoice.getCustomerID());
         values.put("total_bill", invoice.getTotalBill());
-        values.put("drink_id", invoice.getDrinkID());
         values.put("table_id", invoice.getTableID());
 
         DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
@@ -100,13 +98,12 @@ public class InvoiceDAO {
                     int getInvoiceID = cursor.getInt(0);
                     String getUserID = cursor.getString(1);
                     int getCustomerID = cursor.getInt(2);
-                    String getDrinkID = cursor.getString(3);
-                    String getTableID = cursor.getString(4);
-                    int getTotalBill = cursor.getInt(5);
-                    String getDateCreate = cursor.getString(6);
-                    String getServe = cursor.getString(7);
-                    String getStatus = cursor.getString(8);
-                    list.add(new Invoice(getInvoiceID, getUserID, getCustomerID, getDrinkID, getTableID, getTotalBill, getDateCreate, getServe, getStatus));
+                    String getTableID = cursor.getString(3);
+                    int getTotalBill = cursor.getInt(4);
+                    String getDateCreate = cursor.getString(5);
+                    String getServe = cursor.getString(6);
+                    String getStatus = cursor.getString(7);
+                    list.add(new Invoice(getInvoiceID, getUserID, getCustomerID, getTableID, getTotalBill, getDateCreate, getServe, getStatus));
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();
