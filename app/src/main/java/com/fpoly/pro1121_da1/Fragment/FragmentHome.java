@@ -158,7 +158,6 @@ public class FragmentHome extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getContext(), ""+drinkArrayList.size(), Toast.LENGTH_SHORT).show();
                 if (!drinkArrayList.isEmpty()) {
                     for (int i = 0; i < drinkArrayList.size(); i++) {
                         for (int j = i + 1; j < drinkArrayList.size(); j++) {
@@ -167,7 +166,7 @@ public class FragmentHome extends Fragment {
                             }
                         }
                     }
-                    Toast.makeText(getContext(), ""+drinkArrayList.size(), Toast.LENGTH_SHORT).show();
+
                     TopDrinkAdapter drinkAdapter = new TopDrinkAdapter(getActivity(), drinkArrayList);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(drinkAdapter);
