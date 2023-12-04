@@ -48,6 +48,7 @@ public class UserDAO {
         values.put("address", user.getAddress());
         values.put("role", user.getRole());
         values.put("status", user.getStatus());
+        values.put("phone_number", user.getPhoneNumber());
         long result = sql.insert("User", null, values);
         if (result > 0) {
             Toast.makeText(context, messPositive, Toast.LENGTH_SHORT).show();
@@ -115,6 +116,21 @@ public class UserDAO {
             return true;
         } else {
             Toast.makeText(context, "Update user không thành công", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    public boolean deleteUserStaff(String id) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("status", 1);
+        long result = sql.update("User", values, "user_id = ?", new String[]{id});
+        if (result > 0) {
+            Toast.makeText(context, "Xoá user thành công", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            Toast.makeText(context, "Xoá user không thành công", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -197,7 +213,7 @@ public class UserDAO {
 
         sql.beginTransaction();
         try {
-            Cursor cursor = sql.rawQuery("SELECT user_name FROM User WHERE user_name = ? AND pass_word = ?", new String[]{userName, passWord});
+            Cursor cursor = sql.rawQuery("SELECT user_name FROM User WHERE user_name = ? AND pass_word = ? AND status = 0", new String[]{userName, passWord});
             if (cursor.getCount() > 0) {
                 return false;
             }

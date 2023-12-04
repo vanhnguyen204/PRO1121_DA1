@@ -58,7 +58,7 @@ public class FragmentUser extends Fragment {
         });
         list = userDAO.getAllUser();
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getRole().equalsIgnoreCase("admin")) {
+            if (list.get(i).getRole().equalsIgnoreCase("admin") || list.get(i).getStatus() != 0) {
                 list.remove(i);
             }
         }

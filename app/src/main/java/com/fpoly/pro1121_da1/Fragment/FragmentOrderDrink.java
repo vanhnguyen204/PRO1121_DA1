@@ -166,7 +166,7 @@ public class FragmentOrderDrink extends Fragment {
                 FragmentExportInvoice manager = new FragmentExportInvoice();
                 manager.setArguments(bundle);
                 getParentFragmentManager().beginTransaction().replace(R.id.container_layout, manager).commit();
-
+                map.clear();
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {

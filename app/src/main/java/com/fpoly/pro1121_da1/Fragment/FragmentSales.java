@@ -35,6 +35,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class FragmentSales extends Fragment {
@@ -80,6 +81,9 @@ public class FragmentSales extends Fragment {
             }
         });
 
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String timeNow = formatter.format(date);
 
         btn_addVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +106,18 @@ public class FragmentSales extends Fragment {
                         String get_Price_Reduce = edt_Price_Reduce.getText().toString().trim();
                         String get_date_Expiry = edt_date_Expiry.getText().toString().trim();
 
-
                         if (get_Price_Reduce.equals("")) {
                             Toast.makeText(getContext(), "Số phần trăm bạn muốn giảm giá không được để chống!", Toast.LENGTH_SHORT).show();
+                        } else if (checkPercentReduce(get_Price_Reduce)) {
+
                         } else if (get_date_Expiry.equals("")) {
                             Toast.makeText(getContext(), "Số ngày hết hạn giảm giá không được để chống!", Toast.LENGTH_SHORT).show();
+                        } else if (checkFormatDate(get_date_Expiry)) {
+                            Toast.makeText(getContext(), "Ngày hết hạn không đúng định dạng !", Toast.LENGTH_SHORT).show();
+                        } else if (!checkExpiry(get_date_Expiry, timeNow)) {
+                            Toast.makeText(getContext(), "Ngày hết hạn phải lớn hơn ngày hiện tại", Toast.LENGTH_SHORT).show();
                         } else {
-
                             Voucher voucher = new Voucher(Integer.valueOf(get_Price_Reduce), get_date_Expiry);
-
 
                             if (voucherDAO.insertVoucher(voucher)) {
                                 listVoucher.add(voucher);
@@ -163,5 +170,45 @@ public class FragmentSales extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
     }
+    public boolean checkExpiry(String day1, String day2) {
+        try {
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = spf.parse(day1);
+            Date date2 = spf.parse(day2);
+            int compare = date1.compareTo(date2);
+            if (compare > 0) {
+                return true;
+            } else if (compare < 0) {
+                return false;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    public boolean checkFormatDate(String input) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            dateFormat.parse(input);
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+    public boolean checkPercentReduce(String str){
+        try {
+            int num = Integer.parseInt(str);
+            if (num < 1 || num > 50){
+                Toast.makeText(getContext(), "Phần trăm giảm giá từ: 1 - 50 %", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Phần trăm giảm giá phải là số nguyên 1 - 50 %", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            return true;
+        }
+        return false;
+    }
 }

@@ -192,15 +192,19 @@ public class FragmentAddDrink extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i != 0) {
                     getVoucher = listVoucher.get(i).getVoucherID();
+                } else {
+                    getVoucher = 2023;
+
                 }
+                Toast.makeText(getContext(), "" + getVoucher, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                getVoucher = 1976;
+                getVoucher = 2023;
             }
         });
-
+        Voucher voucher = voucherDAO.getVoucherByID(String.valueOf(getVoucher));
 
         String type[] = new String[]{"Pha chế", "Đóng chai"};
         SpinnerTypeOfDrink spinnerTypeOfDrink = new SpinnerTypeOfDrink(type, getActivity());
@@ -266,31 +270,33 @@ public class FragmentAddDrink extends Fragment {
 
                 } else if (getVoucher == 0) {
                     Toast.makeText(getContext(), "Vui lòng chọn phiếu giảm giá !", Toast.LENGTH_SHORT).show();
+                } else if (!checkExpiry(voucher.getDateExpiry(), timeNow)) {
+                    Toast.makeText(getContext(), "Phiếu giảm giá đã hết hạn !", Toast.LENGTH_SHORT).show();
                 } else {
                     if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
-
+                        int priceDrink = Integer.parseInt(getPrice) - (voucher.getPriceReduce() * Integer.parseInt(getPrice) )/ 100;
                         Drink drink = new Drink(getDrinkID,
                                 getVoucher,
                                 getName,
                                 getTypeOfDrink,
                                 getDateAdd,
-                                 getDateAdd,
-                                Integer.parseInt(getPrice),
+                                getDateAdd,
+                                priceDrink,
                                 0,
                                 getImageDrink,
                                 "lit",
                                 0);
                         getIngredientForDrink = new Random().nextInt(1000);
-                        if (listIngredientRecyclerView.size() == 0){
+                        if (listIngredientRecyclerView.size() == 0) {
                             Toast.makeText(getContext(), "Bạn chưa chọn nguyên liệu cho đồ uống pha chế", Toast.LENGTH_SHORT).show();
-                        }else if (drinkDAO.insertDrink(drink)) {
+                        } else if (drinkDAO.insertDrink(drink)) {
                             for (int i = 0; i < listIngredientRecyclerView.size(); i++) {
                                 IngredientForDrink ingredient = new IngredientForDrink(getDrinkID, listIngredientRecyclerView.get(i).getIngredientID(), listQuantity.get(i));
                                 ingredientForDrinkDAO.insertValues(ingredient);
                             }
                             ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                             notificationDAO.insertNotifi(new Notification(((MainActivity) requireActivity()).user.getFullName() + "\nĐã thêm " + getName + " vào danh sách", getTimeNow));
-                            Log.d("Nofitication",notificationDAO.getNotification("SELECT * FROM Notification").size()+"");
+                            Log.d("Nofitication", notificationDAO.getNotification("SELECT * FROM Notification").size() + "");
                         }
                     } else {
                         try {
@@ -304,11 +310,12 @@ public class FragmentAddDrink extends Fragment {
                                 Toast.makeText(getContext(), "Ngày hết hạn phải lớn hơn ngày hiện tại", Toast.LENGTH_SHORT).show();
 
                             } else {
-                                Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "long", 0);
+                                int priceDrink = Integer.parseInt(getPrice) - (voucher.getPriceReduce() * Integer.parseInt(getPrice) )/ 100;
+                                Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, priceDrink, Integer.parseInt(getQuantity), getImageDrink, "long", 0);
                                 if (drinkDAO.insertDrink(drink)) {
                                     notificationDAO.insertNotifi(new Notification(((MainActivity) requireActivity()).user.getFullName() + "\nĐã thêm " + getName + " vào danh sách", getTimeNow));
                                     ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
-                                    Log.d("Nofitication",notificationDAO.getNotification("SELECT * FROM Notification").size()+"");
+                                    Log.d("Nofitication", notificationDAO.getNotification("SELECT * FROM Notification").size() + "");
                                 }
                             }
                         } catch (Exception e) {
@@ -393,16 +400,20 @@ public class FragmentAddDrink extends Fragment {
         }
     }
 
-    public boolean checkExpiry(String day1, String day2) throws ParseException {
-        SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = spf.parse(day1);
-        Date date2 = spf.parse(day2);
-        int compare = date1.compareTo(date2);
-        if (compare > 0) {
-            return true;
-        } else if (compare < 0) {
-            return false;
-        } else {
+    public boolean checkExpiry(String day1, String day2) {
+        try {
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = spf.parse(day1);
+            Date date2 = spf.parse(day2);
+            int compare = date1.compareTo(date2);
+            if (compare > 0) {
+                return true;
+            } else if (compare < 0) {
+                return false;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
             return false;
         }
     }

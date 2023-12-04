@@ -11,15 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.database.Dbhelper;
+import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.model.Drink;
+import com.fpoly.pro1121_da1.model.TopDrink;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TopDrinkAdapter extends RecyclerView.Adapter<TopDrinkAdapter.Viewholder> {
     Activity activity;
-    ArrayList<Drink> list;
+    List<TopDrink> list;
 
-    public TopDrinkAdapter(Activity activity, ArrayList<Drink> list) {
+    public TopDrinkAdapter(Activity activity, List<TopDrink> list) {
         this.activity = activity;
         this.list = list;
     }
@@ -33,9 +37,12 @@ public class TopDrinkAdapter extends RecyclerView.Adapter<TopDrinkAdapter.Viewho
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        Drink drink = list.get(holder.getAdapterPosition());
+        TopDrink topDrink = list.get(position);
+        DrinkDAO drinkDAO = new DrinkDAO(activity, new Dbhelper(activity));
+        Drink drink = drinkDAO.getDrinkByID(String.valueOf(topDrink.getDrinkId()));
         holder.imgDrink.setImageResource(drink.getImage());
         holder.tvNameDrink.setText(drink.getName());
+        holder.tvQuantity.setText("Đã bán: " + topDrink.getQuantity());
     }
 
     @Override
@@ -46,12 +53,13 @@ public class TopDrinkAdapter extends RecyclerView.Adapter<TopDrinkAdapter.Viewho
     public static class Viewholder extends RecyclerView.ViewHolder {
 
         ImageView imgDrink;
-        TextView tvNameDrink;
+        TextView tvNameDrink, tvQuantity;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             imgDrink = itemView.findViewById(R.id.img_drink_top5);
             tvNameDrink = itemView.findViewById(R.id.tv_nameDrink_top5);
+            tvQuantity = itemView.findViewById(R.id.tv_quantityTopDrink);
         }
     }
 }

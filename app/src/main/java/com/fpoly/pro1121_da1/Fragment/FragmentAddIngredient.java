@@ -131,7 +131,7 @@ public class FragmentAddIngredient extends Fragment {
                     Toast.makeText(getContext(), "Đã có nguyên liệu này rồi, vui lòng quay lại để xem thêm thông tin !", Toast.LENGTH_SHORT).show();
                 }else {
                     if (ingredientDAO.insertIngredient(new Ingredient(addIngredientID, getName, getDateADD, getDateExpiry, Integer.parseInt(getPrice), Double.parseDouble(getQuantity), getImage, getUnit), "Thêm nguyên liệu thành công", "Thêm nguyên liệu thất bại")) {
-                        clearEditText();
+                        ((MainActivity)requireActivity()).reloadFragment(new FragmentIngredient());
                     }
                 }
             }

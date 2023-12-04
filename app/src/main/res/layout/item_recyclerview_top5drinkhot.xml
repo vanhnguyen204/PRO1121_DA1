@@ -9,29 +9,38 @@
 
     <RelativeLayout
         android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:padding="20dp"
+        android:layout_height="210dp"
+        android:padding="15dp"
         android:background="#f2f2f2"
         >
-
-        <ImageView
-            android:id="@+id/img_drink_top5"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/soju" />
 
         <TextView
             android:id="@+id/tv_nameDrink_top5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img_drink_top5"
-            android:layout_marginTop="20dp"
+android:layout_marginBottom="10dp"
             android:gravity="center"
             android:textColor="@color/black"
             android:text="Tên: Trà đào cam xả"
 
             android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/img_drink_top5"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_below="@+id/tv_nameDrink_top5"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/soju" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đã bán: 20"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_quantityTopDrink"
+            android:layout_below="@+id/img_drink_top5"
+            />
     </RelativeLayout>
 
 

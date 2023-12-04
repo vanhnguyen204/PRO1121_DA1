@@ -23,9 +23,9 @@ public class Dbhelper extends SQLiteOpenHelper {
             "FOREIGN KEY (ingredient_id) REFERENCES Ingredient(ingredient_id) ON DELETE CASCADE," +
             "FOREIGN KEY (drink_id) REFERENCES Drink(drink_id) ON DELETE CASCADE)";
     String createCustomer
-            = "CREATE TABLE Customer(customer_id INTEGER PRIMARY KEY, " +
+            ="CREATE TABLE Customer(customer_id INTEGER PRIMARY KEY, " +
             "full_name TEXT," +
-            " phone_number TEXT)";
+            "phone_number TEXT)";
     String createUser
             = "CREATE TABLE User(user_id TEXT PRIMARY KEY," +
             "user_name TEXT, pass_word TEXT," +

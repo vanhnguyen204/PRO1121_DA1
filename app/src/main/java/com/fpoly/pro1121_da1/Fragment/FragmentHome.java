@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,8 +44,10 @@ import com.fpoly.pro1121_da1.database.NotificationDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Invoice;
 import com.fpoly.pro1121_da1.model.Notification;
+import com.fpoly.pro1121_da1.model.TopDrink;
 import com.fpoly.pro1121_da1.model.User;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +55,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,6 +71,24 @@ public class FragmentHome extends Fragment {
     TextView tvRevenue, tvExportInvoice, tvCountNotify, tvNameStaff;
     ArrayList<Notification> listNotify;
 
+    public boolean checkExpiry(String day1, String day2) {
+        try {
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = spf.parse(day1);
+            Date date2 = spf.parse(day2);
+            int compare = date1.compareTo(date2);
+            if (compare > 0) {
+                return true;
+            } else if (compare < 0) {
+                return false;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,90 +101,34 @@ public class FragmentHome extends Fragment {
         imgNotification = view.findViewById(R.id.img_notification);
         tvCountNotify = view.findViewById(R.id.tv_numberNotification);
         tvNameStaff = view.findViewById(R.id.tv_nameOfStaff);
-
-
+        DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialogNotification();
             }
         });
-
-        // Inflate the layout for this fragment
-        InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
-        ArrayList<Invoice> invoiceArrayList = invoiceDAO.getAllInvoice();
-        ArrayList<String> listDrinkID = new ArrayList<>();
-        scrollView = view.findViewById(R.id.scrollView);
-
-        for (int i = 0; i < listDrinkID.size(); i++) {
-            sub += listDrinkID.get(i) + " ";
-        }
-        String[] listDrinkIDInvoice = sub.split(" ");
-
-        ArrayList<Integer> listIntegerDrinkID = new ArrayList<>();
-
-        for (int i = 0; i < listDrinkIDInvoice.length; i++) {
-            if (listDrinkIDInvoice[i].equals("")) {
-                continue;
-            } else {
-                listIntegerDrinkID.add(Integer.parseInt(listDrinkIDInvoice[i]));
+        List<TopDrink> list = drinkDAO.getTopSellingDrinksWithId();
+        if (list.size() != 0) {
+            ArrayList<Drink> drinkArrayList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                Log.d("index: " + i, "value: " + list.get(i).getDrinkId());
+                drinkArrayList.add(drinkDAO.getDrinkByID(String.valueOf(list.get(i).getDrinkId())));
             }
+            TopDrinkAdapter topDrinkAdapter = new TopDrinkAdapter(getActivity(), list);
+            recyclerView.setAdapter(topDrinkAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false));
         }
+        NotificationDAO notificationDAO = new NotificationDAO(getContext());
+        Date date = new Date();
 
-        int[] arrIntDrinkIDEnd = new int[listIntegerDrinkID.size()];
-        for (int i = 0; i < arrIntDrinkIDEnd.length; i++) {
-            arrIntDrinkIDEnd[i] = listIntegerDrinkID.get(i);
-        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String getTimeNow = simpleDateFormat.format(date);
 
-//        // Sử dụng Map để đếm số lần xuất hiện của mỗi phần tử
-
-        Map<Integer, Integer> countMap = new HashMap<>();
-        for (int i = 0; i < arrIntDrinkIDEnd.length; i++) {
-
-            int countChild = countMap.getOrDefault(arrIntDrinkIDEnd[i], 0);
-
-            countMap.put(arrIntDrinkIDEnd[i], ++countChild);
-        }
-
-//        // Sắp xếp mảng theo số lần xuất hiện giảm dần
-        List<Integer> list = new ArrayList<>();
-        for (int integer : arrIntDrinkIDEnd) {
-            list.add(integer);
-        }
-        Collections.sort(list, Comparator.comparingInt((Integer num) -> countMap.get(num)).reversed());
-
-        ArrayList<Drink> drinkArrayList = new ArrayList<>();
-        DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
-        for (int i = 0; i < list.size(); i++) {
-            drinkArrayList.add(drinkDAO.getDrinkByID(String.valueOf(list.get(i))));
-        }
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!drinkArrayList.isEmpty()) {
-                    for (int i = 0; i < drinkArrayList.size(); i++) {
-                        for (int j = i + 1; j < drinkArrayList.size(); j++) {
-                             if (drinkArrayList.get(i).getDrinkID() == drinkArrayList.get(j).getDrinkID()) {
-                                drinkArrayList.remove(drinkArrayList.get(i));
-                            }
-                        }
-                    }
-
-                    TopDrinkAdapter drinkAdapter = new TopDrinkAdapter(getActivity(), drinkArrayList);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(drinkAdapter);
-                }
-                Animation animation1 = new TranslateAnimation(1000, 0, 0, 0);
-                animation1.setDuration(2000);
-                animation1.setRepeatMode(Animation.RELATIVE_TO_SELF);
-                animation1.setRepeatCount(0);
-                recyclerView.setAnimation(animation1);
-            }
-        }, 400);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String timeNow = formatter.format(date);
 
         return view;
     }
@@ -180,7 +148,7 @@ public class FragmentHome extends Fragment {
         manegeStatistical = view.findViewById(R.id.manage_statistical);
         user = ((MainActivity) requireActivity()).user;
 
-        tvNameStaff.setText("Hello! "+user.getFullName());
+        tvNameStaff.setText("Hello! " + user.getFullName());
         manageExportInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -224,7 +192,7 @@ public class FragmentHome extends Fragment {
         manegeStatistical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getContext()).reloadFragment(new FragmentTurnOver());
+                ((MainActivity) getContext()).reloadFragment(new FragmentTurnOver());
             }
         });
 
@@ -238,6 +206,7 @@ public class FragmentHome extends Fragment {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.alertdialog_notification, null, false);
         builder.setView(view);
+        AlertDialog alertDialog = builder.create();
         recyclerViewNotify = view.findViewById(R.id.recyclerview_notification);
         btnDeleteNotifi = view.findViewById(R.id.btnDeleteNotification);
 
@@ -246,6 +215,7 @@ public class FragmentHome extends Fragment {
         if (listNotify.size() == 0) {
             Toast.makeText(getContext(), "Không có thông báo !", Toast.LENGTH_SHORT).show();
         } else {
+
             NotificationAdapter notificationAdapter = new NotificationAdapter(listNotify, getActivity());
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -256,8 +226,8 @@ public class FragmentHome extends Fragment {
             btnDeleteNotifi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listNotify.clear();
-                    notificationAdapter.notifyDataSetChanged();
+                    notificationDAO.deleteAll();
+                    alertDialog.dismiss();
                     tvCountNotify.setText("0");
                 }
             });
@@ -278,7 +248,7 @@ public class FragmentHome extends Fragment {
                 }
             });
         }
-        AlertDialog alertDialog = builder.create();
+
         int[] iconLocation = new int[2];
         imgNotification.getLocationOnScreen(iconLocation);
         WindowManager.LayoutParams params = alertDialog.getWindow().getAttributes();

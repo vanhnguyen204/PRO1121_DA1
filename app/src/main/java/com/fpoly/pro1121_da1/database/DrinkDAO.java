@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.TopDrink;
 import com.fpoly.pro1121_da1.model.User;
 
 import java.text.ParseException;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -101,6 +103,7 @@ public class DrinkDAO {
             return false;
         }
     }
+
     public boolean updateQuantityDrink(int drinkID, int quanity) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -177,7 +180,6 @@ public class DrinkDAO {
 
     public Drink getDrinkByID(String drinkID) {
         ArrayList<Drink> list = getDrink("SELECT * FROM Drink WHERE drink_id = ?", drinkID);
-
         return list.get(0);
     }
 
@@ -185,7 +187,7 @@ public class DrinkDAO {
         return getDrink("SELECT * FROM Drink");
     }
 
-    public ArrayList<Ingredient> getIngredientFromDrinkID(int drinkID){
+    public ArrayList<Ingredient> getIngredientFromDrinkID(int drinkID) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         ArrayList<Ingredient> listIngredient = new ArrayList<>();
 
@@ -200,25 +202,25 @@ public class DrinkDAO {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
-                  String getIngredient = cursor.getString(0);
-                  String getName= cursor.getString(1);
-                  String getDateAdd = cursor.getString(2);
-                  String getDateExpiry = cursor.getString(3);
-                  int getPrice = cursor.getInt(4);
-                  double getQuantity = cursor.getDouble(5);
-                  int getImage = cursor.getInt(6);
-                  String getUnit = cursor.getString(7);
-                  Ingredient ingredient = new Ingredient(
-                          getIngredient,
-                          getName,
-                          getDateAdd,
-                          getDateExpiry,
-                          getPrice,
-                          getQuantity,
-                          getImage,
-                          getUnit
-                          );
-                  listIngredient.add(ingredient);
+                    String getIngredient = cursor.getString(0);
+                    String getName = cursor.getString(1);
+                    String getDateAdd = cursor.getString(2);
+                    String getDateExpiry = cursor.getString(3);
+                    int getPrice = cursor.getInt(4);
+                    double getQuantity = cursor.getDouble(5);
+                    int getImage = cursor.getInt(6);
+                    String getUnit = cursor.getString(7);
+                    Ingredient ingredient = new Ingredient(
+                            getIngredient,
+                            getName,
+                            getDateAdd,
+                            getDateExpiry,
+                            getPrice,
+                            getQuantity,
+                            getImage,
+                            getUnit
+                    );
+                    listIngredient.add(ingredient);
                 } while (cursor.moveToNext());
             }
             sql.setTransactionSuccessful();
@@ -227,11 +229,69 @@ public class DrinkDAO {
         } finally {
             sql.endTransaction();
         }
+
         return listIngredient;
     }
 
-    public ArrayList<Drink> getDrinkNow(){
+    public ArrayList<Drink> getDrinkNow() {
         return getDrink("SELECT * FROM Drink WHERE status = 0");
     }
 
+    public ArrayList<Integer> getTopDrink() {
+        ArrayList<Integer> list = new ArrayList<>();
+        String sqlQuery = "SELECT drink_id, COUNT(drink_id) AS Drink FROM InvoiceDetail GROUP BY drink_id ORDER BY Drink LIMIT 5";
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        Cursor cursor = sql.rawQuery(sqlQuery, null);
+        while (cursor.moveToNext()) {
+            @SuppressLint("Range") int drinkID = Integer.parseInt(cursor.getString(cursor.getColumnIndex("Drink")));
+
+            list.add(drinkID);
+        }
+        return list;
+    }
+    public List<Integer> getTopDrinkIds() {
+        List<Integer> drinkIds = new ArrayList<>();
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        String query = "SELECT drink_id, COUNT(quantity_drink) as drink_count " +
+                "FROM InvoiceDetail " +
+                "GROUP BY drink_id " +
+                "ORDER BY drink_count DESC " +
+                "LIMIT 5";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") int drinkId = cursor.getInt(cursor.getColumnIndex("drink_id"));
+                drinkIds.add(drinkId);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return drinkIds;
+    }
+    @SuppressLint("Range")
+    public List<TopDrink> getTopSellingDrinksWithId() {
+        List<TopDrink> topDrinks = new ArrayList<>();
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        String query = "SELECT InvoiceDetail.drink_id, SUM(InvoiceDetail.quantity_drink) as total_sold " +
+                "FROM InvoiceDetail " +
+                "GROUP BY InvoiceDetail.drink_id " +
+                "ORDER BY total_sold DESC " +
+                "LIMIT 5;";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+               int drinkId = cursor.getInt(cursor.getColumnIndex("drink_id"));
+                int totalSold = cursor.getInt(cursor.getColumnIndex("total_sold"));
+                TopDrink drinkInfo = new TopDrink(drinkId, totalSold);
+                topDrinks.add(drinkInfo);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return topDrinks;
+    }
 }

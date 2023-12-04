@@ -14,7 +14,7 @@
         android:id="@+id/tv_nameIngredient_spinner"
         android:layout_width="wrap_content"
         android:layout_alignParentEnd="true"
-        android:text="Sữa"
+
         android:textSize="20sp"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

@@ -74,8 +74,8 @@ public class FragmentUserDetail extends Fragment {
                 ((MainActivity) getActivity()).reloadFragment(new FragmentHome());
             }
         });
-        User user1 = ((MainActivity)requireActivity()).user;
-        if (user1.getRole().equalsIgnoreCase("staff")){
+        User user1 = ((MainActivity) requireActivity()).user;
+        if (user1.getRole().equalsIgnoreCase("staff")) {
             btn_delete_user_detail.setVisibility(View.GONE);
             btn_update_user_detail.setVisibility(View.GONE);
         }
@@ -101,7 +101,10 @@ public class FragmentUserDetail extends Fragment {
                         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                userDAO.deleteUser(user, "Xóa user thành công", "Xóa user không thành công");
+
+                                if (userDAO.deleteUserStaff(user.getUserID())) {
+                                    ((MainActivity)requireActivity()).reloadFragment(new FragmentUser());
+                                }
                             }
                         });
                         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -151,7 +154,6 @@ public class FragmentUserDetail extends Fragment {
         edtAddress.setText(user.getAddress());
         edtDayOfBrith.setText(user.getDateOfBirth());
         edtPhoneNumber.setText(user.getPhoneNumber());
-
 
         edt_update.setOnClickListener(new View.OnClickListener() {
             @Override

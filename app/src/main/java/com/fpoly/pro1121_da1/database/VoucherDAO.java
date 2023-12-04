@@ -99,7 +99,6 @@ public class VoucherDAO {
 
     public Voucher getVoucherByID(String voucherID) {
         ArrayList<Voucher> list = getVoucher("SELECT * FROM Voucher WHERE voucher_id = ?", voucherID);
-
         return list.get(0);
     }
 

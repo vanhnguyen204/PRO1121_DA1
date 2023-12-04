@@ -53,6 +53,11 @@ public class NotificationDAO {
             return false;
         }
     }
+    public boolean deleteAll(){
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+       return sql.delete("Notification",null, null) > 0;
+
+    }
 
     public ArrayList<Notification> getNotification(String query, String... agrs) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();

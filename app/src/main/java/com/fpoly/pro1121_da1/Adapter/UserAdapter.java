@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,29 +36,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.Viewhoder> {
     @Override
     public Viewhoder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.item_uer,parent,false);
-        return  new Viewhoder(view);
+        View view = inflater.inflate(R.layout.item_uer, parent, false);
+        return new Viewhoder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewhoder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.TVName.setText("Họ tên: "+list.get(position).getFullName());
-        holder.TVBirthDay.setText("Ngày sinh: "+list.get(position).getDateOfBirth());
-        holder.TVAddress.setText("Địa chỉ: "+list.get(position).getAddress());
+        holder.TVName.setText("Họ tên: " + list.get(position).getFullName());
+        holder.TVBirthDay.setText("Ngày sinh: " + list.get(position).getDateOfBirth());
+        holder.TVAddress.setText("Địa chỉ: " + list.get(position).getAddress());
 
         holder.TVshowDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               User user = list.get(position);
+                User user = list.get(position);
                 Bundle bundle = new Bundle();
                 // Put anything what you want
                 bundle.putString("KEY_USER_ID", user.getUserID());
 
-                FragmentManager manager = ((AppCompatActivity)activity).getSupportFragmentManager();
+                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
                 manager.setFragmentResult("KEY_USER", bundle);
 
-                ((MainActivity)activity).reloadFragment(new FragmentUserDetail());
+                ((MainActivity) activity).reloadFragment(new FragmentUserDetail());
             }
         });
 
@@ -69,15 +70,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.Viewhoder> {
         return list.size();
     }
 
-    public static class Viewhoder extends RecyclerView.ViewHolder{
-        TextView TVName, TVBirthDay,TVAddress ,TVshowDetail;
+    public static class Viewhoder extends RecyclerView.ViewHolder {
+        TextView TVName, TVBirthDay, TVAddress, TVshowDetail;
+
         public Viewhoder(@NonNull View itemView) {
             super(itemView);
 
-             TVName = itemView.findViewById(R.id.tv_nameUer_itemDetailUser);
+            TVName = itemView.findViewById(R.id.tv_nameUer_itemDetailUser);
             TVBirthDay = itemView.findViewById(R.id.tv_birthDay_itemDetailUser);
-            TVAddress  = itemView.findViewById(R.id.tv_addRess_itemDetailUser);
-            TVshowDetail  = itemView.findViewById(R.id.tv_showDetail);
+            TVAddress = itemView.findViewById(R.id.tv_addRess_itemDetailUser);
+            TVshowDetail = itemView.findViewById(R.id.tv_showDetail);
 
 
         }
