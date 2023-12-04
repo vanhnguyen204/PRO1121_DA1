@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.SplittableRandom;
 
 public class UserDAO {
     Context context;
@@ -87,6 +88,21 @@ public class UserDAO {
             return true;
         } else {
             Toast.makeText(context, messNegative, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+    public boolean updatePassWordUser(String user_id,String newPassWord,String messengerPositive,String messengerNegative){
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ContentValues ctv = new ContentValues();
+
+        ctv.put("pass_word", newPassWord);
+
+        long result = sql.update("User", ctv, "user_id = ?", new String[]{user_id});
+        if (result > 0){
+            Toast.makeText(context, messengerPositive, Toast.LENGTH_SHORT).show();
+            return true;
+        }else{
+            Toast.makeText(context, messengerNegative, Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -234,5 +250,25 @@ public class UserDAO {
         return false;
 
     }
+    public boolean checkUpdatePassWordByID (String ID_CARD_USER){
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+
+        sql.beginTransaction();
+        try {
+            Cursor cursor = sql.rawQuery("SELECT *  FROM User WHERE user_id = ?", new String[]{ID_CARD_USER});
+            if (cursor.getCount() > 0) {
+                return true;
+
+            }
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+            Toast.makeText(context, "Err Check Update Pass Word By ID", Toast.LENGTH_SHORT).show();
+        } finally {
+            sql.endTransaction();
+        }
+        return false;
+
+    }
+
 
 }
