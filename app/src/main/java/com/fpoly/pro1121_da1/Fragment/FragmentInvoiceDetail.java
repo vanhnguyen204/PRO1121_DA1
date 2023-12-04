@@ -54,7 +54,7 @@ public class FragmentInvoiceDetail extends Fragment {
         tvStatus = view.findViewById(R.id.tv_status_invoiceDetail);
         tvQuantity = view.findViewById(R.id.tv_quantityDrink);
         tvPrice = view.findViewById(R.id.tv_priceDrink);
-        tvExpiry = view.findViewById(R.id.tv_dateExpiry_drink);
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             getInvoiceID = bundle.getInt("KEY_INVOICE_ID");
@@ -114,7 +114,7 @@ public class FragmentInvoiceDetail extends Fragment {
         tvStatus.setText("Trạng thái: " +invoice.getStatus());
         tvQuantity.setText("Số lượng: "+builderQuantity.toString());
         tvPrice.setText("Giá: "+builderPrice.toString());
-        tvExpiry.setText("Ngày hết hạn"+builderExpiry.toString());
+
 
     }
 }

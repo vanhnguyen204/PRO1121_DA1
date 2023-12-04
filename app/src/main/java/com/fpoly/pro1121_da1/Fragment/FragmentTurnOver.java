@@ -106,11 +106,12 @@ public class FragmentTurnOver extends Fragment {
             public void onClick(View v) {
                  String getStartDay = tv_starDay.getText().toString().trim();
                  String getEndDay = tv_endDay.getText().toString().trim();
-                 int turnOver = invoiceDAO.getTotalBill(getStartDay,getEndDay);
+
                 try {
                     if (checkDate2(getStartDay, getEndDay)){
                         Toast.makeText(getContext(), "Ngày bắt đầu phải nhỏ hơn ngày kết thúc.", Toast.LENGTH_SHORT).show();
                     }else {
+                        int turnOver = invoiceDAO.getTotalBill(getStartDay,getEndDay);
                         tv_turnover.setText("Doanh thu: " + turnOver + "VNĐ");
                     }
                 } catch (ParseException e) {

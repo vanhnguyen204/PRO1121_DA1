@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -280,13 +281,16 @@ public class FragmentAddDrink extends Fragment {
                                 "lit",
                                 0);
                         getIngredientForDrink = new Random().nextInt(1000);
-                        if (drinkDAO.insertDrink(drink)) {
+                        if (listIngredientRecyclerView.size() == 0){
+                            Toast.makeText(getContext(), "Bạn chưa chọn nguyên liệu cho đồ uống pha chế", Toast.LENGTH_SHORT).show();
+                        }else if (drinkDAO.insertDrink(drink)) {
                             for (int i = 0; i < listIngredientRecyclerView.size(); i++) {
                                 IngredientForDrink ingredient = new IngredientForDrink(getDrinkID, listIngredientRecyclerView.get(i).getIngredientID(), listQuantity.get(i));
                                 ingredientForDrinkDAO.insertValues(ingredient);
                             }
                             ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                             notificationDAO.insertNotifi(new Notification(((MainActivity) requireActivity()).user.getFullName() + "\nĐã thêm " + getName + " vào danh sách", getTimeNow));
+                            Log.d("Nofitication",notificationDAO.getNotification("SELECT * FROM Notification").size()+"");
                         }
                     } else {
                         try {
@@ -304,6 +308,7 @@ public class FragmentAddDrink extends Fragment {
                                 if (drinkDAO.insertDrink(drink)) {
                                     notificationDAO.insertNotifi(new Notification(((MainActivity) requireActivity()).user.getFullName() + "\nĐã thêm " + getName + " vào danh sách", getTimeNow));
                                     ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
+                                    Log.d("Nofitication",notificationDAO.getNotification("SELECT * FROM Notification").size()+"");
                                 }
                             }
                         } catch (Exception e) {

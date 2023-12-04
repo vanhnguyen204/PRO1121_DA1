@@ -19,7 +19,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     String createIngredientForDrink = "CREATE TABLE IngredientForDrink(id INTEGER PRIMARY KEY AUTOINCREMENT," +
             " drink_id INTEGER, " +
             "ingredient_id TEXT," +
-            "quantity REAL,"+
+            "quantity REAL," +
             "FOREIGN KEY (ingredient_id) REFERENCES Ingredient(ingredient_id) ON DELETE CASCADE," +
             "FOREIGN KEY (drink_id) REFERENCES Drink(drink_id) ON DELETE CASCADE)";
     String createCustomer
@@ -85,6 +85,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     String createTable = "CREATE TABLE TableDrink(table_id TEXT PRIMARY KEY, status INTEGER)";
     String insertAdmin = "INSERT INTO User VALUES('033204003937', 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0, '0339207001')";
     String insertVoucher = "INSERT INTO Voucher VALUES (2023,0, '2099-12-12')";
+    String createNotification = "CREATE TABLE Notification(id INTEGER PRIMARY KEY AUTOINCREMENT, time DATE, message TEXT)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -101,7 +102,7 @@ public class Dbhelper extends SQLiteOpenHelper {
         db.execSQL(createTable);
         db.execSQL(createCalendarWorkForStaff);
         db.execSQL(createTableInvoiceDetail);
-
+        db.execSQL(createNotification);
     }
 
     @Override

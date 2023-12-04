@@ -261,14 +261,11 @@ public class FragmentHome extends Fragment {
                     tvCountNotify.setText("0");
                 }
             });
-
-
             notificationAdapter.setTextNotify(new SetTextRecyclerviewNotify() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void setText(TextView textView, Notification notification, int position) {
                     textView.setText(notification.getMessage());
-
                 }
             });
 

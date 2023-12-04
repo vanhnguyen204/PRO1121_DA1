@@ -44,11 +44,12 @@
         <TextView
             android:id="@+id/tv_dayStart"
             android:layout_weight="8"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/border"
             android:hint="yyyy-MM-dd"
-            android:padding="10dp"
+            android:padding="15dp"
 
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -84,7 +85,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/border"
             android:hint="yyyy-MM-dd"
-            android:padding="10dp"
+            android:padding="15dp"
 
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -118,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:padding="10dp"
+        android:padding="20dp"
         />
 
 

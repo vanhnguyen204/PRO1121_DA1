@@ -325,22 +325,37 @@ public class FragmentUpdateDrink extends Fragment {
 
             }
         });
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String timeNow = formatter.format(date);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String getDateExpiry = edtDateExpiry.getText().toString().trim();
                 if (isNumber(edtGetQuan, "Số lượng phải lớn hơn 0", "Số lượng phải là số")) {
                     alertDialog.setCancelable(false);
+                } else if (checkFormatDate(getDateExpiry)) {
+                    Toast.makeText(getContext(), "Ngày hết hạn không đúng định dạng !", Toast.LENGTH_SHORT).show();
                 } else {
-                    getQuantityIngredientAddForDrink = Double.parseDouble(edtGetQuan.getText().toString().trim());
-                    mapIngredient.put(ingredient.getIngredientID(), getQuantityIngredientAddForDrink);
-                    listQuantity.clear();
-                    listAddRecyclerView.clear();
-                    for (Map.Entry<String, Double> entry : mapIngredient.entrySet()) {
-                        listAddRecyclerView.add(ingredientDAO.getIngredientByID(entry.getKey()));
-                        listQuantity.add(entry.getValue());
+                    try {
+                        if (!checkExpiry(getDateExpiry, timeNow)) {
+                            Toast.makeText(getContext(), "Ngày hết hạn phải lớn hơn ngày hiện tại !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            getQuantityIngredientAddForDrink = Double.parseDouble(edtGetQuan.getText().toString().trim());
+                            mapIngredient.put(ingredient.getIngredientID(), getQuantityIngredientAddForDrink);
+                            listQuantity.clear();
+                            listAddRecyclerView.clear();
+                            for (Map.Entry<String, Double> entry : mapIngredient.entrySet()) {
+                                listAddRecyclerView.add(ingredientDAO.getIngredientByID(entry.getKey()));
+                                listQuantity.add(entry.getValue());
+                            }
+                            ingredientAdapterAddDrink.notifyDataSetChanged();
+                            alertDialog.dismiss();
+                        }
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
                     }
-                    ingredientAdapterAddDrink.notifyDataSetChanged();
-                    alertDialog.dismiss();
                 }
             }
         });
