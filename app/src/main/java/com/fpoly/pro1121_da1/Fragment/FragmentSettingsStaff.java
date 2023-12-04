@@ -47,6 +47,14 @@ public class FragmentSettingsStaff extends Fragment {
             }
         });
 
+        imgChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentUpdatePassWordForStaff());
+            }
+        });
+
+
 
     }
 }

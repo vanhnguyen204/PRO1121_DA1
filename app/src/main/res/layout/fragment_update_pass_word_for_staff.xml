@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.FragmentUpdatePassWordForStaff"
+    android:orientation="vertical"
+    android:padding="8dp"
+    >
+
+    <ImageView
+        android:id="@+id/img_backFramentSetting"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/arrow_left"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Mật Khẩu Cho Nhân Viên"
+        android:gravity="center"
+        android:textSize="30dp"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_userName_Update_PassWordForStaff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="UserName"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_NewPassWord_PassWordForStaff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="NewPassWord"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_id_Car_PassWordForStaff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID_CARD_User"
+            android:inputType="number"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_confirm_updatePassWordForStaff"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Xác Nhận"
+        android:background="@drawable/custom_buttonadd_drink"
+        />
+
+
+</LinearLayout>

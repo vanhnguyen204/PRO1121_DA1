@@ -84,11 +84,12 @@
 
             <ImageView
                 android:id="@+id/img_changePassWord_fragmentSettings"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
 
                 android:layout_alignParentEnd="true"
 
+                android:layout_marginEnd="17dp"
                 android:src="@mipmap/arrow_right" />
 
 
@@ -116,7 +117,7 @@
                 android:id="@+id/img_changeInfor"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_below="@+id/img_changePassWord"
+                android:layout_below="@+id/img_changePassWord_fragmentSettings"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="25dp"
                 android:src="@mipmap/arrow_right" />
