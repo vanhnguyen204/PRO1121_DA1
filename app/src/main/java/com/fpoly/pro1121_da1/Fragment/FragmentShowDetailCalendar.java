@@ -32,6 +32,7 @@ import com.fpoly.pro1121_da1.database.UserDAO;
 import com.fpoly.pro1121_da1.model.CalendarWorkForStaff;
 import com.fpoly.pro1121_da1.model.CalenderWork;
 import com.fpoly.pro1121_da1.model.User;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -83,10 +84,8 @@ public class FragmentShowDetailCalendar extends Fragment {
             userArrayList = calenderShowDetailDAO.getUser(receiveCalendarID);
 
             if (receiveShiffWork != 0 && !reciveDateWork.equalsIgnoreCase("")) {
-                tv_shiftNow.setText("Ca làm: " + receiveShiffWork);
                 tvDayWork.setText("Ngày: " + reciveDateWork);
             }
-
             if (receiveShiffWork == 1) {
                 tv_shiftNow.setText("Ca làm việc: Ca Sáng");
             } else if (receiveShiffWork == 2) {
@@ -94,9 +93,6 @@ public class FragmentShowDetailCalendar extends Fragment {
             } else {
                 tv_shiftNow.setText("Ca làm việc: Ca Tối");
             }
-
-        } else {
-            Toast.makeText(getContext(), "null", Toast.LENGTH_SHORT).show();
         }
 
         calenderUserAdapter = new ShowdetailCalenderAdapter(getActivity(), userArrayList, receiveCalendarID);
@@ -107,7 +103,12 @@ public class FragmentShowDetailCalendar extends Fragment {
         imgBackFragmentCalenDarWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).reloadFragment(new FragmentCalendar());
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("KEY_BACK_DAY", reciveDateWork);
+                FragmentCalendar frm = new FragmentCalendar();
+                frm.setArguments(bundle1);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
+
             }
         });
         btn_addStaff_showDetailCalendar.setOnClickListener(new View.OnClickListener() {
@@ -124,33 +125,26 @@ public class FragmentShowDetailCalendar extends Fragment {
     Button btnConfirmAdd;
 
     public void showAlertDialogAddUser(ArrayList<User> userArrayList) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Style_AlertDialog_Corner);
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.alertdialog_adduser_tocalendar, null, false);
+        View view = inflater.inflate(R.layout.alertdialog_addstaff_canlendar, null, false);
         builder.setView(view);
+        AlertDialog alertDialog = builder.create();
         UserDAO userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
         // array all user
-        ArrayList<User> arrayListUser = userDAO.getAllUser();
-
-
-        for (int i = 0; i < arrayListUser.size(); i++) {
-            if (arrayListUser.get(i).getRole().equalsIgnoreCase("admin")) {
-                arrayListUser.remove(i);
+        ArrayList<User> listAllUser = calenderShowDetailDAO.getUserNotExists(receiveCalendarID);
+        for (int i = 0; i < listAllUser.size(); i++) {
+            if (listAllUser.get(i).getRole().equalsIgnoreCase("admin")){
+                listAllUser.remove(i);
             }
         }
 
-        CalenderWork calenderWork = calenderDAO.getIDCalendarByShiftWorkAndDateWork(receiveShiffWork, reciveDateWork);
-        if (receiveShiffWork != 0 && !reciveDateWork.equalsIgnoreCase("")) {
-
-        }
-        AlertDialog alertDialog = builder.create();
         btnConfirmAdd = view.findViewById(R.id.btnConfirmAdd_alert);
         recyclerView = view.findViewById(R.id.recyclerView_addUserFromCalendar);
-
-
-        UserToCalendarAdapter userToCalendarAdapter = new UserToCalendarAdapter(getActivity(), arrayListUser);
+        UserToCalendarAdapter userToCalendarAdapter = new UserToCalendarAdapter(getActivity(), listAllUser);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userToCalendarAdapter);
+
         ArrayList<User> listUser = new ArrayList<>();
         userToCalendarAdapter.setCheckBoxChecked(new MyChecked() {
             @Override
@@ -168,22 +162,20 @@ public class FragmentShowDetailCalendar extends Fragment {
             public void onClick(View view) {
                 try {
                     if (listUser.size() != 0) {
-
                         for (int i = 0; i < listUser.size(); i++) {
                             CalendarWorkForStaff calendarWorkForStaff = new CalendarWorkForStaff(listUser.get(i).getUserID(), receiveCalendarID);
-                            calenderShowDetailDAO.insertCalendarWorkForStaff(calendarWorkForStaff, "", "");
-
+                            calenderShowDetailDAO.insertCalendarWorkForStaff(calendarWorkForStaff);
+                            userArrayList.add(listUser.get(i));
+                            calenderUserAdapter.notifyDataSetChanged();
                         }
-                       getParentFragmentManager().beginTransaction().replace(R.id.container_layout, new FragmentCalendar()).commit();
+
                     }
                     alertDialog.dismiss();
                 } catch (Exception e) {
 
                 }
-
             }
         });
-
         alertDialog.show();
     }
 }

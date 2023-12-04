@@ -59,7 +59,7 @@ public class FragmentTable extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(InvoiceViewModel.class);
 
-
+        ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
 
         edtSearchTable = view.findViewById(R.id.edt_search_table);
         recyclerView = view.findViewById(R.id.recyclerView_fragmentTable);

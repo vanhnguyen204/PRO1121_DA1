@@ -13,11 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fpoly.pro1121_da1.Fragment.FragmentCalendar;
 import com.fpoly.pro1121_da1.Fragment.FragmentShowDetailCalendar;
 import com.fpoly.pro1121_da1.Interface.SenDataCalenderWorkClick;
 import com.fpoly.pro1121_da1.Interface.SenDataClick;
@@ -34,29 +36,23 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     Activity activity;
     ArrayList<CalenderWork> listCalender;
 
-    CalenderDAO calenderDAO;
-    Spinner spinner;
-    int getShiftWork;
-    CalenderWork calenderWork;
-    public SenDataCalenderWorkClick senDataCalenderWorkClick;
+
     public FragmentManager fragmentManager;
 
-
-    public void setOnCalendaClick(SenDataCalenderWorkClick senDataCalenderWorkClick) {
-        this.senDataCalenderWorkClick = senDataCalenderWorkClick;
-    }
 
     public CalenderAdapter(Activity activity, ArrayList<CalenderWork> listCalender, FragmentManager fragmentManager) {
         this.activity = activity;
         this.listCalender = listCalender;
-        this.fragmentManager  = fragmentManager;
+        this.fragmentManager = fragmentManager;
 
     }
+
     public CalenderAdapter(Activity activity, ArrayList<CalenderWork> listCalender) {
         this.activity = activity;
         this.listCalender = listCalender;
 
     }
+
     @NonNull
     @Override
     public ViewHolder_Calender onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,22 +63,20 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder_Calender holder, @SuppressLint("RecyclerView") int position) {
-        calenderWork = listCalender.get(holder.getAdapterPosition());
+        CalenderWork calenderWork = listCalender.get(holder.getAdapterPosition());
         holder.tv_dayofWork.setText("Ngày Làm Việc:" + calenderWork.getDayofWork());
         holder.tv_shiftWork.setText("Ca làm việc:" + calenderWork.getShiftWork());
-
-
-
         holder.tv_showdetail_calender.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("KEY_DAY_WORK", calenderWork.getDayofWork());
                 bundle.putInt("KEY_SHIFT_WORK", calenderWork.getShiftWork());
-                bundle.putInt("KEY_CALENDAR_ID",calenderWork.getId_calender() );
+                bundle.putInt("KEY_CALENDAR_ID", calenderWork.getId_calender());
                 FragmentShowDetailCalendar frm = new FragmentShowDetailCalendar();
                 frm.setArguments(bundle);
                 fragmentManager.beginTransaction().replace(R.id.container_layout, frm).commit();
+
             }
         });
 
@@ -105,13 +99,4 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         }
     }
 
-    public void setDefauselected(Integer arrShiftWork[], int ShiftWork) {
-
-        for (int i = 0; i < arrShiftWork.length; i++) {
-            if (ShiftWork == arrShiftWork[i]) {
-                spinner.setSelection(i);
-            }
-        }
-
-    }
 }

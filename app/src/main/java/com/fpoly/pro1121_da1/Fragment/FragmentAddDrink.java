@@ -37,6 +37,7 @@ import com.fpoly.pro1121_da1.database.VoucherDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.IngredientForDrink;
+import com.fpoly.pro1121_da1.model.Notification;
 import com.fpoly.pro1121_da1.model.Voucher;
 import com.fpoly.pro1121_da1.spinner.SpinnerAddIngredientToDrink;
 import com.fpoly.pro1121_da1.spinner.SpinnerImageDrink;
@@ -246,6 +247,9 @@ public class FragmentAddDrink extends Fragment {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String timeNow = formatter.format(date);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String getTimeNow = simpleDateFormat.format(date);
         btnConfirmAddDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -269,7 +273,7 @@ public class FragmentAddDrink extends Fragment {
                                 getName,
                                 getTypeOfDrink,
                                 getDateAdd,
-                                getDateAdd,
+                                 getDateAdd,
                                 Integer.parseInt(getPrice),
                                 0,
                                 getImageDrink,
@@ -279,10 +283,10 @@ public class FragmentAddDrink extends Fragment {
                         if (drinkDAO.insertDrink(drink)) {
                             for (int i = 0; i < listIngredientRecyclerView.size(); i++) {
                                 IngredientForDrink ingredient = new IngredientForDrink(getDrinkID, listIngredientRecyclerView.get(i).getIngredientID(), listQuantity.get(i));
-                               ingredientForDrinkDAO.insertValues(ingredient);
+                                ingredientForDrinkDAO.insertValues(ingredient);
                             }
                             ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
-
+                            notificationDAO.insertNotifi(new Notification(((MainActivity) requireActivity()).user.getFullName() + "\nĐã thêm " + getName + " vào danh sách", getTimeNow));
                         }
                     } else {
                         try {
@@ -290,19 +294,20 @@ public class FragmentAddDrink extends Fragment {
 
                             } else if (getDateExpiry.length() == 0) {
                                 Toast.makeText(getContext(), "Không được để trống ngày hết hạn", Toast.LENGTH_SHORT).show();
+                            } else if (checkFormatDate(getDateExpiry)) {
+                                Toast.makeText(getContext(), "Ngày hết hạn không đúng định dạng", Toast.LENGTH_SHORT).show();
                             } else if (!checkExpiry(getDateExpiry, timeNow)) {
                                 Toast.makeText(getContext(), "Ngày hết hạn phải lớn hơn ngày hiện tại", Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, Integer.parseInt(getPrice), Integer.parseInt(getQuantity), getImageDrink, "long", 0);
                                 if (drinkDAO.insertDrink(drink)) {
+                                    notificationDAO.insertNotifi(new Notification(((MainActivity) requireActivity()).user.getFullName() + "\nĐã thêm " + getName + " vào danh sách", getTimeNow));
                                     ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                                 }
                             }
                         } catch (Exception e) {
-
                         }
-
-
                     }
                 }
             }
@@ -395,7 +400,17 @@ public class FragmentAddDrink extends Fragment {
         } else {
             return false;
         }
-
-
     }
+
+    public boolean checkFormatDate(String input) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            dateFormat.parse(input);
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+
 }

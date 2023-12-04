@@ -27,8 +27,10 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.IngredientDAO;
+import com.fpoly.pro1121_da1.database.IngredientForDrinkDAO;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
+import com.fpoly.pro1121_da1.model.IngredientForDrink;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -58,6 +60,7 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, @SuppressLint("RecyclerView") int position) {
         Drink drink = list.get(position);
+        IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(activity);
         int[] quantity = {1};
         DrinkDAO drinkDAO = new DrinkDAO(activity, new Dbhelper(activity));
         holder.imgDrink.setImageResource(drink.getImage());
@@ -65,6 +68,25 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
         ArrayList<String> listDrink = FragmentOrderDrink.listDrinkID_checkbox;
         ArrayList<Integer> listQuantity2 = FragmentOrderDrink.listQuantityBack;
         Map<Integer, Integer> map = FragmentOrderDrink.map;
+        if (drink.getTypeOfDrink().equalsIgnoreCase("Đóng chai")) {
+            if (drink.getQuantity() == 0) {
+                holder.chkOrder.setEnabled(false);
+            }else {
+                holder.chkOrder.setEnabled(true);
+
+            }
+        }else {
+            ArrayList<Ingredient> listIngredient = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
+            for (int i = 0; i < listIngredient.size(); i++) {
+                IngredientForDrink ingredientForDrink = ingredientForDrinkDAO.getModelIngreForDrink(drink.getDrinkID(), listIngredient.get(i).getIngredientID());
+                if (ingredientForDrink.getQuantity() * quantity[0] > listIngredient.get(i).getQuantity()) {
+                   holder.chkOrder.setEnabled(false);
+                } else {
+
+                    holder.chkOrder.setEnabled(true);
+                }
+            }
+        }
 
         if (listDrink != null) {
             for (int i = 0; i < listDrink.size(); i++) {
@@ -103,18 +125,29 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
             @Override
             public void onClick(View view) {
 
-                quantity[0]++;
+
                 if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
-                    ArrayList<Ingredient> ingredient = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
-
+                    ArrayList<Ingredient> listIngredient = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
+                    for (int i = 0; i < listIngredient.size(); i++) {
+                        IngredientForDrink ingredientForDrink = ingredientForDrinkDAO.getModelIngreForDrink(drink.getDrinkID(), listIngredient.get(i).getIngredientID());
+                        if (ingredientForDrink.getQuantity() * quantity[0] < listIngredient.get(i).getQuantity()) {
+                            quantity[0]++;
+                            map.put(drink.getDrinkID(), quantity[0]);
+                            holder.tvQuantity.setText("Số lượng: " + quantity[0]);
+                        } else {
+                            Toast.makeText(activity, "Đồ uống này đã hết nguyên liệu pha chế", Toast.LENGTH_SHORT).show();
+                            holder.imgPlus.setEnabled(false);
+                        }
+                    }
                 } else {
-                  if (drink.getQuantity() < quantity[0]){
-                      Toast.makeText(activity, "Đồ uống này đã hết, không thể tăng số lượng", Toast.LENGTH_SHORT).show();
-                  }else {
+                    if (quantity[0] < drink.getQuantity()) {
+                        quantity[0]++;
+                        map.put(drink.getDrinkID(), quantity[0]);
+                        holder.tvQuantity.setText("Số lượng: " + quantity[0]);
 
-                      map.put(drink.getDrinkID(), quantity[0]);
-                      holder.tvQuantity.setText("Số lượng: " + quantity[0]);
-                  }
+                    } else {
+                        Toast.makeText(activity, "Đồ uống này đã hết, không thể tăng số lượng", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

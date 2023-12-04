@@ -21,7 +21,7 @@ public class CalenderShowDetailDAO {
         dbhelper = new Dbhelper(activity);
     }
 
-    public boolean insertCalendarWorkForStaff(CalendarWorkForStaff calendarWorkForStaff, String MessengerPositive, String MessengerNegative) {
+    public boolean insertCalendarWorkForStaff(CalendarWorkForStaff calendarWorkForStaff) {
         SQLiteDatabase sqL = dbhelper.getWritableDatabase();
         ContentValues ctv = new ContentValues();
 
@@ -30,10 +30,8 @@ public class CalenderShowDetailDAO {
 
         long result = sqL.insert("CalendarWorkForStaff", null, ctv);
         if (result > 0) {
-            Toast.makeText(activity, MessengerPositive, Toast.LENGTH_SHORT).show();
             return true;
         } else {
-            Toast.makeText(activity, MessengerNegative, Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -55,7 +53,7 @@ public class CalenderShowDetailDAO {
         }
     }
 
-  public   boolean deleteCalendarWorkForStaff(String userID, int calendarID) {
+    public boolean deleteCalendarWorkForStaff(String userID, int calendarID) {
         SQLiteDatabase sqL = dbhelper.getWritableDatabase();
         long result = sqL.delete("CalendarWorkForStaff", "user_id = ? AND calendar_id = ?", new String[]{userID, String.valueOf(calendarID)});
         if (result > 0) {
@@ -104,7 +102,6 @@ public class CalenderShowDetailDAO {
         ArrayList<User> list = new ArrayList<>();
 
         sql.beginTransaction();
-        String TableCalendar = "Calendar";
         try {
             String query = "SELECT * FROM User JOIN CalendarWorkForStaff ON User.user_id =CalendarWorkForStaff.user_id JOIN Calendar ON  CalendarWorkForStaff.calendar_id = Calendar.calendar_id WHERE Calendar.calendar_id = ?";
             Cursor cursor = sql.rawQuery(query, new String[]{String.valueOf(calendarId)});
@@ -139,8 +136,50 @@ public class CalenderShowDetailDAO {
             sql.endTransaction();
         }
         return list;
-
     }
 
+    public ArrayList<User> getUserNotExists(int calendarId) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        ArrayList<User> list = new ArrayList<>();
+
+        sql.beginTransaction();
+        try {
+            String query = "SELECT * FROM User" +
+                    " WHERE NOT " +
+                    "EXISTS (SELECT 1 FROM CalendarWorkForStaff JOIN Calendar ON CalendarWorkForStaff.calendar_id" +
+                    "= Calendar.calendar_id WHERE User.user_id = CalendarWorkForStaff.user_id AND Calendar.calendar_id = ?)";
+            Cursor cursor = sql.rawQuery(query, new String[]{String.valueOf(calendarId)});
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    String getUserID = cursor.getString(0);
+                    String getUserName = cursor.getString(1);
+                    String getPassWord = cursor.getString(2);
+                    String getFullName = cursor.getString(3);
+                    String getDateOfBirth = cursor.getString(4);
+                    String getAddress = cursor.getString(5);
+                    String getRole = cursor.getString(6);
+                    int getStatus = cursor.getInt(7);
+                    String getPhoneNumber = cursor.getString(8);
+                    list.add(new User(getUserID,
+                            getUserName,
+                            getPassWord,
+                            getFullName,
+                            getDateOfBirth,
+                            getAddress,
+                            getRole,
+                            getStatus,
+                            getPhoneNumber
+                    ));
+                } while (cursor.moveToNext());
+            }
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+
+        } finally {
+            sql.endTransaction();
+        }
+        return list;
+    }
 
 }

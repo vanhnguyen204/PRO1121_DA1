@@ -47,12 +47,12 @@ public class InvoiceDetailDao {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
-                    int getInvoiceDetailID = Integer.parseInt(cursor.getString(cursor.getColumnIndex("invoice_detail_id")));
-                    int getDrinkID = Integer.parseInt(cursor.getString(cursor.getColumnIndex("drink_id")));
-                    int getInvoiceID = Integer.parseInt(cursor.getString(cursor.getColumnIndex("invoice_id")));
-                    int getQuantityDrink = Integer.parseInt(cursor.getString(cursor.getColumnIndex("quantity_drink")));
-                    int getPriceOfDrink = Integer.parseInt(cursor.getString(cursor.getColumnIndex("price_drink")));
-                    String getDateExpiry = cursor.getString(cursor.getColumnIndex("expiry_drink"));
+                    int getInvoiceDetailID = cursor.getInt(0);
+                    int getDrinkID =  cursor.getInt(1);
+                    int getInvoiceID =  cursor.getInt(2);
+                    int getQuantityDrink =  cursor.getInt(3);
+                    int getPriceOfDrink =  cursor.getInt(4);
+                    String getDateExpiry = cursor.getString(5);
 
                     InvoiceDetail invoiceDetail = new InvoiceDetail(
                             getInvoiceDetailID,
@@ -73,5 +73,7 @@ public class InvoiceDetailDao {
         }
         return list;
     }
-
+public ArrayList<InvoiceDetail> getInvoiceDetailByInvoiceID(int invoiceID){
+        return getInvoiceDetail("SELECT * FROM InvoiceDetail WHERE invoice_id = ?", String.valueOf(invoiceID));
+}
 }

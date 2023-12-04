@@ -52,7 +52,6 @@ public class FragmentOrderDrink extends Fragment {
     ArrayList<Drink> listDrinkOrder;
     Button btnConfirmOrder;
     ImageView imgBack;
-    Drink drinkClone = null;
     String getTableID;
     String saveTableID;
     Spinner spinner;
@@ -94,7 +93,7 @@ public class FragmentOrderDrink extends Fragment {
         listDrinkID_checkbox = new ArrayList<>();
         listDrinkID = new ArrayList<>();
         Bundle bundle = this.getArguments();
-
+        ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
         if (bundle != null) {
             getTableID = bundle.getString("KEY_TABLE_ID");
             listDrinkID_checkbox = (ArrayList<String>) bundle.getSerializable("KEY_CHECKBOX");
@@ -137,11 +136,9 @@ public class FragmentOrderDrink extends Fragment {
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
             public void onClick(Drink drink, int position, int quantity) {
-
                 map.put(drink.getDrinkID(), quantity);
                 listDrinkID.clear();
                 listQuantityOfDink.clear();
-                Toast.makeText(getContext(), "" + listDrinkID.size() + "-----" + map.size(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -149,21 +146,17 @@ public class FragmentOrderDrink extends Fragment {
                 map.remove(drink.getDrinkID());
                 listDrinkID.clear();
                 listQuantityOfDink.clear();
-                Toast.makeText(getContext(), "" + listDrinkID.size(), Toast.LENGTH_SHORT).show();
             }
         });
-        Toast.makeText(getContext(), "Size map: " + map.size(), Toast.LENGTH_SHORT).show();
+
         btnConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // thêm list mã đồ uống và list số lượng từ map
                 for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-
                     listDrinkID.add(String.valueOf(entry.getKey()));
                     listQuantityOfDink.add(entry.getValue());
-
                 }
-
                 // Put anything what you want
                 Bundle bundle = new Bundle();
                 bundle.putInt("KEY_STATUS_TABLE", getStatus);
@@ -178,16 +171,10 @@ public class FragmentOrderDrink extends Fragment {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                map.clear();
                 ((MainActivity) getActivity()).reloadFragment(new FragmentTable());
             }
         });
     }
 
-    public void updateMapValue(Integer key, Integer value) {
-        invoiceViewModel.updateMapValue(key, value);
-    }
-
-    public void setMapValue(Integer key, Integer value) {
-        invoiceViewModel.setMapValue(key, value);
-    }
 }

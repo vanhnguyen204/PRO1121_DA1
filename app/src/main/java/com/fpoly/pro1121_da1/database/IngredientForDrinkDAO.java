@@ -32,35 +32,32 @@ public class IngredientForDrinkDAO {
         contentValues.put("quantity", ingredientForDrink.getQuantity());
         long result = sql.insert("IngredientForDrink", null, contentValues);
         if (result > 0) {
-            Toast.makeText(context, "Thêm nguyên liệu cho đồ uống thành công", Toast.LENGTH_SHORT).show();
+            Log.d("Success", "Thêm nguyên liệu cho đồ uống thành công");
             return true;
         } else {
-            Toast.makeText(context, "Thêm nguyên liệu cho đồ uống thất bại", Toast.LENGTH_SHORT).show();
+            Log.d("Error", "Thêm nguyên liệu cho đồ uống thất bại");
             return false;
         }
     }
-
 
 
     public boolean deleteIngredientForDrink(int drinkId) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         sql.beginTransaction();
         try {
-            long result = sql.delete("IngredientForDrink", "drink_id = ? ",new String[]{String.valueOf(drinkId)});
+            long result = sql.delete("IngredientForDrink", "drink_id = ? ", new String[]{String.valueOf(drinkId)});
             sql.setTransactionSuccessful();
             if (result > 0) {
-                Toast.makeText(context, "Xoá thành công ingre for drink", Toast.LENGTH_SHORT).show();
                 return true;
             } else {
-                Toast.makeText(context, "Xoá thất bại ingre for drink", Toast.LENGTH_SHORT).show();
-                Log.e("ok","loi"+result);
+                Log.e("ok", "loi" + result);
                 return false;
             }
 
-        }catch (Exception x){
-         x.printStackTrace();
-         return false;
-        }   finally {
+        } catch (Exception x) {
+            x.printStackTrace();
+            return false;
+        } finally {
             sql.endTransaction();
         }
 
@@ -92,11 +89,12 @@ public class IngredientForDrinkDAO {
         return list;
 
     }
-    public IngredientForDrink getModelIngreForDrink(int drinkID, String ingreID){
+
+    public IngredientForDrink getModelIngreForDrink(int drinkID, String ingreID) {
         return getIngreForDrink("SELECT * FROM IngredientForDrink WHERE drink_id = ? and ingredient_id = ?", new String[]{String.valueOf(drinkID), ingreID}).get(0);
     }
 
-    public IngredientForDrink getIngredientByDrinkID(int drink_id){
-        return getIngreForDrink("SELECT * FROM IngredientForDrink WHERE drink_id = ?",String.valueOf(drink_id)).get(0);
+    public IngredientForDrink getIngredientByDrinkID(int drink_id) {
+        return getIngreForDrink("SELECT * FROM IngredientForDrink WHERE drink_id = ?", String.valueOf(drink_id)).get(0);
     }
 }

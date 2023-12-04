@@ -151,20 +151,7 @@ public class FragmentDrink extends Fragment {
                 }
             }
         });
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String timeNow = formatter.format(date);
-        for (int i = 0; i < list.size(); i++) {
-            try {
-                if (!checkExpiry(list.get(i).getDateExpiry(), timeNow)) {
-                    notificationDAO.insertNotifi(new Notification(list.get(i).getName() + " đã hết hạn", "now"));
-                } else {
 
-                }
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-        }
 
     }
 

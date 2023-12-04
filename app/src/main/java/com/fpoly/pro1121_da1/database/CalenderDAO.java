@@ -98,7 +98,7 @@ public class CalenderDAO {
         return list;
     }
     public CalenderWork getCalenderByID (int CalenderID){
-        ArrayList<CalenderWork> list = getCalender("SELECT * FROM Calendar WHERE = calendar_id",String.valueOf(CalenderID));
+        ArrayList<CalenderWork> list = getCalender("SELECT * FROM Calendar WHERE calendar_id = ?",String.valueOf(CalenderID));
         return list.get(0);
     }
 
@@ -131,9 +131,7 @@ public class CalenderDAO {
         sql.beginTransaction();
         try {
             Cursor cursor  = sql.rawQuery("SELECT * FROM Calendar WHERE date_work = ? ",new String[]{query});
-            if (cursor.getCount() > 0){
-                return true;
-            }
+            return cursor.getCount() > 0;
 
         }catch (Exception e){
 

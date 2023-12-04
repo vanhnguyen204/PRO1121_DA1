@@ -176,6 +176,10 @@ public class InvoiceDAO {
         return getInvoice("SELECT * FROM Invoice WHERE table_id = ?", tableID).get(0);
     }
 
+    public Invoice getInvoiceByID(int invoiceID) {
+        return getInvoice("SELECT * FROM Invoice WHERE invoice_id = ?", String.valueOf(invoiceID)).get(0);
+    }
+
     @SuppressLint("Range")
     public int getTotalBill(String startDay, String endDay) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();

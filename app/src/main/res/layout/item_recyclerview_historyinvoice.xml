@@ -26,4 +26,12 @@
         android:text="Thời gian: 2023-12-12 19:30"
         android:id="@+id/tv_time"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_showInvoiceDetail"
+        android:textColor="@color/red"
+        android:text="Xem chi tiết"
+        android:layout_below="@+id/tv_time"
+        />
 </RelativeLayout>

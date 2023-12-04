@@ -18,7 +18,7 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.User;
 
 public class FragmentSettings extends Fragment {
-    ImageView imgGotoAddSale , imgGotoCalendar, imbLogout, imgGotoHistoryInvoice,imgGotoAddCalenderForStaff;
+    ImageView imgGotoAddSale, imgGotoCalendar, imbLogout, imgGotoHistoryInvoice, imgGotoAddCalenderForStaff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +36,7 @@ public class FragmentSettings extends Fragment {
         imbLogout = view.findViewById(R.id.arrow5_setting);
         imgGotoHistoryInvoice = view.findViewById(R.id.img_showHistory);
 
-
+        ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
         imbLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +45,7 @@ public class FragmentSettings extends Fragment {
                 builder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((MainActivity)getActivity()).finish();
+                        ((MainActivity) getActivity()).finish();
                     }
                 });
                 builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
@@ -62,20 +62,20 @@ public class FragmentSettings extends Fragment {
         imgGotoAddSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentSales());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentSales());
             }
         });
         imgGotoCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentCalendar());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentCalendar());
 
             }
         });
         imgGotoHistoryInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentHistoryInvoice());
+                ((MainActivity) getActivity()).reloadFragment(new FragmentHistoryInvoice());
             }
         });
 

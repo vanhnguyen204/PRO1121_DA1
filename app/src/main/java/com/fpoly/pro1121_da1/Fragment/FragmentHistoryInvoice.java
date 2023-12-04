@@ -46,7 +46,7 @@ public class FragmentHistoryInvoice extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
         list = invoiceDAO.getAllInvoice();
-        adapter = new HistoryInvoiceAdapter(getActivity(), list);
+        adapter = new HistoryInvoiceAdapter(getActivity(), list, getParentFragmentManager());
         recyclerView = view.findViewById(R.id.recyclerview_history);
         imgBack = view.findViewById(R.id.img_back_fragmentHistoryInvoice);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

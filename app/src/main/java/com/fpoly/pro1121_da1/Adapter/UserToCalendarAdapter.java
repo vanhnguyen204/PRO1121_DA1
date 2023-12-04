@@ -25,8 +25,6 @@ public class UserToCalendarAdapter extends RecyclerView.Adapter<UserToCalendarAd
 
     Activity activity;
     ArrayList<User> list;
-    ArrayList<CalenderWork> calenderWorkArrayList;
-    CalenderDAO calenderDAO;
     public MyChecked myChecked;
 
     public void setCheckBoxChecked(MyChecked myChecked) {
@@ -51,8 +49,6 @@ public class UserToCalendarAdapter extends RecyclerView.Adapter<UserToCalendarAd
         User user = list.get(position);
         holder.tv_nameStaff.setText("Họ và tên:" + user.getFullName());
         holder.tv_phoneNumber.setText("ID: " + user.getUserID());
-
-        calenderDAO = new CalenderDAO(activity, new Dbhelper(activity));
 
         holder.chk_status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
