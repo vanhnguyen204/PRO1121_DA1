@@ -137,15 +137,12 @@ public class FragmentOrderDrink extends Fragment {
             @Override
             public void onClick(Drink drink, int position, int quantity) {
                 map.put(drink.getDrinkID(), quantity);
-                listDrinkID.clear();
-                listQuantityOfDink.clear();
             }
 
             @Override
             public void setDeleteDrink(Drink drink, int position, int quantitty) {
                 map.remove(drink.getDrinkID());
-                listDrinkID.clear();
-                listQuantityOfDink.clear();
+
             }
         });
 
@@ -153,10 +150,13 @@ public class FragmentOrderDrink extends Fragment {
             @Override
             public void onClick(View view) {
                 // thêm list mã đồ uống và list số lượng từ map
+                listDrinkID.clear();
+                listQuantityOfDink.clear();
                 for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
                     listDrinkID.add(String.valueOf(entry.getKey()));
                     listQuantityOfDink.add(entry.getValue());
                 }
+
                 // Put anything what you want
                 Bundle bundle = new Bundle();
                 bundle.putInt("KEY_STATUS_TABLE", getStatus);
@@ -166,6 +166,7 @@ public class FragmentOrderDrink extends Fragment {
                 FragmentExportInvoice manager = new FragmentExportInvoice();
                 manager.setArguments(bundle);
                 getParentFragmentManager().beginTransaction().replace(R.id.container_layout, manager).commit();
+
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {

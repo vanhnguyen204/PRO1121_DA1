@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/border_edt"
+    android:padding="5dp"
     android:layout_margin="10dp">
 
     <TextView
@@ -9,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nguyễn Văn A vừa thêm đồ uống vào hệ thống"
-        android:textSize="14sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_message"
+        android:textSize="10sp"
         android:text="2023-11-30 23:00" />
 
 

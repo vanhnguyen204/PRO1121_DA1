@@ -126,6 +126,7 @@ public class FragmentExportInvoice extends Fragment {
             getInvoiceID = bundle.getInt("KEY_INVOICE");
             getStatusTable = bundle.getInt("KEY_STATUS_TABLE");
             listQuantityOfDink = (ArrayList<Integer>) bundle.getSerializable("KEY_ARRAY_QUANTITY_DRINK");
+            Toast.makeText(getContext(), "list drink id: "+listDrinkID.size(), Toast.LENGTH_SHORT).show();
         }
         if (getStatusTable == 0) {
             getServe = "Mang về";

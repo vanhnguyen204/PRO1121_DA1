@@ -186,17 +186,22 @@ public class InvoiceDAO {
         ArrayList<Integer> list = new ArrayList<>();
         Cursor cursor = sql.rawQuery("SELECT SUM(total_bill) as TurnOver FROM Invoice WHERE date_created BETWEEN ? AND ?", new String[]{startDay, endDay});
 
-        cursor.moveToFirst();
-
-        while (cursor.moveToNext()) {
-            try {
-                int doanhThu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("TurnOver")));
-                list.add(doanhThu);
-            } catch (Exception e) {
-                list.add(0);
+        sql.beginTransaction();
+        try {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    int doanhThu = Integer.parseInt(cursor.getString(cursor.getColumnIndex("TurnOver")));
+                    list.add(doanhThu);
+                } while (cursor.moveToNext());
             }
-
+            sql.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("ERROR", "Lỗi lấy doanh thu");
+        } finally {
+            sql.endTransaction();
         }
+
         return list.get(0);
     }
 

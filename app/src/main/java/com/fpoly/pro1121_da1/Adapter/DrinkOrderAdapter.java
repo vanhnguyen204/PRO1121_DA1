@@ -68,6 +68,8 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
         ArrayList<String> listDrink = FragmentOrderDrink.listDrinkID_checkbox;
         ArrayList<Integer> listQuantity2 = FragmentOrderDrink.listQuantityBack;
         Map<Integer, Integer> map = FragmentOrderDrink.map;
+
+
         if (drink.getTypeOfDrink().equalsIgnoreCase("Đóng chai")) {
             if (drink.getQuantity() == 0) {
                 holder.chkOrder.setEnabled(false);
@@ -99,9 +101,11 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
 
             holder.imgMinus.setVisibility(View.VISIBLE);
             holder.imgPlus.setVisibility(View.VISIBLE);
+        }else {
+            holder.imgMinus.setVisibility(View.INVISIBLE);
+            holder.imgPlus.setVisibility(View.INVISIBLE);
         }
-        holder.imgMinus.setVisibility(View.INVISIBLE);
-        holder.imgPlus.setVisibility(View.INVISIBLE);
+
 
         holder.chkOrder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
