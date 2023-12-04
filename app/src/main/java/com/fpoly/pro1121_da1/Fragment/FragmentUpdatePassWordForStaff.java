@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class FragmentUpdatePassWordForStaff extends Fragment {
 
     ImageView img_back;
+    int ioio = 0;
 
     EditText edt_UserName, edt_NewPassWord, edt_ID_CARD_USER;
     Button btn_ConfirmUpdatePassWord;
