@@ -43,6 +43,7 @@ public class InvoiceDAO {
 
         }
         values.put("serve", invoice.getServe());
+        values.put("status", invoice.getStatus());
         long result = sql.insert("Invoice", null, values);
         if (result > 0) {
 

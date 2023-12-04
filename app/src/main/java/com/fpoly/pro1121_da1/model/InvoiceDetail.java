@@ -7,25 +7,25 @@ public class InvoiceDetail {
     private int quantityDrink;
     private int priceDrink;
     private String dateExpiry;
-    private double quantityIngredient;
 
-    public InvoiceDetail(int invoiceDetailID, int drinkID, int invoiceID, int quantityDrink, int priceDrink, String dateExpiry, double quantityIngredient) {
+
+    public InvoiceDetail(int invoiceDetailID, int drinkID, int invoiceID, int quantityDrink, int priceDrink, String dateExpiry) {
         this.invoiceDetailID = invoiceDetailID;
         this.drinkID = drinkID;
         this.invoiceID = invoiceID;
         this.quantityDrink = quantityDrink;
         this.priceDrink = priceDrink;
         this.dateExpiry = dateExpiry;
-        this.quantityIngredient = quantityIngredient;
+
     }
 
-    public InvoiceDetail(int drinkID, int invoiceID, int quantityDrink, int priceDrink, String dateExpiry, double quantityIngredient) {
+    public InvoiceDetail(int drinkID, int invoiceID, int quantityDrink, int priceDrink, String dateExpiry) {
         this.drinkID = drinkID;
         this.invoiceID = invoiceID;
         this.quantityDrink = quantityDrink;
         this.priceDrink = priceDrink;
         this.dateExpiry = dateExpiry;
-        this.quantityIngredient = quantityIngredient;
+
     }
 
     public int getInvoiceDetailID() {
@@ -76,11 +76,5 @@ public class InvoiceDetail {
         this.dateExpiry = dateExpiry;
     }
 
-    public double getQuantityIngredient() {
-        return quantityIngredient;
-    }
 
-    public void setQuantityIngredient(double quantityIngredient) {
-        this.quantityIngredient = quantityIngredient;
-    }
 }

@@ -8,9 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
 import com.fpoly.pro1121_da1.database.TableDAO;
 import com.fpoly.pro1121_da1.model.Drink;
+import com.fpoly.pro1121_da1.model.InvoiceViewModel;
 import com.fpoly.pro1121_da1.model.Table;
 
 import java.util.ArrayList;
@@ -55,6 +58,7 @@ public class FragmentOrderDrink extends Fragment {
     Spinner spinner;
     int getStatus;
     int getInvoiceIdExport = 0;
+    InvoiceViewModel invoiceViewModel;
     public static ArrayList<String> listDrinkID_checkbox;
 
     @Override
@@ -74,6 +78,8 @@ public class FragmentOrderDrink extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
+
         spinner = view.findViewById(R.id.spinner_fragmentOrder);
         recyclerView = view.findViewById(R.id.recyclerView_orderDrink);
         imgBack = view.findViewById(R.id.img_back_fragmentOrderDrink);
@@ -104,6 +110,7 @@ public class FragmentOrderDrink extends Fragment {
             if (listQuantityBack != null) {
                 listQuantityOfDink = listQuantityBack;
             }
+
         }
 
         String[] arrSpinner = new String[]{"Mang về", "Tại quán"};
@@ -130,25 +137,33 @@ public class FragmentOrderDrink extends Fragment {
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
             public void onClick(Drink drink, int position, int quantity) {
+
                 map.put(drink.getDrinkID(), quantity);
+                listDrinkID.clear();
+                listQuantityOfDink.clear();
+                Toast.makeText(getContext(), "" + listDrinkID.size() + "-----" + map.size(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void setDeleteDrink(Drink drink, int position, int quantitty) {
                 map.remove(drink.getDrinkID());
-
+                listDrinkID.clear();
+                listQuantityOfDink.clear();
+                Toast.makeText(getContext(), "" + listDrinkID.size(), Toast.LENGTH_SHORT).show();
             }
         });
-
+        Toast.makeText(getContext(), "Size map: " + map.size(), Toast.LENGTH_SHORT).show();
         btnConfirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-                    System.out.println(entry.getKey() + ": " + entry.getValue());
+
                     listDrinkID.add(String.valueOf(entry.getKey()));
                     listQuantityOfDink.add(entry.getValue());
+
                 }
+
                 // Put anything what you want
                 Bundle bundle = new Bundle();
                 bundle.putInt("KEY_STATUS_TABLE", getStatus);
@@ -168,4 +183,11 @@ public class FragmentOrderDrink extends Fragment {
         });
     }
 
+    public void updateMapValue(Integer key, Integer value) {
+        invoiceViewModel.updateMapValue(key, value);
+    }
+
+    public void setMapValue(Integer key, Integer value) {
+        invoiceViewModel.setMapValue(key, value);
+    }
 }

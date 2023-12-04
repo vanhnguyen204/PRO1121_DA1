@@ -29,8 +29,8 @@ public class InvoiceDetailDao {
         values.put("invoice_id", invoiceDetail.getInvoiceID());
         values.put("quantity_drink", invoiceDetail.getQuantityDrink());
         values.put("price_drink", invoiceDetail.getPriceDrink());
-        values.put("expiry_price", invoiceDetail.getDateExpiry());
-        values.put("quantity_ingredient", invoiceDetail.getQuantityIngredient());
+        values.put("expiry_drink", invoiceDetail.getDateExpiry());
+
         long result = sql.insert("InvoiceDetail", null, values);
         return result > 0;
     }
@@ -52,16 +52,15 @@ public class InvoiceDetailDao {
                     int getInvoiceID = Integer.parseInt(cursor.getString(cursor.getColumnIndex("invoice_id")));
                     int getQuantityDrink = Integer.parseInt(cursor.getString(cursor.getColumnIndex("quantity_drink")));
                     int getPriceOfDrink = Integer.parseInt(cursor.getString(cursor.getColumnIndex("price_drink")));
-                    String getDateExpiry = cursor.getString(cursor.getColumnIndex("expiry_price"));
-                    double getQuantityIngredient = Double.parseDouble(cursor.getString(cursor.getColumnIndex("quantity_ingredient")));
+                    String getDateExpiry = cursor.getString(cursor.getColumnIndex("expiry_drink"));
+
                     InvoiceDetail invoiceDetail = new InvoiceDetail(
                             getInvoiceDetailID,
                             getDrinkID,
                             getInvoiceID,
                             getQuantityDrink,
                             getPriceOfDrink,
-                            getDateExpiry,
-                            getQuantityIngredient
+                            getDateExpiry
                     );
                     list.add(invoiceDetail);
                 } while (cursor.moveToNext());
@@ -74,7 +73,5 @@ public class InvoiceDetailDao {
         }
         return list;
     }
-
-
 
 }

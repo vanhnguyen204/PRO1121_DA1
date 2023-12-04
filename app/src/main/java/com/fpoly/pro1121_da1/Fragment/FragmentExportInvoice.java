@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -51,11 +52,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class FragmentExportInvoice extends Fragment {
-    private InvoiceViewModel viewModel;
+
     ArrayList<String> listDrinkID;
     ArrayList<Integer> listQuantityOfDink;
     TextView tvInvoiceID, tvNameStaff, tvNameDrink, tvTableID, tvTotalBill, tvDateCreate, tvServe;
@@ -71,21 +74,8 @@ public class FragmentExportInvoice extends Fragment {
     int getStatusTable = 0;
     int getInvoiceIDRandom;
     ArrayList<Drink> arrayListDrink = new ArrayList<>();
+    InvoiceViewModel invoiceViewModel;
 
-
-    private void getGetInvoiceIDFrom() {
-        viewModel.getInvoiceData().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                getGetInvoiceIdFromFragmentTable = Integer.parseInt(s);
-                Toast.makeText(getContext(), "" + s, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void saveInvoiceData(String data) {
-        viewModel.setInvoiceData(data);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,8 +89,8 @@ public class FragmentExportInvoice extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(InvoiceViewModel.class);
-        getGetInvoiceIDFrom();
+
+        invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
         getInvoiceIDRandom = new Random().nextInt(1000000);
         User user = ((MainActivity) getActivity()).user;
         tvInvoiceID = view.findViewById(R.id.tv_invoiceID_fragmentExport);
@@ -117,13 +107,16 @@ public class FragmentExportInvoice extends Fragment {
         InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
         int getIdCustomer = new Random().nextInt(100000);
         DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
-
+        InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao(getContext());
         IngredientForDrinkDAO ingredientForDrinkDAO = new IngredientForDrinkDAO(getContext());
         IngredientDAO ingredientDAO = new IngredientDAO(getContext(), new Dbhelper(getContext()));
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         String getDateCreate = dateFormat.format(cal.getTime());
-
+        MutableLiveData<Map<Integer, Integer>> mapMutableLiveData = invoiceViewModel.getMyMapLiveData();
+        mapMutableLiveData.observe(getViewLifecycleOwner(), map -> {
+            Toast.makeText(getActivity(), "" + map.size(), Toast.LENGTH_SHORT).show();
+        });
 
         Bundle bundle = this.getArguments();
 
@@ -134,8 +127,9 @@ public class FragmentExportInvoice extends Fragment {
             getStatusTable = bundle.getInt("KEY_STATUS_TABLE");
             listQuantityOfDink = (ArrayList<Integer>) bundle.getSerializable("KEY_ARRAY_QUANTITY_DRINK");
         }
-
+        Toast.makeText(getContext(), listDrinkID + "----" + listQuantityOfDink, Toast.LENGTH_SHORT).show();
         Table table = tableDAO.getTableByID(getTableID);
+
 
         if (getStatusTable == 0) {
             getServe = "Mang về";
@@ -155,7 +149,11 @@ public class FragmentExportInvoice extends Fragment {
         StringBuilder strBuilderNameDrink = new StringBuilder();
         for (int i = 0; i < arrayListDrink.size(); i++) {
             strBuilderNameDrink.append(arrayListDrink.get(i).getName()).append(String.valueOf(listQuantityOfDink.get(i))).append(" - ");
-            sumPrice += arrayListDrink.get(i).getPrice();
+            sumPrice += (arrayListDrink.get(i).getPrice() * listQuantityOfDink.get(i));
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < arrayListDrink.size(); i++) {
+            map.put(arrayListDrink.get(i).getDrinkID(), listQuantityOfDink.get(i));
         }
 
         tvInvoiceID.setText("Mã hoá đơn: " + getInvoiceIDRandom);
@@ -185,51 +183,32 @@ public class FragmentExportInvoice extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int index = 0; index < arrayListDrink.size(); index++) {
-                    Drink drink = arrayListDrink.get(index);
-                    if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
-                        for (int i = 0; i < arrayListDrink.size(); i++) {
-                            if (arrayListDrink.get(i).getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
-                                arrayListIngredient = drinkDAO.getIngredientFromDrinkID(arrayListDrink.get(i).getDrinkID());
-                                for (int j = 0; j < arrayListIngredient.size(); j++) {
-                                    IngredientForDrink ingredientForDrink = forDrinkDAO.getModelIngreForDrink(arrayListDrink.get(i).getDrinkID(), arrayListIngredient.get(i).getIngredientID());
-                                    double quantity = ingredientForDrink.getQuantity() *  listQuantityOfDink.get(index);
-                                    ingredientDAO.updateQuantityIngredient(arrayListIngredient.get(i).getIngredientID(), arrayListIngredient.get(i).getQuantity() - quantity);
+
+                Invoice invoice = new Invoice(getInvoiceIDRandom,user.getUserID(), getIdCustomer, getTableID, sumPrice, getDateCreate, getServe, "Đã  xuất hoá đơn");
+                if (invoiceDAO.insertInvoice(invoice)){
+                    for (int index = 0; index < arrayListDrink.size(); index++) {
+                        Drink drink = arrayListDrink.get(index);
+                        if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+                            for (int i = 0; i < arrayListDrink.size(); i++) {
+                                if (arrayListDrink.get(i).getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+                                    arrayListIngredient = drinkDAO.getIngredientFromDrinkID(arrayListDrink.get(i).getDrinkID());
+                                    for (int j = 0; j < arrayListIngredient.size(); j++) {
+                                        IngredientForDrink ingredientForDrink = forDrinkDAO.getModelIngreForDrink(arrayListDrink.get(i).getDrinkID(), arrayListIngredient.get(i).getIngredientID());
+                                        double quantity = ingredientForDrink.getQuantity() * listQuantityOfDink.get(index);
+                                        ingredientDAO.updateQuantityIngredient(arrayListIngredient.get(i).getIngredientID(), arrayListIngredient.get(i).getQuantity() - quantity);
+                                    }
                                 }
                             }
+                        } else {
+                            int quantityOLd = drink.getQuantity() - listQuantityOfDink.get(index);
+                            drinkDAO.updateQuantityDrink(arrayListDrink.get(index).getDrinkID(), quantityOLd);
+                            ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
                         }
-                    } else {
-                        int quantityOLd = drink.getQuantity() - listQuantityOfDink.get(index);
-                        drinkDAO.updateQuantityDrink(arrayListDrink.get(index).getDrinkID(), quantityOLd);
-                        ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
+                        InvoiceDetail invoiceDetail = new InvoiceDetail(arrayListDrink.get(index).getDrinkID(), getInvoiceIDRandom, listQuantityOfDink.get(index), arrayListDrink.get(index).getPrice(), arrayListDrink.get(index).getDateExpiry());
+                        invoiceDetailDao.insertInvoiceDetail(invoiceDetail);
+                        ((MainActivity)requireActivity()).reloadFragment(new FragmentDrink());
                     }
                 }
-
-
-//                Invoice invoiceGetOut = new Invoice(getInvoiceIDRandom, user.getUserID(), getIdCustomer, getTableID, sumPrice, getDateCreate, getServe, "Đã xuất hoá đơn");
-//                if (invoiceDAO.insertInvoice(invoiceGetOut)) {
-//
-//                    IngredientForDrink ingredientForDrink;
-//                    // lấy đồ uống pha chế và đồ uống pha chế ở bảng trung gian
-//                    for (int i = 0; i < listDrinkID.size(); i++) {
-//                        Drink drink = drinkDAO.getDrinkByID(listDrinkID.get(i));
-//                        if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
-//                            drinkArrayList1.add(drink);
-//                            ingredientForDrink = ingredientForDrinkDAO.getIngredientByDrinkID(Integer.parseInt(listDrinkID.get(i)));
-//                            ingredientForDrinkArrayList.add(ingredientForDrink);
-//                        }
-//                    }
-//
-//                    for (int i = 0; i < drinkArrayList1.size(); i++) {
-//                        ingredientArrayList = drinkDAO.getIngredientFromDrinkID(drinkArrayList1.get(i).getDrinkID());
-//                        for (int j = 0; j < ingredientArrayList.size(); j++) {
-//                            ingredientDAO.updateQuantityIngredient(ingredientArrayList.get(j).getIngredientID(), ingredientArrayList.get(j).getQuantity() - ingredientForDrinkArrayList.get(j).getQuantity());
-//                        }
-//                    }
-//
-
-//                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, new FragmentTable()).commit();
-//                }
             }
         });
     }

@@ -50,8 +50,7 @@ public class Dbhelper extends SQLiteOpenHelper {
             "invoice_id REFERENCES Invoice(invoice_id)," +
             " quantity_drink INTEGER," +
             " price_drink INTEGER," +
-            " expiry_price DATE," +
-            " quantity_ingredient REAL)";
+            " expiry_drink DATE)";
     String createIngredient
             = "CREATE TABLE Ingredient(ingredient_id TEXT PRIMARY KEY," +
             "name TEXT, " +

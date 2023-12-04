@@ -26,7 +26,9 @@ import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
+import com.fpoly.pro1121_da1.database.IngredientDAO;
 import com.fpoly.pro1121_da1.model.Drink;
+import com.fpoly.pro1121_da1.model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -72,6 +74,9 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
                     holder.tvQuantity.setText("Số lượng: " + quantity[0]);
                 }
             }
+
+            holder.imgMinus.setVisibility(View.VISIBLE);
+            holder.imgPlus.setVisibility(View.VISIBLE);
         }
         holder.imgMinus.setVisibility(View.INVISIBLE);
         holder.imgPlus.setVisibility(View.INVISIBLE);
@@ -93,30 +98,24 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
 
             }
         });
-        holder.tvQuantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-
-            }
-        });
         holder.imgPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                quantity[0]++;
-                holder.tvQuantity.setText("Số lượng: " + quantity[0]);
-                map.put(drink.getDrinkID(), quantity[0]);
 
+                quantity[0]++;
+                if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+                    ArrayList<Ingredient> ingredient = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
+
+                } else {
+                  if (drink.getQuantity() < quantity[0]){
+                      Toast.makeText(activity, "Đồ uống này đã hết, không thể tăng số lượng", Toast.LENGTH_SHORT).show();
+                  }else {
+
+                      map.put(drink.getDrinkID(), quantity[0]);
+                      holder.tvQuantity.setText("Số lượng: " + quantity[0]);
+                  }
+                }
             }
         });
 
@@ -132,6 +131,7 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
                 } else {
                     holder.tvQuantity.setText("Số lượng: " + quantity[0]);
                     map.put(drink.getDrinkID(), quantity[0]);
+
                 }
             }
         });

@@ -44,9 +44,6 @@ public class FragmentTable extends Fragment {
     TableAdapter tableAdapter;
     int sendInvoiceID = 0;
 
-    public void sendInvoiceIDFromFragmentt(int s) {
-        viewModel.setInvoiceData(String.valueOf(s));
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,23 +52,13 @@ public class FragmentTable extends Fragment {
         return inflater.inflate(R.layout.fragment_table, container, false);
     }
 
-    private void getInvoiceData() {
-        viewModel.getInvoiceData().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                // xử lý mã hoá đơn
-                sendInvoiceID = Integer.parseInt(s);
-                Toast.makeText(getContext(), "Đã lấy được mã bên hoá đơn: " + sendInvoiceID, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(InvoiceViewModel.class);
 
-        getInvoiceData();
 
 
         edtSearchTable = view.findViewById(R.id.edt_search_table);
@@ -94,7 +81,7 @@ public class FragmentTable extends Fragment {
                     Invoice invoice = invoiceDAO.getInvoiceByTableID(table.getTableID());
                     Bundle bundle = new Bundle();
                     if (sendInvoiceID != 0) {
-                        sendInvoiceIDFromFragmentt(sendInvoiceID);
+
                         bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
                         Toast.makeText(getContext(), "Mã hoá đơn: " + sendInvoiceID, Toast.LENGTH_SHORT).show();
                     } else {
