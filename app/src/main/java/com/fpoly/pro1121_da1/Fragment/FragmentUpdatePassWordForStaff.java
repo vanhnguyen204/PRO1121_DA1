@@ -42,6 +42,7 @@ public class FragmentUpdatePassWordForStaff extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         User user = ((MainActivity)requireActivity()).user;
         edt_UserName = view.findViewById(R.id.edt_userName_Update_PassWordForStaff);
         edt_NewPassWord = view.findViewById(R.id.edt_NewPassWord_PassWordForStaff);
