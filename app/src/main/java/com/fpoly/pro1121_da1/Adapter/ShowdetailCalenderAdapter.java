@@ -1,5 +1,6 @@
 package com.fpoly.pro1121_da1.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,7 +31,8 @@ public class ShowdetailCalenderAdapter extends RecyclerView.Adapter<ShowdetailCa
     ArrayList<User> list;
     public SetDelete setDelete;
     public int calendarID;
-    public void onDeleteUser(SetDelete setDelete){
+
+    public void onDeleteUser(SetDelete setDelete) {
         this.setDelete = setDelete;
     }
 
@@ -50,22 +52,25 @@ public class ShowdetailCalenderAdapter extends RecyclerView.Adapter<ShowdetailCa
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewhoder holder, int position) {
-User user = list.get(holder.getAdapterPosition());
+    public void onBindViewHolder(@NonNull Viewhoder holder, @SuppressLint("RecyclerView") int position) {
+        User user = list.get(position);
         holder.tv_nameStaff.setText(list.get(position).getFullName());
         holder.tv_StaffID.setText(list.get(position).getUserID());
         CalenderShowDetailDAO calenderShowDetailDAO = new CalenderShowDetailDAO(activity);
+
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Xoá ủe");
+                builder.setMessage("Xoá user");
                 builder.setPositiveButton("Xoá", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (calenderShowDetailDAO.deleteCalendarWorkForStaff(user.getUserID(), calendarID)){
+                        if (calenderShowDetailDAO.deleteCalendarWorkForStaff(user.getUserID(), calendarID)) {
+                          list.remove(position);
                             Toast.makeText(activity, "Xoá thành công", Toast.LENGTH_SHORT).show();
-                        }else {
+                            notifyDataSetChanged();
+                        } else {
                             Toast.makeText(activity, "Xoá thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }

@@ -35,7 +35,6 @@ public class FragmentUser extends Fragment {
     ArrayList<User> list;
     UserAdapter userAdapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -55,9 +55,8 @@ public class CalenderShowDetailDAO {
 
     public boolean deleteCalendarWorkForStaff(String userID, int calendarID) {
         SQLiteDatabase sqL = dbhelper.getWritableDatabase();
-        long result = sqL.delete("CalendarWorkForStaff", "user_id = ? AND calendar_id = ?", new String[]{userID, String.valueOf(calendarID)});
+        long result = sqL.delete("CalendarWorkForStaff", "calendar_id = ? AND  user_id = ?", new String[]{String.valueOf(calendarID), userID});
         if (result > 0) {
-
             return true;
         } else {
 

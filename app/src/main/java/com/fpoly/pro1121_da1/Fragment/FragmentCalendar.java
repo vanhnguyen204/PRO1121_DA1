@@ -97,9 +97,8 @@ public class FragmentCalendar extends Fragment {
             String getDayBack = bundle.getString("KEY_BACK_DAY");
             setRecyclerView(getDayBack);
             tv_daytoWork.setText(getDayBack);
-            Toast.makeText(getContext(), ""+getDayBack, Toast.LENGTH_SHORT).show();
-        }
 
+        }
 
 
         Animation animation = new TranslateAnimation(0, 0, 0, 50);
