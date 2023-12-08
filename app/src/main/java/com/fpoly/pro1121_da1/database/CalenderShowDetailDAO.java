@@ -146,7 +146,7 @@ public class CalenderShowDetailDAO {
             String query = "SELECT * FROM User" +
                     " WHERE NOT " +
                     "EXISTS (SELECT 1 FROM CalendarWorkForStaff JOIN Calendar ON CalendarWorkForStaff.calendar_id" +
-                    "= Calendar.calendar_id WHERE User.user_id = CalendarWorkForStaff.user_id AND Calendar.calendar_id = ?)";
+                    "= Calendar.calendar_id WHERE User.user_id = CalendarWorkForStaff.user_id AND Calendar.calendar_id = ? AND User.status = 0)";
             Cursor cursor = sql.rawQuery(query, new String[]{String.valueOf(calendarId)});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();

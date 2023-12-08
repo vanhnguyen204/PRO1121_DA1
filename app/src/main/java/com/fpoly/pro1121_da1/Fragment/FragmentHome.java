@@ -195,6 +195,7 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity) requireActivity()).reloadFragment(new FragmentTable());
+                ((MainActivity) requireActivity()).chipNavigationBar.setItemSelected(R.id.table, true);
             }
         });
         manageIngredient.setOnClickListener(new View.OnClickListener() {
@@ -212,25 +213,41 @@ public class FragmentHome extends Fragment {
         manageDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MainActivity) requireActivity()).chipNavigationBar.setItemSelected(R.id.drink, true);
                 ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
             }
         });
 
-        try {
-            InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
-            int revenueInt = invoiceDAO.getRevenue();
-            tvRevenue.setText(String.format("%dVNĐ", revenueInt));
+        InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
+        if (user.getRole().equals("admin")) {
+            try {
+
+                int revenueInt = invoiceDAO.getRevenue();
+                tvRevenue.setText(String.format("%dVNĐ", revenueInt));
+                int count = invoiceDAO.countInvoiceExported();
+                tvExportInvoice.setText(count + " đơn.");
+            } catch (Exception e) {
+
+            }
+            manegeStatistical.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ((MainActivity) getContext()).reloadFragment(new FragmentTurnOver());
+                }
+            });
+        } else {
+            tvRevenue.setText("****************");
             int count = invoiceDAO.countInvoiceExported();
             tvExportInvoice.setText(count + " đơn.");
-        } catch (Exception e) {
+            manegeStatistical.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "Nhân viên không được sử dụng chức năng này !", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
-        manegeStatistical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getContext()).reloadFragment(new FragmentTurnOver());
-            }
-        });
 
     }
 

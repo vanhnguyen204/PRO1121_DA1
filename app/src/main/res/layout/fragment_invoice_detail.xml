@@ -4,11 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".Fragment.FragmentInvoiceDetail">
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:src="@mipmap/arrow_left"
+        android:layout_marginBottom="20dp"
         android:id="@+id/img_back_invoiceDetail"
         />
     <TextView
@@ -16,11 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:layout_below="@+id/img_back_invoiceDetail"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:text="Mã hoá đơn"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_nameStaff_invoiceDetail"
@@ -29,7 +33,7 @@
         android:layout_below="@+id/tv_idInvoice_invoiceDetail"
         android:layout_margin="5dp"
         android:text="Tên nhân viên"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_nameCustomer__invoiceDetail"
@@ -41,7 +45,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:text="Tên khách hàng"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_tableID_invoiceDetail"
@@ -50,7 +54,7 @@
         android:layout_below="@+id/tv_nameCustomer__invoiceDetail"
         android:layout_margin="5dp"
         android:text="Mã bàn:"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_serve_invoiceDetail"
@@ -59,7 +63,7 @@
         android:layout_below="@+id/tv_tableID_invoiceDetail"
         android:layout_margin="5dp"
         android:text="Phuc vu tai ban"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
 
     <TextView
@@ -72,7 +76,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
         android:text="Ten do uong  "
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_quantityDrink"
@@ -85,7 +89,7 @@
         android:layout_marginBottom="5dp"
         android:layout_toRightOf="@+id/tv_inforDrink_invoiceDetail"
         android:text="So luong"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_priceDrink"
@@ -98,7 +102,7 @@
         android:layout_marginBottom="5dp"
         android:layout_toRightOf="@+id/tv_quantityDrink"
         android:text="Gia"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_totalBill_invoiceDetail"
@@ -110,7 +114,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:text="Tổng tiền "
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_dateCreate_invoiceDetail"
@@ -119,7 +123,7 @@
         android:layout_below="@+id/tv_totalBill_invoiceDetail"
         android:layout_margin="5dp"
         android:text="Ngay tao"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_status_invoiceDetail"
@@ -128,5 +132,5 @@
         android:layout_below="@+id/tv_dateCreate_invoiceDetail"
         android:layout_margin="5dp"
         android:text="trang thai"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 </RelativeLayout>

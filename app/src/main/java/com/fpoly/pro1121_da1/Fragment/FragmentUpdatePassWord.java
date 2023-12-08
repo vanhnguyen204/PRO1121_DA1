@@ -23,7 +23,7 @@ import com.fpoly.pro1121_da1.model.User;
 import java.util.ArrayList;
 
 
-public class FragmentUpdatePassWordForStaff extends Fragment {
+public class FragmentUpdatePassWord extends Fragment {
 
     ImageView img_back;
 
@@ -54,9 +54,6 @@ public class FragmentUpdatePassWordForStaff extends Fragment {
         userDAO = new UserDAO(getContext(),new Dbhelper(getContext()));
         userArrayList = userDAO.getAllUser();
 
-        edt_UserName.setText(user.getUserName());
-        edt_NewPassWord.setText(user.getPassWord());
-        edt_ID_CARD_USER.setText(user.getUserID());
 
         btn_ConfirmUpdatePassWord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,18 +61,21 @@ public class FragmentUpdatePassWordForStaff extends Fragment {
                 String getName = edt_UserName.getText().toString().trim();
                 String getPassWord = edt_NewPassWord.getText().toString().trim();
                 String getIdUser = edt_ID_CARD_USER.getText().toString().trim();
-                boolean checkUserName = userDAO.checkUserName(getName);
-                boolean checkIdUser = userDAO.checkUpdatePassWordByID(getIdUser);
-
 
                 if (getName.equals("") || getPassWord.equals("") || getIdUser.equals("")){
-                    Toast.makeText(getContext(), "Không được để chống", Toast.LENGTH_SHORT).show();
-                } else if (!checkUserName) {
+                    Toast.makeText(getContext(), "Không được để trống thông tin", Toast.LENGTH_SHORT).show();
+                } else if (!user.getUserName().equals(getName)) {
                     Toast.makeText(getContext(), "Tên Đăng Nhập Không Đúng", Toast.LENGTH_SHORT).show();
-                } else if (!checkIdUser) {
+                } else if (!user.getUserID().equals(getIdUser)) {
                     Toast.makeText(getContext(), "Số Id Card không khớp", Toast.LENGTH_SHORT).show();
                 }else{
-                    userDAO.updatePassWordUser(getIdUser,getPassWord,"Update PassWord Thành Công","Update PassWord Không Thành Công");
+                  if (  userDAO.updatePassWordUser(getIdUser,getPassWord,"Update PassWord Thành Công","Update PassWord Không Thành Công")){
+                     if (user.getRole().equals("admin")){
+                         ((MainActivity)requireActivity()).reloadFragment(new FragmentSettings());
+                     }else {
+                         ((MainActivity)requireActivity()).reloadFragment(new FragmentSettingsStaff());
+                     }
+                  }
                 }
 
             }
@@ -83,7 +83,13 @@ public class FragmentUpdatePassWordForStaff extends Fragment {
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).reloadFragment(new FragmentSettingsStaff());
+                if (user.getRole().equals("admin")){
+                    ((MainActivity)getActivity()).reloadFragment(new FragmentSettings());
+                    ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+                }else {
+                    ((MainActivity)getActivity()).reloadFragment(new FragmentSettingsStaff());
+                    ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
+import com.fpoly.pro1121_da1.database.BookingDAO;
 import com.fpoly.pro1121_da1.database.CustomerDAO;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
@@ -35,6 +36,7 @@ import com.fpoly.pro1121_da1.database.IngredientForDrinkDAO;
 import com.fpoly.pro1121_da1.database.InvoiceDAO;
 import com.fpoly.pro1121_da1.database.InvoiceDetailDao;
 import com.fpoly.pro1121_da1.database.TableDAO;
+import com.fpoly.pro1121_da1.database.VoucherDAO;
 import com.fpoly.pro1121_da1.model.Customer;
 import com.fpoly.pro1121_da1.model.Drink;
 import com.fpoly.pro1121_da1.model.Ingredient;
@@ -44,6 +46,7 @@ import com.fpoly.pro1121_da1.model.InvoiceDetail;
 import com.fpoly.pro1121_da1.model.InvoiceViewModel;
 import com.fpoly.pro1121_da1.model.Table;
 import com.fpoly.pro1121_da1.model.User;
+import com.fpoly.pro1121_da1.model.Voucher;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -105,7 +108,7 @@ public class FragmentExportInvoice extends Fragment {
         imgBack = view.findViewById(R.id.img_back_fragmentExport);
         btnConfirm = view.findViewById(R.id.btnConfirmExportInvoice);
         btnCancel = view.findViewById(R.id.btn_cancel_exportInvoice);
-        btnCancel.setOnClickListener(v -> ((MainActivity)requireActivity()).reloadFragment(new FragmentTable()));
+        btnCancel.setOnClickListener(v -> ((MainActivity) requireActivity()).reloadFragment(new FragmentTable()));
 
         TableDAO tableDAO = new TableDAO(getContext(), new Dbhelper(getContext()));
         InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
@@ -126,11 +129,11 @@ public class FragmentExportInvoice extends Fragment {
             getInvoiceID = bundle.getInt("KEY_INVOICE");
             getStatusTable = bundle.getInt("KEY_STATUS_TABLE");
             listQuantityOfDink = (ArrayList<Integer>) bundle.getSerializable("KEY_ARRAY_QUANTITY_DRINK");
-            Toast.makeText(getContext(), "list drink id: "+listDrinkID.size(), Toast.LENGTH_SHORT).show();
-        }
-        if (getStatusTable == 0) {
-            getServe = "Mang về";
 
+        }
+        if (getTableID == null) {
+
+            getServe = "Mang về";
         } else {
             getServe = "Tại quán";
         }
@@ -141,12 +144,15 @@ public class FragmentExportInvoice extends Fragment {
                 arrayListDrink.add(drink);
             }
         }
-
+        VoucherDAO voucherDAO = new VoucherDAO(getContext(), new Dbhelper(getContext()));
         // đã có list đồ uống sau khi chọn
         StringBuilder strBuilderNameDrink = new StringBuilder();
         for (int i = 0; i < arrayListDrink.size(); i++) {
+            Drink drink = arrayListDrink.get(i);
             strBuilderNameDrink.append(arrayListDrink.get(i).getName()).append(String.valueOf(listQuantityOfDink.get(i))).append(" - ");
-            sumPrice += (arrayListDrink.get(i).getPrice() * listQuantityOfDink.get(i));
+            Voucher voucher = voucherDAO.getVoucherByID(String.valueOf(arrayListDrink.get(i).getVoucherID()));
+            int priceOld = ((drink.getPrice() * voucher.getPriceReduce()) / 100);
+            sumPrice += ((drink.getPrice() - priceOld) * listQuantityOfDink.get(i));
         }
         tvInvoiceID.setText("Mã hoá đơn: " + getInvoiceIDRandom);
         tvNameStaff.setText("Nhân viên: " + user.getFullName());
@@ -176,8 +182,8 @@ public class FragmentExportInvoice extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Invoice invoice = new Invoice(getInvoiceIDRandom,user.getUserID(), getIdCustomer, getTableID, sumPrice, getDateCreate, getServe, "Đã  xuất hoá đơn");
-                if (invoiceDAO.insertInvoice(invoice)){
+                Invoice invoice = new Invoice(getInvoiceIDRandom, user.getUserID(), getIdCustomer, getTableID, sumPrice, getDateCreate, getServe, "Đã  xuất hoá đơn");
+                if (invoiceDAO.insertInvoice(invoice)) {
                     for (int index = 0; index < arrayListDrink.size(); index++) {
                         Drink drink = arrayListDrink.get(index);
                         if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
@@ -194,11 +200,18 @@ public class FragmentExportInvoice extends Fragment {
                         } else {
                             int quantityOLd = drink.getQuantity() - listQuantityOfDink.get(index);
                             drinkDAO.updateQuantityDrink(arrayListDrink.get(index).getDrinkID(), quantityOLd);
-                            ((MainActivity) requireActivity()).reloadFragment(new FragmentDrink());
+                            ((MainActivity) requireActivity()).reloadFragment(new FragmentTable());
                         }
                         InvoiceDetail invoiceDetail = new InvoiceDetail(arrayListDrink.get(index).getDrinkID(), getInvoiceIDRandom, listQuantityOfDink.get(index), arrayListDrink.get(index).getPrice(), arrayListDrink.get(index).getDateExpiry());
-                        invoiceDetailDao.insertInvoiceDetail(invoiceDetail);
-                        ((MainActivity)requireActivity()).reloadFragment(new FragmentTable());
+                        if (invoiceDetailDao.insertInvoiceDetail(invoiceDetail)) {
+
+                            ((MainActivity) requireActivity()).reloadFragment(new FragmentTable());
+                        }
+                    }
+                    if (getTableID != null) {
+                        tableDAO.updateStatusTable(getTableID, 0);
+                        BookingDAO bookingDAO = new BookingDAO(getContext());
+                        bookingDAO.deleteBookingByTableID(getTableID);
                     }
                 }
             }
@@ -267,17 +280,5 @@ public class FragmentExportInvoice extends Fragment {
             }
         });
     }
-
-    public void countDown(int second) {
-        while (second > 0) {
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            second--;
-        }
-    }
-
 
 }

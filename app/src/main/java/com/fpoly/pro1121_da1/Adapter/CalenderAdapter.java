@@ -28,6 +28,7 @@ import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.CalenderDAO;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.model.CalenderWork;
+import com.fpoly.pro1121_da1.model.User;
 
 import java.util.ArrayList;
 
@@ -72,6 +73,12 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
             holder.tv_shiftWork.setText("Ca chiều: 12:00 - 16:30");
         }else {
             holder.tv_shiftWork.setText("Ca tối: 17:00 - 22:00");
+        }
+        User user = ((MainActivity)activity).user;
+        if (!user.getRole().equals("admin")){
+            holder.tv_showdetail_calender.setVisibility(View.INVISIBLE);
+        }else {
+            holder.tv_showdetail_calender.setVisibility(View.VISIBLE);
         }
         holder.tv_showdetail_calender.setOnClickListener(new View.OnClickListener() {
             @Override

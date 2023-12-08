@@ -95,7 +95,7 @@ public class FragmentUserDetail extends Fragment {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("Bạn có muốn xóa người dùng không ?");
+                        builder.setMessage("Bạn có chắc chắn muốn xóa người dùng không ?");
                         builder.setTitle("Cảnh Báo");
 
                         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

@@ -46,7 +46,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.Viewhoder> {
         holder.TVName.setText("Họ tên: " + list.get(position).getFullName());
         holder.TVBirthDay.setText("Ngày sinh: " + list.get(position).getDateOfBirth());
         holder.TVAddress.setText("Địa chỉ: " + list.get(position).getAddress());
-
+holder.itemView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Toast.makeText(activity, ""+list.get(position).getStatus(), Toast.LENGTH_SHORT).show();
+    }
+});
         holder.TVshowDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -296,6 +296,6 @@ public class DrinkDAO {
     }
 
     public ArrayList<Drink> listDrinkExpired(){
-        return getDrink("SELECT * FROM Drink WHERE date_expiry > strftime('%Y-%m-%d','now')");
+        return getDrink("SELECT * FROM Drink WHERE date_expiry < strftime('%Y-%m-%d','now')");
     }
 }

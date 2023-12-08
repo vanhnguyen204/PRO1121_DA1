@@ -156,7 +156,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Doanh thu / tháng"
+                android:text="Tổng doanh thu"
                 android:textColor="@color/green"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -204,10 +204,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/shippori_mincho"
+                android:fontFamily="@font/rubik_regular"
                 android:gravity="center"
                 android:text="Danh mục"
-                android:textSize="30sp" />
+                android:textSize="35sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -239,7 +239,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Nhân viên"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -349,7 +349,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Bàn"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -377,7 +377,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Thống kê"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>

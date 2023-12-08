@@ -131,11 +131,12 @@ public class DrinkOrderAdapter extends RecyclerView.Adapter<DrinkOrderAdapter.Vi
 
 
                 if (drink.getTypeOfDrink().equalsIgnoreCase("Pha chế")) {
+                    quantity[0]++;
                     ArrayList<Ingredient> listIngredient = drinkDAO.getIngredientFromDrinkID(drink.getDrinkID());
                     for (int i = 0; i < listIngredient.size(); i++) {
                         IngredientForDrink ingredientForDrink = ingredientForDrinkDAO.getModelIngreForDrink(drink.getDrinkID(), listIngredient.get(i).getIngredientID());
                         if (ingredientForDrink.getQuantity() * quantity[0] < listIngredient.get(i).getQuantity()) {
-                            quantity[0]++;
+
                             map.put(drink.getDrinkID(), quantity[0]);
                             holder.tvQuantity.setText("Số lượng: " + quantity[0]);
                         } else {

@@ -17,12 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.fpoly.pro1121_da1.Adapter.DrinkAdapter;
 import com.fpoly.pro1121_da1.Adapter.HistoryInvoiceAdapter;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.InvoiceDAO;
 import com.fpoly.pro1121_da1.model.Invoice;
+import com.fpoly.pro1121_da1.model.User;
 
 import java.util.ArrayList;
 
@@ -45,19 +47,34 @@ public class FragmentHistoryInvoice extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
-        list = invoiceDAO.getAllInvoice();
-        adapter = new HistoryInvoiceAdapter(getActivity(), list, getParentFragmentManager());
         recyclerView = view.findViewById(R.id.recyclerview_history);
-        imgBack = view.findViewById(R.id.img_back_fragmentHistoryInvoice);
+        list = invoiceDAO.getAllInvoice();
+        User user = ((MainActivity)requireActivity()).user;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        if (user.getRole().equals("admin")){
+            adapter = new HistoryInvoiceAdapter(getActivity(), list, getParentFragmentManager());
+            recyclerView.setAdapter(adapter);
+
+        }else {
+            ArrayList<Invoice> listInvoiceStaff = invoiceDAO.getInvoiceByIdUser(user.getUserID());
+            adapter = new HistoryInvoiceAdapter(getActivity(), listInvoiceStaff, getParentFragmentManager());
+            recyclerView.setAdapter(adapter);
+        }
+
+        imgBack = view.findViewById(R.id.img_back_fragmentHistoryInvoice);
+
         ArrayList<Invoice> listClone = invoiceDAO.getAllInvoice();
         edtSearch = view.findViewById(R.id.edt_searchHistoryInvoice);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)requireActivity()).reloadFragment(new FragmentSettings());
+                if (user.getRole().equals("admin")){
+                    ((MainActivity)requireActivity()).reloadFragment(new FragmentSettings());
+                }else {
+                    ((MainActivity)requireActivity()).reloadFragment(new FragmentSettingsStaff());
+                }
+
             }
         });
         edtSearch.addTextChangedListener(new TextWatcher() {
@@ -68,7 +85,19 @@ public class FragmentHistoryInvoice extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                list.clear();
 
+                String getTextFromEdt = charSequence.toString().toLowerCase().trim();
+                if (getTextFromEdt.length() == 0) {
+                    recyclerView.setAdapter(new HistoryInvoiceAdapter(getActivity(), listClone, getParentFragmentManager()));
+                } else {
+                    for (int index = 0; index < listClone.size(); index++) {
+                        if (listClone.get(index).getDateCreate().toLowerCase().contains(getTextFromEdt)) {
+                            list.add(listClone.get(index));
+                        }
+                    }
+                    recyclerView.setAdapter(new HistoryInvoiceAdapter(getActivity(), list, getParentFragmentManager()));
+                }
             }
 
             @Override

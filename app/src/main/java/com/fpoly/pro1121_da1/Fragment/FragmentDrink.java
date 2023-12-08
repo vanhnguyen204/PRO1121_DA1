@@ -67,27 +67,16 @@ public class FragmentDrink extends Fragment {
         drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         btnAddDrink = view.findViewById(R.id.btn_add_drink);
         edtSearch = view.findViewById(R.id.edt_search_fragmentDrink);
-        imgBack = view.findViewById(R.id.img_back_fragmentDrink);
+
         NotificationDAO notificationDAO = new NotificationDAO(getContext());
         list = drinkDAO.getDrinkNow();
         if (list.size() == 0) {
             Toast.makeText(getContext(), "Chưa có dữ liệu đồ uống", Toast.LENGTH_SHORT).show();
         }
         recyclerView = view.findViewById(R.id.rcv_drink);
-        ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
-        ((MainActivity) requireActivity()).chipNavigationBar.setMaxHeight(0);
         adapter = new DrinkAdapter(list, getActivity());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) requireActivity()).reloadFragment(new FragmentHome());
-                ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
-                ((MainActivity) requireActivity()).chipNavigationBar.setItemSelected(R.id.home, true);
-                ((MainActivity) requireActivity()).chipNavigationBar.setMaxHeight(140);
-            }
-        });
 
         User user = ((MainActivity) requireActivity()).user;
 

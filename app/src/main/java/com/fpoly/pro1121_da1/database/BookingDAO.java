@@ -40,12 +40,22 @@ public class BookingDAO {
         return result > 0;
     }
 
+
     public boolean cancelBooking(String tableID, String nameCustomer, String phoneNumber) {
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
         long result
                 = sql.delete("Booking",
                 "table_id = ?  AND phone_number = ?",
                 new String[]{tableID, nameCustomer, phoneNumber});
+        return result > 0;
+    }
+
+    public boolean deleteBookingByTableID(String tableID) {
+        SQLiteDatabase sql = dbhelper.getWritableDatabase();
+        long result
+                = sql.delete("Booking",
+                "table_id = ?",
+                new String[]{tableID});
         return result > 0;
     }
 
@@ -86,4 +96,5 @@ public class BookingDAO {
     public boolean checkBooking(String tableID,String dayBooking, String phoneNumber, String hourBooking) {
         return getBooking("SELECT * FROM Booking WHERE table_id = ? AND day_booking = ? AND phone_number = ? AND hour_booking = ?", tableID, dayBooking, phoneNumber, hourBooking).size() > 0;
     }
+
 }

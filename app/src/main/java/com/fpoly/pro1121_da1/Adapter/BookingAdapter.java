@@ -66,14 +66,14 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
     public static class BookingViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTableId, tvCountDown;
+        TextView tvTableId;
         ImageView imgTable;
         CheckBox chkBooking;
 
         public BookingViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTableId = itemView.findViewById(R.id.tv_tableID_recyclerBooking);
-            tvCountDown = itemView.findViewById(R.id.countDown_booking);
+
             imgTable = itemView.findViewById(R.id.img_booking);
             chkBooking = itemView.findViewById(R.id.chk_checkedBooking);
         }

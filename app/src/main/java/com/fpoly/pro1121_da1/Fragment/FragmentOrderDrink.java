@@ -103,15 +103,13 @@ public class FragmentOrderDrink extends Fragment {
             if (saveTableID != null) {
                 getTableID = saveTableID;
             }
-            if (listDrinkID_checkbox != null) {
-                listDrinkID = listDrinkID_checkbox;
-            }
-            if (listQuantityBack != null) {
-                listQuantityOfDink = listQuantityBack;
-            }
+          if (listDrinkID_checkbox != null && listQuantityBack != null){
+              for (int i = 0; i < listDrinkID_checkbox.size(); i++) {
+                  map.put(Integer.parseInt(listDrinkID_checkbox.get(i)), listQuantityBack.get(i));
+              }
+          }
 
         }
-
 
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
@@ -136,17 +134,21 @@ public class FragmentOrderDrink extends Fragment {
                     listDrinkID.add(String.valueOf(entry.getKey()));
                     listQuantityOfDink.add(entry.getValue());
                 }
+                if (listDrinkID.size() == 0 || listQuantityOfDink.size() == 0) {
+                    Toast.makeText(getContext(), "Vui lòng chọn đồ uống !", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Put anything what you want
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("KEY_STATUS_TABLE", 0);
+                    bundle.putString("KEY_TABLE_ID_EXPORT", getTableID);
+                    bundle.putSerializable("KEY_ARRAY_DRINK_ID", listDrinkID);
+                    bundle.putSerializable("KEY_ARRAY_QUANTITY_DRINK", listQuantityOfDink);
+                    FragmentExportInvoice manager = new FragmentExportInvoice();
+                    manager.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, manager).commit();
+                    map.clear();
+                }
 
-                // Put anything what you want
-                Bundle bundle = new Bundle();
-                bundle.putInt("KEY_STATUS_TABLE", 0);
-                bundle.putString("KEY_TABLE_ID_EXPORT", getTableID);
-                bundle.putSerializable("KEY_ARRAY_DRINK_ID", listDrinkID);
-                bundle.putSerializable("KEY_ARRAY_QUANTITY_DRINK", listQuantityOfDink);
-                FragmentExportInvoice manager = new FragmentExportInvoice();
-                manager.setArguments(bundle);
-                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, manager).commit();
-                map.clear();
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {

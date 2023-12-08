@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.DrinkDAO;
@@ -29,10 +31,8 @@ public class FragmentInvoiceDetail extends Fragment {
     TextView tvInvoiceID, tvNameStaff, tvNameCustomer, tvTableID, tvServe, tvInforDrink, tvTotalBill, tvDateCreate, tvStatus;
     TextView tvQuantity, tvPrice, tvExpiry;
     int getInvoiceID;
+    ImageView imgBack;
 
-    //tv_quantityDrink
-//tv_priceDrink
-//tv_dateExpiry_drink
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class FragmentInvoiceDetail extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        imgBack = view.findViewById(R.id.img_back_invoiceDetail);
         tvInvoiceID = view.findViewById(R.id.tv_idInvoice_invoiceDetail);
         tvNameStaff = view.findViewById(R.id.tv_nameStaff_invoiceDetail);
         tvNameCustomer = view.findViewById(R.id.tv_nameCustomer__invoiceDetail);
@@ -54,12 +55,18 @@ public class FragmentInvoiceDetail extends Fragment {
         tvStatus = view.findViewById(R.id.tv_status_invoiceDetail);
         tvQuantity = view.findViewById(R.id.tv_quantityDrink);
         tvPrice = view.findViewById(R.id.tv_priceDrink);
-
+        ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             getInvoiceID = bundle.getInt("KEY_INVOICE_ID");
         }
-
+imgBack.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        ((MainActivity)requireActivity()).reloadFragment(new FragmentHistoryInvoice());
+        ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+    }
+});
         UserDAO userDAO = new UserDAO(getActivity(), new Dbhelper(getActivity()));
 
         InvoiceDAO invoiceDAO = new InvoiceDAO(getActivity(), new Dbhelper(getActivity()));
@@ -107,6 +114,11 @@ public class FragmentInvoiceDetail extends Fragment {
         tvNameStaff.setText("Tên nhân viên: " + user.getFullName());
         tvNameCustomer.setText("Tên khách hàng: ");
         tvTableID.setText("Mã bàn: "+invoice.getTableID());
+        if (invoice.getTableID() == null){
+            tvTableID.setText("Mã bàn: trống");
+        }else {
+            tvTableID.setText("Mã bàn: "+invoice.getTableID());
+        }
         tvServe.setText("Phục vụ: "+ invoice.getServe());
         tvInforDrink.setText("Tên đồ uống: " + builderNameDrink.toString());
         tvTotalBill.setText("Tổng tiền: "+ invoice.getTotalBill());

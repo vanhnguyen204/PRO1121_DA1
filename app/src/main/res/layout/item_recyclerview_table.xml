@@ -35,12 +35,12 @@
             android:layout_height="30dp"
             android:layout_below="@+id/image_item_recyclerviewTable"
             android:layout_alignParentEnd="true"
-            android:src="@mipmap/rec" />
+            android:src="@mipmap/circle_green" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="60:00"
+            android:text=""
             android:id="@+id/tv_countDownTime"
             android:textSize="20sp"
             android:layout_below="@+id/image_item_recyclerviewTable"

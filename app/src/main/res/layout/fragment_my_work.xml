@@ -3,16 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     android:orientation="vertical"
     tools:context=".Fragment.FragmentMyWork">
-
+<ImageView
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:src="@mipmap/arrow_left"
+    android:id="@+id/img_backMyWork"
+    />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Lịch làm việc của bạn"
         android:textSize="20sp" />
-
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_edt"
+    android:padding="20dp"
+    android:hint="Nhập ngày làm việc để tìm kiếm"
+    android:id="@+id/edt_search_myWork"
+    android:layout_margin="10dp"
+    />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_myWork"
         android:layout_width="match_parent"

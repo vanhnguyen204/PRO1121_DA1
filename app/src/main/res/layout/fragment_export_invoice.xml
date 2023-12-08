@@ -7,6 +7,7 @@
     android:layout_margin="10dp"
     android:orientation="vertical"
     android:padding="20dp"
+    android:background="@drawable/border_edt"
     tools:context=".Fragment.FragmentExportInvoice">
 
 
@@ -110,8 +111,10 @@
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red"
+        android:background="@drawable/custom_button_cancel"
         android:text="Huỷ"
+        android:layout_marginTop="10dp"
+
         android:id="@+id/btn_cancel_exportInvoice"
         android:textColor="@color/white" />
 

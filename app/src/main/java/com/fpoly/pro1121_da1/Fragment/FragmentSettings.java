@@ -2,6 +2,7 @@ package com.fpoly.pro1121_da1.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,12 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.fpoly.pro1121_da1.LoginActivity;
 import com.fpoly.pro1121_da1.MainActivity;
 import com.fpoly.pro1121_da1.R;
 import com.fpoly.pro1121_da1.model.User;
 
 public class FragmentSettings extends Fragment {
-    ImageView imgGotoAddSale, imgGotoCalendar, imbLogout, imgGotoHistoryInvoice, imgGotoAddCalenderForStaff;
+    ImageView imgGotoAddSale, imgGotoCalendar, imbLogout, imgGotoHistoryInvoice, imgGotoChangePass;
     ImageView imgGotoBooking, imgGotoBookingHistory;
 
     @Override
@@ -37,6 +39,7 @@ public class FragmentSettings extends Fragment {
         imbLogout = view.findViewById(R.id.arrow5_setting);
         imgGotoHistoryInvoice = view.findViewById(R.id.img_showHistory);
         imgGotoBooking = view.findViewById(R.id.img_gotoBooking);
+        imgGotoChangePass = view.findViewById(R.id.img_gotoChangePass);
         ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
         imbLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +49,8 @@ public class FragmentSettings extends Fragment {
                 builder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((MainActivity) getActivity()).finish();
+                      startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();
                     }
                 });
                 builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
@@ -91,6 +95,12 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity)getActivity()).reloadFragment(new FragmentBookingActivity());
+            }
+        });
+        imgGotoChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)requireActivity()).reloadFragment(new FragmentUpdatePassWord());
             }
         });
     }

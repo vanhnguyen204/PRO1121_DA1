@@ -172,8 +172,8 @@ public class InvoiceDAO {
         return count.get(0);
     }
 
-    public Invoice getInvoiceByTableID(String tableID) {
-        return getInvoice("SELECT * FROM Invoice WHERE table_id = ?", tableID).get(0);
+    public ArrayList<Invoice> getInvoiceByIdUser(String userID) {
+        return getInvoice("SELECT * FROM Invoice WHERE user_id = ?", userID);
     }
 
     public Invoice getInvoiceByID(int invoiceID) {

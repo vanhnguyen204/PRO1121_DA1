@@ -87,31 +87,11 @@ public class FragmentTable extends Fragment {
         tableAdapter.setOnTableClick(new TableOnClickListener() {
             @Override
             public void setItemTableClick(Table table, int position) {
-                if (table.getStatus() != 0) {
-                    Invoice invoice = invoiceDAO.getInvoiceByTableID(table.getTableID());
-                    Bundle bundle = new Bundle();
-                    if (sendInvoiceID != 0) {
-
-                        bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
-
-                    } else {
-                        bundle.putInt("KEY_INVOICE", invoice.getInvoiceID());
-                        bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
-                    }
-                    bundle.putString("KEY_TABLE_ID_EXPORT", table.getTableID());
-
-                    FragmentExportInvoice fragmentExportInvoice = new FragmentExportInvoice();
-                    fragmentExportInvoice.setArguments(bundle);
-                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, fragmentExportInvoice).commit();
-
-                } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("KEY_TABLE_ID", table.getTableID());
-                    FragmentOrderDrink frm = new FragmentOrderDrink();
-                    frm.setArguments(bundle);
-                    getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
-                }
-
+                Bundle bundle = new Bundle();
+                bundle.putString("KEY_TABLE_ID", table.getTableID());
+                FragmentOrderDrink frm = new FragmentOrderDrink();
+                frm.setArguments(bundle);
+                getParentFragmentManager().beginTransaction().replace(R.id.container_layout, frm).commit();
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {

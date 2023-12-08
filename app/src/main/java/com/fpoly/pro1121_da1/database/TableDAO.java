@@ -72,8 +72,6 @@ public class TableDAO {
                     int getStatus = cursor.getInt(1);
                     list.add(new Table(getTableID, getStatus));
                 } while (cursor.moveToNext());
-            } else {
-                Toast.makeText(context, "Chưa có bàn ", Toast.LENGTH_SHORT).show();
             }
             sql.setTransactionSuccessful();
         } catch (Exception e) {

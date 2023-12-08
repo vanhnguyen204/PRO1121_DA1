@@ -55,12 +55,8 @@ public class FragmentUser extends Fragment {
                 ((MainActivity)getActivity()).reloadFragment(new FragmentAddUser());
             }
         });
-        list = userDAO.getAllUser();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getRole().equalsIgnoreCase("admin") || list.get(i).getStatus() != 0) {
-                list.remove(i);
-            }
-        }
+        list = userDAO.getUser("SELECT * FROM User WHERE role <> 'admin' AND status <> 1");
+
         userAdapter = new UserAdapter(getActivity(), list);
         rcv.setAdapter(userAdapter);
 
@@ -78,14 +74,14 @@ public class FragmentUser extends Fragment {
                 String getTextFromEdt = charSequence.toString().trim();
                 if (getTextFromEdt.length() == 0) {
                     for (int j = 0; j < listClone.size(); j++) {
-                        if (listClone.get(i).getRole().equals("admin")) {
+                        if (listClone.get(i).getRole().equals("admin") || list.get(i).getStatus() == 1) {
                             listClone.remove(i);
                         }
                     }
                     rcv.setAdapter(new UserAdapter(getActivity(), listClone));
                 } else {
                     for (int index = 0; index < listClone.size(); index++) {
-                        if (listClone.get(index).getFullName().equalsIgnoreCase(getTextFromEdt)) {
+                        if (listClone.get(index).getFullName().contains(getTextFromEdt)) {
 
                             list.add(listClone.get(index));
                         }

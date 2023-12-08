@@ -54,6 +54,7 @@ public class FragmentBooking extends Fragment {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     String timeNow = formatter.format(date);
 
+    Button btnCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,15 +67,19 @@ public class FragmentBooking extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // status = 6886 is booking
+        btnCancel = view.findViewById(R.id.btnCancelBooking);
         bookingDAO = new BookingDAO(getContext());
         tableDAO = new TableDAO(getContext(), new Dbhelper(getContext()));
         recyclerView = view.findViewById(R.id.recyclerView_tableIsEmpty);
         btnConfirm = view.findViewById(R.id.btnConfirmBooking);
         tableArrayList = tableDAO.getTableNotBooking();
+        if (tableArrayList.size() == 0){
+            Toast.makeText(getContext(), "Không có bàn trống", Toast.LENGTH_SHORT).show();
+        }
         bookingAdapter = new BookingAdapter(getActivity(), tableArrayList);
         recyclerView.setAdapter(bookingAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
+        ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
         bookingAdapter.setOnTableBookingListener(new BookingInterface() {
             @Override
             public void onBooking(Table table, int position) {
@@ -91,6 +96,19 @@ public class FragmentBooking extends Fragment {
             @Override
             public void onClick(View view) {
                 showAlertDialogConfirm();
+            }
+        });
+        User user = ((MainActivity) requireActivity()).user;
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (user.getRole().equals("admin")) {
+                    ((MainActivity) requireActivity()).reloadFragment(new FragmentSettings());
+                    ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+                } else {
+                    ((MainActivity) requireActivity()).reloadFragment(new FragmentSettingsStaff());
+                    ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -145,7 +163,7 @@ public class FragmentBooking extends Fragment {
                     if (checkHour(getDay, printHours)) {
 
 
-                    }else {
+                    } else {
                         for (Map.Entry<String, Integer> entry : map.entrySet()) {
                             if (entry.getValue() == 6886) {
                                 Booking booking = new Booking(entry.getKey(), user.getUserID(), getDay, getNameCustomer, getPhoneNumber, printHours);
@@ -154,6 +172,7 @@ public class FragmentBooking extends Fragment {
                                     tableDAO.updateStatusTable(entry.getKey(), entry.getValue());
                                     Toast.makeText(getContext(), "Đặt bàn thành công !", Toast.LENGTH_SHORT).show();
                                     ((MainActivity) requireActivity()).reloadFragment(new FragmentTable());
+                                    ((MainActivity) requireActivity()).chipNavigationBar.setItemSelected(R.id.table, true);
                                     view1.dismiss();
                                 }
 

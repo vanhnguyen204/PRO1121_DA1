@@ -93,53 +93,61 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String getTimeNow = format.format(date);
 
-        if (table.getStatus() == 6886) {
-            holder.imgStatus.setImageResource(R.mipmap.circle);
-            ArrayList<Booking> bookingArrayList = bookingDAO.getBookingByTableIDandDay(table.getTableID(), getTimeNow);
-            for (int i = 0; i < bookingArrayList.size(); i++) {
-                String getHour = bookingArrayList.get(i).getHourBooking();
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-                LocalTime specificHour = LocalTime.parse(getHour, dateTimeFormatter);
 
-                LocalTime beforeTime = specificHour.minusMinutes(15);
-                LocalTime afterTime = specificHour.plusMinutes(15);
-                if (specificHour1.isBefore(afterTime) && specificHour1.isAfter(beforeTime)) {
-                    Duration duration = Duration.between(getTimeCurrent, specificHour);
-                    holder.tvCountDownTime.setVisibility(View.VISIBLE);
-                    new CountDownTimer(duration.toMillis(), 1000) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            // Chuyển đổi thời gian còn lại từ mili giây sang Duration
-                            Duration remainingTime = Duration.ofMillis(millisUntilFinished);
+        ArrayList<Booking> bookingArrayList = bookingDAO.getBookingByTableIDandDay(table.getTableID(), getTimeNow);
+        for (int i = 0; i < bookingArrayList.size(); i++) {
+            String getHour = bookingArrayList.get(i).getHourBooking();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime specificHour = LocalTime.parse(getHour, dateTimeFormatter);
 
-                            // Hiển thị thời gian đếm ngược trên TextView
-                            holder.tvCountDownTime.setText(String.format(" %d:%d",
-                                    remainingTime.toMinutes(), remainingTime.getSeconds() % 60));
+            LocalTime beforeTime = specificHour.minusMinutes(15);
+            LocalTime afterTime = specificHour.plusMinutes(15);
+            if (specificHour1.isBefore(afterTime) && specificHour1.isAfter(beforeTime)) {
+                holder.imgStatus.setImageResource(R.mipmap.circle);
+                Duration duration = Duration.between(getTimeCurrent, specificHour);
+                holder.tvCountDownTime.setVisibility(View.VISIBLE);
+                new CountDownTimer(duration.toMillis(), 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        // Chuyển đổi thời gian còn lại từ mili giây sang Duration
+                        Duration remainingTime = Duration.ofMillis(millisUntilFinished);
 
-                            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    showAlertDialogConfirm(table.getTableID(), getTimeNow);
+                        // Hiển thị thời gian đếm ngược trên TextView
+                        holder.tvCountDownTime.setText(String.format(" %d:%d",
+                                remainingTime.toMinutes(), remainingTime.getSeconds() % 60));
 
-                                }
-                            });
-                        }
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                showAlertDialogConfirm(table.getTableID(), getTimeNow);
 
-                        @Override
-                        public void onFinish() {
-                            tableDAO.updateStatusTable(table.getTableID(), 0);
-                            holder.tvCountDownTime.setVisibility(View.INVISIBLE);
-                            holder.imgStatus.setImageResource(R.mipmap.circle_green);
-                        }
-                    }.start();
+                            }
+                        });
+                    }
 
-                }
+                    @Override
+                    public void onFinish() {
+                        bookingDAO.deleteBookingByTableID(table.getTableID());
+                        tableDAO.updateStatusTable(table.getTableID(), 0);
+                        holder.tvCountDownTime.setVisibility(View.INVISIBLE);
+                        holder.imgStatus.setImageResource(R.mipmap.circle_green);
+                    }
+                }.start();
+
+            } else {
+                holder.tvCountDownTime.setVisibility(View.INVISIBLE);
+                holder.imgStatus.setImageResource(R.mipmap.circle_green);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tableOnClickListener.setItemTableClick(table, position);
+                    }
+                });
             }
+        }
 
 
-        } else {
-            holder.tvCountDownTime.setVisibility(View.INVISIBLE);
-            holder.imgStatus.setImageResource(R.mipmap.circle_green);
+        if (table.getStatus() == 0) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -147,34 +155,46 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> 
                 }
             });
         }
-
 // delete table
         User user = ((MainActivity) activity).user;
         if (user.getRole().equals("admin")) {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                    builder.setTitle("Cảnh báo");
-                    builder.setMessage("Bạn có có chắn muốn xoá bàn không, điều này sẽ xoá toàn bộ dữ liệu liên quan đến bàn này.");
-                    builder.setPositiveButton("Xoá", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            tableDAO.updateStatusTable(table.getTableID(), 4444);
-                            list.remove(position);
-                            notifyItemRemoved(position);
-                        }
-                    });
-                    builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+            if (table.getStatus() == 0) {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                        builder.setTitle("Cảnh báo");
+                        builder.setMessage("Bạn có có chắn muốn xoá bàn không, điều này sẽ xoá toàn bộ dữ liệu liên quan đến bàn này.");
+                        builder.setPositiveButton("Xoá", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (tableDAO.updateStatusTable(table.getTableID(), 4444)) {
+                                    list.remove(position);
+                                    notifyItemRemoved(position);
+                                }
 
-                        }
-                    });
-                    builder.show();
-                    return false;
-                }
-            });
+                            }
+                        });
+                        builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.show();
+                        return false;
+                    }
+                });
+            } else {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        Toast.makeText(activity, "Bàn đã có người đặt, không thể xoá lúc này !", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                });
+            }
+
         }
 
     }
@@ -197,14 +217,14 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> 
         }
     }
 
-    Button btnConfirmAlert;
+    Button btnConfirmAlert, btnCancelBooking;
     EditText edtNameCustomer, edtPhoneNumber, edtDayBook, edtHoursBook, edtPassUser;
 
     public void showAlertDialogConfirm(String tableID, String dayBooking) {
         final Dialog view1 = new Dialog(activity);
         view1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         view1.setContentView(R.layout.alertdialog_confirmbooking_part2);
-
+        btnCancelBooking = view1.findViewById(R.id.btnCancelBooking_partTwo);
         edtPhoneNumber = view1.findViewById(R.id.edt_phoneNumber__booking_part2);
         edtHoursBook = view1.findViewById(R.id.edt_hours_booking_part2);
         edtPassUser = view1.findViewById(R.id.edt_passWordStaff_booking_part2);
@@ -242,7 +262,44 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.Viewholder> 
                         FragmentOrderDrink frm = new FragmentOrderDrink();
                         frm.setArguments(bundle);
                         fragmentManager.beginTransaction().replace(R.id.container_layout, frm).commit();
+                        view1.dismiss();
+                    } else {
+                        Toast.makeText(activity, "Thông tin đặt bàn không đúng !", Toast.LENGTH_SHORT).show();
+                    }
 
+                }
+            }
+        });
+        btnCancelBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String getPhoneNumber = edtPhoneNumber.getText().toString().trim();
+                String getHours = edtHoursBook.getText().toString().trim();
+                String getPassUser = edtPassUser.getText().toString().trim();
+                if (checkPhoneNumber(edtPhoneNumber)) {
+
+                } else if (getHours.length() == 0) {
+                    Toast.makeText(activity, "Không được để trống giờ đặt !", Toast.LENGTH_SHORT).show();
+
+                } else if (!checkHours(edtHoursBook)) {
+                    Toast.makeText(activity, "Giờ đặt phải sau giờ hiện tại", Toast.LENGTH_SHORT).show();
+
+                } else if (getPassUser.length() == 0) {
+                    Toast.makeText(activity, "Không được để trống mật khẩu !", Toast.LENGTH_SHORT).show();
+
+                } else if (!user.getPassWord().equals(getPassUser)) {
+                    Toast.makeText(activity, "Vui lòng nhập đúng mật khẩu để đặt bàn !", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    String subHour = getHours.substring(0, 2);
+                    String subMinute = getHours.substring(2);
+                    String printHours = subHour + ":" + subMinute;
+
+                    if (bookingDAO.checkBooking(tableID, dayBooking, getPhoneNumber, printHours)) {
+                        bookingDAO.deleteBookingByTableID(tableID);
+                        tableDAO.updateStatusTable(tableID, 0);
+                        ((MainActivity) activity).reloadFragment(new FragmentTable());
+                        view1.dismiss();
                     } else {
                         Toast.makeText(activity, "Thông tin đặt bàn không đúng !", Toast.LENGTH_SHORT).show();
                     }

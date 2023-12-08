@@ -258,7 +258,7 @@ public class FragmentAddDrink extends Fragment {
         btnConfirmAddDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Voucher voucher = voucherDAO.getVoucherByID(String.valueOf(getVoucher));
+
                 getName = edtNameDrink.getText().toString().trim();
                 getPrice = edtPriceDrink.getText().toString().trim();
                 getQuantity = edtQuantityDrink.getText().toString().trim();
@@ -270,10 +270,11 @@ public class FragmentAddDrink extends Fragment {
 
                 } else if (getVoucher == 0) {
                     Toast.makeText(getContext(), "Vui lòng chọn phiếu giảm giá !", Toast.LENGTH_SHORT).show();
-                } else if (!checkExpiry(voucher.getDateExpiry(), timeNow)) {
-                    Toast.makeText(getContext(), "Phiếu giảm giá đã hết hạn !", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
+                }  else {
+                    Voucher voucher = voucherDAO.getVoucherByID(String.valueOf(getVoucher));
+                    if (!checkExpiry(voucher.getDateExpiry(), timeNow)) {
+                        Toast.makeText(getContext(), "Phiếu giảm giá đã hết hạn !", Toast.LENGTH_SHORT).show();
+                    }else if (getTypeOfDrink.equalsIgnoreCase("Pha chế")) {
                         int priceDrink = Integer.parseInt(getPrice) - (voucher.getPriceReduce() * Integer.parseInt(getPrice) )/ 100;
                         Drink drink = new Drink(getDrinkID,
                                 getVoucher,
@@ -308,7 +309,6 @@ public class FragmentAddDrink extends Fragment {
                                 Toast.makeText(getContext(), "Ngày hết hạn không đúng định dạng", Toast.LENGTH_SHORT).show();
                             } else if (!checkExpiry(getDateExpiry, timeNow)) {
                                 Toast.makeText(getContext(), "Ngày hết hạn phải lớn hơn ngày hiện tại", Toast.LENGTH_SHORT).show();
-
                             } else {
                                 int priceDrink = Integer.parseInt(getPrice) - (voucher.getPriceReduce() * Integer.parseInt(getPrice) )/ 100;
                                 Drink drink = new Drink(getDrinkID, getVoucher, getName, getTypeOfDrink, getDateExpiry, getDateAdd, priceDrink, Integer.parseInt(getQuantity), getImageDrink, "long", 0);

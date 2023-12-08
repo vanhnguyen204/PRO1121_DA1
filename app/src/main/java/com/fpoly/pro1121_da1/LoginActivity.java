@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.fpoly.pro1121_da1.database.Dbhelper;
 import com.fpoly.pro1121_da1.database.UserDAO;
 import com.fpoly.pro1121_da1.model.User;
+import com.fpoly.pro1121_da1.spinner.ForgotPassActivity;
 
 public class LoginActivity extends AppCompatActivity {
     EditText edtUser, edtPassWord;
@@ -34,6 +35,12 @@ public class LoginActivity extends AppCompatActivity {
 
         findID();
         UserDAO userDAO = new UserDAO(getApplicationContext(), new Dbhelper(LoginActivity.this));
+        tvForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgotPassActivity.class));
+            }
+        });
         btnConfirmLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Đăng nhập thành công !", Toast.LENGTH_SHORT).show();
                     edtUser.setText("");
                     edtPassWord.setText("");
+                    finish();
                 }
 
             }

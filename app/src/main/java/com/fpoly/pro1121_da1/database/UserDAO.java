@@ -266,12 +266,12 @@ public class UserDAO {
         return false;
 
     }
-    public boolean checkUpdatePassWordByID (String ID_CARD_USER){
+    public boolean checkAccountForgot (String user_id, String userName){
         SQLiteDatabase sql = dbhelper.getWritableDatabase();
 
         sql.beginTransaction();
         try {
-            Cursor cursor = sql.rawQuery("SELECT *  FROM User WHERE user_id = ?", new String[]{ID_CARD_USER});
+            Cursor cursor = sql.rawQuery("SELECT *  FROM User WHERE user_id = ? AND user_name = ?", new String[]{user_id, userName});
             if (cursor.getCount() > 0) {
                 return true;
 
