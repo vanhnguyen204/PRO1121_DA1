@@ -46,8 +46,8 @@ public class Dbhelper extends SQLiteOpenHelper {
 
     String createTableInvoiceDetail = "CREATE TABLE InvoiceDetail(" +
             "invoice_detail_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            " drink_id REFERENCES Drink(drink_id), " +
-            "invoice_id REFERENCES Invoice(invoice_id)," +
+            " drink_id REFERENCES Drink(drink_id) ON DELETE CASCADE, " +
+            "invoice_id REFERENCES Invoice(invoice_id) ON DELETE CASCADE," +
             " quantity_drink INTEGER," +
             " price_drink INTEGER," +
             " expiry_drink DATE)";
@@ -82,6 +82,16 @@ public class Dbhelper extends SQLiteOpenHelper {
             "calendarworkforstaff_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             " user_id REFERENCES User(user_id) ON DELETE CASCADE," +
             " calendar_id REFERENCES Calendar(calendar_id) ON DELETE CASCADE)";
+
+    String createBooking =
+            "CREATE TABLE Booking(booking_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " table_id REFERENCES TableDrink(table_id) ON DELETE CASCADE," +
+                    " user_id REFERENCES User(user_id) ON DELETE CASCADE," +
+                    " day_booking TEXT," +
+                    " name_customer TEXT, "+
+                    " phone_number TEXT, "+
+                    "hour_booking TEXT)";
+
     String createTable = "CREATE TABLE TableDrink(table_id TEXT PRIMARY KEY, status INTEGER)";
     String insertAdmin = "INSERT INTO User VALUES('033204003937', 'admin', 'admin', 'Nguyễn Việt Anh', '28/08/2004', 'Hưng Yên','admin',0, '0339207001')";
     String insertVoucher = "INSERT INTO Voucher VALUES (2023,0, '2099-12-12')";
@@ -103,6 +113,7 @@ public class Dbhelper extends SQLiteOpenHelper {
         db.execSQL(createCalendarWorkForStaff);
         db.execSQL(createTableInvoiceDetail);
         db.execSQL(createNotification);
+        db.execSQL(createBooking);
     }
 
     @Override

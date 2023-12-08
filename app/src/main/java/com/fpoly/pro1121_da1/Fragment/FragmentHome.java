@@ -89,6 +89,45 @@ public class FragmentHome extends Fragment {
         }
     }
 
+    Date date = new Date();
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    String getTimeNow = simpleDateFormat.format(date);
+
+    public void setSnowFlake(View view) {
+        ImageView snow1, snow2, snow3, snow4, snow5, snow6, snow7, snow8, snow9;
+        snow1 = view.findViewById(R.id.snow_flake1);
+        snow2 = view.findViewById(R.id.snow_flake2);
+        snow3 = view.findViewById(R.id.snow_flake3);
+        snow4 = view.findViewById(R.id.snow_flake4);
+        snow5 = view.findViewById(R.id.snow_flake5);
+        snow6 = view.findViewById(R.id.snow_flake6);
+        snow7 = view.findViewById(R.id.snow_flake7);
+        snow8 = view.findViewById(R.id.snow_flake8);
+        snow9 = view.findViewById(R.id.snow_flake9);
+
+
+        Animation anim1 = AnimationUtils.loadAnimation(getContext(), R.anim.snow_flake);
+        anim1.setDuration(10000);
+        Animation anim2 = AnimationUtils.loadAnimation(getContext(), R.anim.snow_flake);
+        anim2.setDuration(8000);
+        Animation anim3 = AnimationUtils.loadAnimation(getContext(), R.anim.snow_flake);
+        anim3.setDuration(9000);
+        Animation anim4 = AnimationUtils.loadAnimation(getContext(), R.anim.snow_flake);
+        anim4.setDuration(7000);
+        Animation anim5 = AnimationUtils.loadAnimation(getContext(), R.anim.snow_flake);
+        anim5.setDuration(8000);
+
+        snow1.startAnimation(anim1);
+        snow2.startAnimation(anim2);
+        snow3.startAnimation(anim3);
+        snow4.startAnimation(anim4);
+        snow5.startAnimation(anim5);
+        snow6.startAnimation(anim1);
+        snow7.startAnimation(anim2);
+        snow8.startAnimation(anim3);
+        snow9.startAnimation(anim4);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,6 +140,7 @@ public class FragmentHome extends Fragment {
         imgNotification = view.findViewById(R.id.img_notification);
         tvCountNotify = view.findViewById(R.id.tv_numberNotification);
         tvNameStaff = view.findViewById(R.id.tv_nameOfStaff);
+        setSnowFlake(view);
         DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,10 +162,6 @@ public class FragmentHome extends Fragment {
                     false));
         }
         NotificationDAO notificationDAO = new NotificationDAO(getContext());
-        Date date = new Date();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String getTimeNow = simpleDateFormat.format(date);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String timeNow = formatter.format(date);
@@ -209,45 +245,44 @@ public class FragmentHome extends Fragment {
         AlertDialog alertDialog = builder.create();
         recyclerViewNotify = view.findViewById(R.id.recyclerview_notification);
         btnDeleteNotifi = view.findViewById(R.id.btnDeleteNotification);
+        DrinkDAO drinkDAO = new DrinkDAO(getContext(), new Dbhelper(getContext()));
+        ArrayList<Drink> listDrinkExpired = drinkDAO.listDrinkExpired();
 
         NotificationDAO notificationDAO = new NotificationDAO(getContext());
         listNotify = notificationDAO.getAllNotification();
-        if (listNotify.size() == 0) {
-            Toast.makeText(getContext(), "Không có thông báo !", Toast.LENGTH_SHORT).show();
-        } else {
-
-            NotificationAdapter notificationAdapter = new NotificationAdapter(listNotify, getActivity());
-
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            recyclerViewNotify.setLayoutManager(layoutManager);
-            recyclerViewNotify.setAdapter(notificationAdapter);
-
-
-            btnDeleteNotifi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    notificationDAO.deleteAll();
-                    alertDialog.dismiss();
-                    tvCountNotify.setText("0");
-                }
-            });
-            notificationAdapter.setTextNotify(new SetTextRecyclerviewNotify() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void setText(TextView textView, Notification notification, int position) {
-                    textView.setText(notification.getMessage());
-                }
-            });
-
-            notificationAdapter.setTextNotify2(new SetTextRecyclerviewNotify() {
-                @Override
-                public void setText(TextView textView, Notification notification, int position) {
-
-                    textView.setText(notification.getTime());
-
-                }
-            });
+        for (int i = 0; i < listDrinkExpired.size(); i++) {
+            listNotify.add(new Notification(listDrinkExpired.get(i).getName() + " đã hết hạn sử đụng", getTimeNow));
         }
+        NotificationAdapter notificationAdapter = new NotificationAdapter(listNotify, getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewNotify.setLayoutManager(layoutManager);
+        recyclerViewNotify.setAdapter(notificationAdapter);
+        notificationAdapter.notifyDataSetChanged();
+
+        btnDeleteNotifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notificationDAO.deleteAll();
+                alertDialog.dismiss();
+                tvCountNotify.setText("0");
+            }
+        });
+        notificationAdapter.setTextNotify(new SetTextRecyclerviewNotify() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void setText(TextView textView, Notification notification, int position) {
+                textView.setText(notification.getMessage());
+            }
+        });
+
+        notificationAdapter.setTextNotify2(new SetTextRecyclerviewNotify() {
+            @Override
+            public void setText(TextView textView, Notification notification, int position) {
+
+                textView.setText(notification.getTime());
+
+            }
+        });
 
         int[] iconLocation = new int[2];
         imgNotification.getLocationOnScreen(iconLocation);
@@ -266,5 +301,6 @@ public class FragmentHome extends Fragment {
         alertDialog.getWindow().setLayout(1150, 750);
 
     }
+
 
 }

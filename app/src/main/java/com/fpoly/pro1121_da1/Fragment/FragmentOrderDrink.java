@@ -54,7 +54,7 @@ public class FragmentOrderDrink extends Fragment {
     ImageView imgBack;
     String getTableID;
     String saveTableID;
-    Spinner spinner;
+
     int getStatus;
     int getInvoiceIdExport = 0;
     InvoiceViewModel invoiceViewModel;
@@ -79,7 +79,7 @@ public class FragmentOrderDrink extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
 
-        spinner = view.findViewById(R.id.spinner_fragmentOrder);
+
         recyclerView = view.findViewById(R.id.recyclerView_orderDrink);
         imgBack = view.findViewById(R.id.img_back_fragmentOrderDrink);
         drinkDAO = new DrinkDAO(getActivity(), new Dbhelper(getActivity()));
@@ -112,26 +112,6 @@ public class FragmentOrderDrink extends Fragment {
 
         }
 
-        String[] arrSpinner = new String[]{"Mang về", "Tại quán"};
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                requireActivity(),
-                android.R.layout.simple_spinner_dropdown_item,
-                arrSpinner
-        );
-
-        spinner.setAdapter(arrayAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getStatus = i;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                getStatus = 0;
-            }
-        });
 
         drinkOrderAdapter.setMyOnItemClick(new MyOnItemClickListener() {
             @Override
@@ -159,7 +139,7 @@ public class FragmentOrderDrink extends Fragment {
 
                 // Put anything what you want
                 Bundle bundle = new Bundle();
-                bundle.putInt("KEY_STATUS_TABLE", getStatus);
+                bundle.putInt("KEY_STATUS_TABLE", 0);
                 bundle.putString("KEY_TABLE_ID_EXPORT", getTableID);
                 bundle.putSerializable("KEY_ARRAY_DRINK_ID", listDrinkID);
                 bundle.putSerializable("KEY_ARRAY_QUANTITY_DRINK", listQuantityOfDink);

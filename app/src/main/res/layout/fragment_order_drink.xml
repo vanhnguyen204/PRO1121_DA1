@@ -26,19 +26,13 @@
         android:layout_below="@+id/img_back_fragmentOrderDrink"
         android:hint="Nhập tên đồ uống" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner_fragmentOrder"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/edt_search_orderDrink" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_orderDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_fragmentOrder" />
+        android:layout_below="@+id/edt_search_orderDrink" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnConfirmSelectOrder"

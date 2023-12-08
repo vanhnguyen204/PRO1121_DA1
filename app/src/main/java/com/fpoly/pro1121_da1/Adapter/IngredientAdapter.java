@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,14 +23,18 @@ import com.fpoly.pro1121_da1.model.Ingredient;
 import com.fpoly.pro1121_da1.model.Voucher;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Viewholder> {
+public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Viewholder> implements Filterable {
     Activity activity;
     ArrayList<Ingredient> list;
+    ArrayList<Ingredient> listFilter;
+    final Object lock = new Object();
 
     public IngredientAdapter(Activity activity, ArrayList<Ingredient> list) {
         this.activity = activity;
         this.list = list;
+        listFilter = list;
     }
 
     @NonNull
@@ -66,6 +72,41 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String filterPattern = charSequence.toString().toLowerCase();
+
+                if (filterPattern.isEmpty()) {
+                    list = listFilter;
+                } else {
+                    List<Ingredient> filteredResults = new ArrayList<>();
+
+                    for (Ingredient ingredient : list) {
+                        if (ingredient.getName().toLowerCase().contains(filterPattern)) {
+                            filteredResults.add(ingredient);
+                        }
+                    }
+                    listFilter = (ArrayList<Ingredient>) filteredResults;
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = listFilter;
+                results.count = listFilter.size();
+                return results;
+
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listFilter.addAll((List<Ingredient>) filterResults.values);
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder {

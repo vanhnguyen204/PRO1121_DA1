@@ -19,6 +19,7 @@ import com.fpoly.pro1121_da1.model.User;
 
 public class FragmentSettings extends Fragment {
     ImageView imgGotoAddSale, imgGotoCalendar, imbLogout, imgGotoHistoryInvoice, imgGotoAddCalenderForStaff;
+    ImageView imgGotoBooking, imgGotoBookingHistory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,12 +31,12 @@ public class FragmentSettings extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        imgGotoBookingHistory = view.findViewById(R.id.img_gotoActivity_booking);
         imgGotoAddSale = view.findViewById(R.id.arrow3_setting);
         imgGotoCalendar = view.findViewById(R.id.arrow4_setting);
         imbLogout = view.findViewById(R.id.arrow5_setting);
         imgGotoHistoryInvoice = view.findViewById(R.id.img_showHistory);
-
+        imgGotoBooking = view.findViewById(R.id.img_gotoBooking);
         ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
         imbLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,5 +80,18 @@ public class FragmentSettings extends Fragment {
             }
         });
 
+        imgGotoBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) requireActivity()).reloadFragment(new FragmentBooking());
+            }
+        });
+
+        imgGotoBookingHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).reloadFragment(new FragmentBookingActivity());
+            }
+        });
     }
 }

@@ -204,7 +204,7 @@ public class FragmentAddDrink extends Fragment {
                 getVoucher = 2023;
             }
         });
-        Voucher voucher = voucherDAO.getVoucherByID(String.valueOf(getVoucher));
+
 
         String type[] = new String[]{"Pha chế", "Đóng chai"};
         SpinnerTypeOfDrink spinnerTypeOfDrink = new SpinnerTypeOfDrink(type, getActivity());
@@ -258,7 +258,7 @@ public class FragmentAddDrink extends Fragment {
         btnConfirmAddDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Voucher voucher = voucherDAO.getVoucherByID(String.valueOf(getVoucher));
                 getName = edtNameDrink.getText().toString().trim();
                 getPrice = edtPriceDrink.getText().toString().trim();
                 getQuantity = edtQuantityDrink.getText().toString().trim();

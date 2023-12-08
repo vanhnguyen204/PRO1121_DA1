@@ -86,26 +86,25 @@
 
 
             <ImageView
+                android:id="@+id/img_history"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/img_history"
                 android:src="@mipmap/history" />
 
             <TextView
+                android:id="@+id/tv_history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/img_history"
-                android:text="Lịch sử bán hàng"
                 android:layout_marginStart="10dp"
-                android:id="@+id/tv_history"
-                />
+                android:layout_toRightOf="@+id/img_history"
+                android:text="Lịch sử bán hàng" />
+
             <ImageView
+                android:id="@+id/img_showHistory"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/arrow_right"
-                android:id="@+id/img_showHistory"
                 android:layout_alignParentEnd="true"
-                />
+                android:src="@mipmap/arrow_right" />
 
 
             <ImageView
@@ -133,7 +132,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/img_showHistory"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="26dp"
                 android:src="@mipmap/arrow_right" />
 
             <ImageView
@@ -165,33 +164,56 @@
                 android:src="@mipmap/arrow_right" />
 
             <ImageView
-                android:id="@+id/img_logout_setting"
+                android:id="@+id/img_booking_fragmentSettings"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_below="@+id/img_calendar_sting"
                 android:layout_marginTop="10dp"
-                android:src="@mipmap/logout_2" />
+                android:src="@mipmap/booking" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_calendar_setting"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/img_logout_setting"
-                android:text="Đăng xuất"
+                android:layout_below="@+id/img_calendar_sting"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/img_booking_fragmentSettings"
+                android:text="Đặt bàn"
                 android:textSize="16dp"
 
                 />
 
-
-
             <ImageView
-
-                android:id="@+id/arrow5_setting"
+                android:id="@+id/img_gotoBooking"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_below="@+id/arrow4_setting"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/arrow_right" />
+
+            <ImageView
+                android:id="@+id/img_activityBooking"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/img_booking_fragmentSettings"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/clock" />
+
+            <TextView
+                android:id="@+id/tv_activityBooking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_booking_fragmentSettings"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@+id/img_activityBooking"
+                android:text="Hoạt động đặt bàn" />
+            />
+
+            <ImageView
+                android:id="@+id/img_gotoActivity_booking"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/img_gotoBooking"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
                 android:src="@mipmap/arrow_right" />
@@ -206,10 +228,11 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/custom_layout_childsetting"
             android:padding="10dp">
+
             <ImageView
                 android:id="@+id/arrow2_setting"
-                android:layout_width="18dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="25dp"
                 android:src="@mipmap/arrow_right" />
@@ -233,6 +256,36 @@
                 android:text="Đổi mật khẩu"
                 android:textSize="16dp" />
 
+            <ImageView
+                android:id="@+id/img_logout_setting"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/img_key_setting"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/logout_2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_key_setting"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/img_logout_setting"
+                android:text="Đăng xuất"
+                android:textSize="16dp"
+
+                />
+
+
+            <ImageView
+
+                android:id="@+id/arrow5_setting"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/arrow2_setting"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/arrow_right" />
         </RelativeLayout>
 
     </LinearLayout>

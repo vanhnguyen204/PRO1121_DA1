@@ -1,7 +1,10 @@
 package com.fpoly.pro1121_da1.Fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,9 +13,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -83,7 +88,7 @@ public class FragmentIngredientDetail extends Fragment {
                 tvDateAdd.setText(String.format("Ngày thêm: %s \n", ingredient.getDateAdd()));
                 tvDateExpiry.setText(String.format("Ngày hết hạn: %s", ingredient.getDateExpiry()));
                 tvPrice.setText(String.format("Giá: %d VND", ingredient.getPrice()));
-                tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity()+" "+ingredient.getUnit()));
+                tvQuantity.setText(String.format("Số lượng: %s", ingredient.getQuantity() + " " + ingredient.getUnit()));
 
                 UserDAO userDAO = new UserDAO(getContext(), new Dbhelper(getContext()));
                 User user = ((MainActivity) getActivity()).user;
@@ -158,12 +163,16 @@ public class FragmentIngredientDetail extends Fragment {
     String getName, getDateExpiry, getPrice, getQuantity;
 
     public void showDialogUpdateIngredient(Ingredient ingredient1) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Style_AlertDialog_Corner);
-        LayoutInflater inflater = getLayoutInflater();
-        View view1 = inflater.inflate(R.layout.alertdialog_update_ingredient, null);
-        builder.setView(view1);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        final Dialog view1 = new Dialog(getContext());
+        view1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        view1.setContentView(R.layout.alertdialog_update_ingredient);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Style_AlertDialog_Corner);
+//        LayoutInflater inflater = getLayoutInflater();
+//        View view1 = inflater.inflate(R.layout.alertdialog_update_ingredient, null);
+//        builder.setView(view1);
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
 
         edtName = view1.findViewById(R.id.edt_nameIngredient_update);
         edtDateExpiry = view1.findViewById(R.id.edt_dateExpiry_fragmentIngredient_update);
@@ -232,12 +241,17 @@ public class FragmentIngredientDetail extends Fragment {
                         tvPrice.setText("Giá: " + getPrice);
                         tvQuantity.setText(String.format("Số lượng: %s", getQuantity));
 
-                        alertDialog.dismiss();
-
+//                        alertDialog.dismiss();
+                        view1.dismiss();
                     }
                 }
             }
         });
+        view1.show();
+        view1.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        view1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        view1.getWindow().getAttributes().windowAnimations = R.style.Style_AlertDialog_Corner;
+        view1.getWindow().setGravity(Gravity.BOTTOM);
     }
 
     public void setSpinnerSelectDefaultImage(int[] listImage, int img) {

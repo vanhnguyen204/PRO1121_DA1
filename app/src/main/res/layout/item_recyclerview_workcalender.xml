@@ -3,22 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="15dp"
     android:layout_margin="10dp"
-    android:padding="5dp"
+
     >
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#907E1E88"
+        android:padding="20dp"
+        android:background="@color/green"
         >
         <TextView
             android:layout_alignParentTop="true"
             android:id="@+id/tv_dayWork_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             android:text="Ngày làm việc: 2030/12/10"
             />
         <TextView
@@ -26,6 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ca làm việc: Ca sáng"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             android:layout_below="@+id/tv_dayWork_item"
             />
         <TextView
@@ -33,11 +37,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Xem chi tiết"
-            android:padding="3dp"
+            android:textSize="16sp"
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/border_tv_showdetail_calendar_item"
+
             />
     </RelativeLayout>
 

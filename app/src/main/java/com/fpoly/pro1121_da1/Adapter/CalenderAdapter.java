@@ -65,7 +65,14 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder_Calender holder, @SuppressLint("RecyclerView") int position) {
         CalenderWork calenderWork = listCalender.get(holder.getAdapterPosition());
         holder.tv_dayofWork.setText("Ngày Làm Việc:" + calenderWork.getDayofWork());
-        holder.tv_shiftWork.setText("Ca làm việc:" + calenderWork.getShiftWork());
+
+        if (calenderWork.getShiftWork() == 1){
+            holder.tv_shiftWork.setText("Ca sáng: 7:00 - 11:30");
+        } else if (calenderWork.getShiftWork()   == 2) {
+            holder.tv_shiftWork.setText("Ca chiều: 12:00 - 16:30");
+        }else {
+            holder.tv_shiftWork.setText("Ca tối: 17:00 - 22:00");
+        }
         holder.tv_showdetail_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

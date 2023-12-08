@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="15dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_idBooking_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã đặt bàn: 1234" />
+
+        <TextView
+            android:id="@+id/tv_dayBooking_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_idBooking_history"
+            android:text="Ngay dat" />
+
+
+        <TextView
+            android:id="@+id/tv_nameCustomerBooking_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dayBooking_history"
+            android:text="Nguyen van a"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_phoneNumber_historyBooking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nameCustomerBooking_history"
+            android:text="0339207001" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

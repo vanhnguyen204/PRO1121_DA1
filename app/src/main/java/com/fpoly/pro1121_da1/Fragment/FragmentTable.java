@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fpoly.pro1121_da1.Adapter.TableAdapter;
@@ -31,11 +33,12 @@ import com.fpoly.pro1121_da1.model.Table;
 import com.fpoly.pro1121_da1.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class FragmentTable extends Fragment {
-    EditText edtSearchTable;
     RecyclerView recyclerView;
     private InvoiceViewModel viewModel;
     ArrayList<Table> list;
@@ -43,7 +46,8 @@ public class FragmentTable extends Fragment {
     FloatingActionButton fab;
     TableAdapter tableAdapter;
     int sendInvoiceID = 0;
-
+    ImageView imgLogo;
+    Button btnOrderDrinkGoOut;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,20 +57,20 @@ public class FragmentTable extends Fragment {
     }
 
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(InvoiceViewModel.class);
-
-        ((MainActivity)requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
-
-        edtSearchTable = view.findViewById(R.id.edt_search_table);
+        btnOrderDrinkGoOut = view.findViewById(R.id.btn_orderDrinkGoOut);
+        ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
+        imgLogo = view.findViewById(R.id.img_drink_order);
+        imgLogo.setImageResource(R.drawable.wine);
         recyclerView = view.findViewById(R.id.recyclerView_fragmentTable);
         tableDAO = new TableDAO(getContext(), new Dbhelper(getContext()));
         fab = view.findViewById(R.id.fab_addTable);
-        list = tableDAO.getAllTable();
-        tableAdapter = new TableAdapter(list, getActivity());
+        list = tableDAO.getTable("SELECT * FROM TableDrink WHERE status <> 4444");
+
+        tableAdapter = new TableAdapter(list, getActivity(), getParentFragmentManager());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(tableAdapter);
         InvoiceDAO invoiceDAO = new InvoiceDAO(getContext(), new Dbhelper(getContext()));
@@ -74,6 +78,12 @@ public class FragmentTable extends Fragment {
         if (user1.getRole().equalsIgnoreCase("staff")) {
             fab.setVisibility(View.GONE);
         }
+        btnOrderDrinkGoOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)requireActivity()).reloadFragment(new FragmentOrderDrink());
+            }
+        });
         tableAdapter.setOnTableClick(new TableOnClickListener() {
             @Override
             public void setItemTableClick(Table table, int position) {
@@ -83,11 +93,10 @@ public class FragmentTable extends Fragment {
                     if (sendInvoiceID != 0) {
 
                         bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
-                        Toast.makeText(getContext(), "Mã hoá đơn: " + sendInvoiceID, Toast.LENGTH_SHORT).show();
+
                     } else {
                         bundle.putInt("KEY_INVOICE", invoice.getInvoiceID());
                         bundle.putInt("KEY_STATUS_TABLE", table.getStatus());
-                        Toast.makeText(getContext(), "Mã hoá đơn: " + invoice.getInvoiceID(), Toast.LENGTH_SHORT).show();
                     }
                     bundle.putString("KEY_TABLE_ID_EXPORT", table.getTableID());
 
@@ -133,6 +142,23 @@ public class FragmentTable extends Fragment {
                 builder.show();
             }
         });
+    }
+
+    public void checkTimeBooking(String timeBooking) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime specificTime = LocalDateTime.parse(timeBooking, formatter);
+
+        // Kiểm tra 15 phút trước
+        LocalDateTime beforeTime = specificTime.minusMinutes(15);
+
+        // Kiểm tra 15 phút sau
+        LocalDateTime afterTime = specificTime.plusMinutes(15);
+        LocalDateTime currentTime = LocalDateTime.now();
+        if (currentTime.isAfter(beforeTime) && currentTime.isBefore(afterTime)) {
+            // nằm trong khoảng 15 phút trước và 15 phút sau thời gian cụ thể
+        } else {
+            // không nằm trong khoảng 15 phút trước và 15 phút sau thời gian cụ thể
+        }
     }
 
 }

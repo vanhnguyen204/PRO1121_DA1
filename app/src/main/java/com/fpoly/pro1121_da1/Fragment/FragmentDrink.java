@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class FragmentDrink extends Fragment {
         }
         recyclerView = view.findViewById(R.id.rcv_drink);
         ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.INVISIBLE);
+        ((MainActivity) requireActivity()).chipNavigationBar.setMaxHeight(0);
         adapter = new DrinkAdapter(list, getActivity());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
@@ -83,6 +85,7 @@ public class FragmentDrink extends Fragment {
                 ((MainActivity) requireActivity()).reloadFragment(new FragmentHome());
                 ((MainActivity) requireActivity()).chipNavigationBar.setVisibility(View.VISIBLE);
                 ((MainActivity) requireActivity()).chipNavigationBar.setItemSelected(R.id.home, true);
+                ((MainActivity) requireActivity()).chipNavigationBar.setMaxHeight(140);
             }
         });
 
@@ -110,13 +113,12 @@ public class FragmentDrink extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 list.clear();
 
-                String getTextFromEdt = charSequence.toString().trim();
+                String getTextFromEdt = charSequence.toString().toLowerCase().trim();
                 if (getTextFromEdt.length() == 0) {
                     recyclerView.setAdapter(new DrinkAdapter(listClone, getActivity()));
                 } else {
                     for (int index = 0; index < listClone.size(); index++) {
-                        if (listClone.get(index).getName().equalsIgnoreCase(getTextFromEdt)) {
-
+                        if (listClone.get(index).getName().toLowerCase().contains(getTextFromEdt)) {
                             list.add(listClone.get(index));
                         }
                     }

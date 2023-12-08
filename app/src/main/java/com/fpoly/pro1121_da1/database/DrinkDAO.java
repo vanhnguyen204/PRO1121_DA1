@@ -294,4 +294,8 @@ public class DrinkDAO {
         db.close();
         return topDrinks;
     }
+
+    public ArrayList<Drink> listDrinkExpired(){
+        return getDrink("SELECT * FROM Drink WHERE date_expiry > strftime('%Y-%m-%d','now')");
+    }
 }

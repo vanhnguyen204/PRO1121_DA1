@@ -35,7 +35,9 @@ import com.fpoly.pro1121_da1.model.User;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class FragmentShowDetailCalendar extends Fragment {
@@ -117,6 +119,9 @@ public class FragmentShowDetailCalendar extends Fragment {
                 showAlertDialogAddUser(userArrayList);
             }
         });
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String getTimeNow = simpleDateFormat.format(date);
 
 
     }
@@ -177,5 +182,24 @@ public class FragmentShowDetailCalendar extends Fragment {
             }
         });
         alertDialog.show();
+
+    }
+
+    public boolean checkExpiry(String day1, String day2) {
+        try {
+            SimpleDateFormat spf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            Date date1 = spf.parse(day1);
+            Date date2 = spf.parse(day2);
+            int compare = date1.compareTo(date2);
+            if (compare > 0) {
+                return true;
+            } else if (compare < 0) {
+                return false;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
